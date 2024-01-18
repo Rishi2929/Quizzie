@@ -1,12 +1,22 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../styles/Dashboard.module.scss';
+import Popup from './Popup';
+
 
 const Navbar = () => {
     const [activeBtn, setActiveBtn] = useState('dashboard');
+    const [isPopupVisible, setPopupVisible] = useState(false);
 
     const handleButtonClick = (btnName) => {
         setActiveBtn(btnName);
+        if (btnName === 'createQuiz') {
+            setPopupVisible(true);
+        }
+    };
+
+    const closePopup = () => {
+        setPopupVisible(false);
     };
 
     return (
@@ -34,6 +44,11 @@ const Navbar = () => {
                     Create Quiz
                 </button>
             </div>
+            <div className={styles['cont']}>
+                {isPopupVisible && <Popup onClose={closePopup} isPopupVisible={isPopupVisible} />}
+            </div>
+
+            {/* Render the Popup component when isPopupVisible is true */}
         </div>
     );
 };
