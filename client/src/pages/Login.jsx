@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import styles from '../../styles/Login.module.scss';
-import Logincomp from '../../components/Login/Logincomp';
-import RegisterComp from '../../components/Register/RegisterComp';
+import styles from '../styles/Login.module.scss';
+import Logincomp from '../components/LoginComp';
+import RegisterComp from '../components/RegisterComp';
 
 const Login = () => {
     const [activeComponent, setActiveComponent] = useState('register');

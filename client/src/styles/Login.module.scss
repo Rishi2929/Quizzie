@@ -40,12 +40,12 @@ body {
 
             .btn:hover {
                 cursor: pointer;
+                background-color: #A9BCFF;
             }
 
             .btn-clicked {
                 background-color: #F2F2F2;
                 box-shadow: 5px 5px 5px rgba(6, 28, 225, 0.501);
-
             }
         }
     }
@@ -74,12 +74,10 @@ body {
             border-color: transparent;
             background-color: #F4F4F4;
             padding: 4px 10px;
-
-
         }
 
         .label-cont {
-            width: 8rem;
+            width: 10rem;
             display: flex;
             flex-direction: row-reverse;
             margin-top: 0.8rem;
@@ -94,7 +92,6 @@ body {
 
     .btn1 {
         width: 13rem;
-        // height: 2rem;
         border-radius: 5px;
         border: none;
         background-color: #A9BCFF;

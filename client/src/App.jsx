@@ -1,6 +1,9 @@
 import './App.module.scss'
-import Dashboard from './pages/DashboardPage/Dashboard';
-import Login from './pages/LoginPage/Login'
+import Analytics from './pages/Analytics';
+import Dashboard from './pages/Dashboard';
+import Login from './pages/Login'
+import styles from './styles/Login.module.scss';
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 
@@ -10,7 +13,8 @@ function App() {
     <Router>
       <Routes>
         <Route path='/' element={<Login />} />
-        <Route path='/home' element={<Dashboard />} />
+        <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/analytics' element={<Analytics />} />
       </Routes>
     </Router>
 

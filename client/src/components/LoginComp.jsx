@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from '../../styles/Login.module.scss';
+import styles from '../styles/Login.module.scss';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -10,7 +10,7 @@ const Logincomp = () => {
     const handleLogin = (e) => {
         e.preventDefault();
         console.log("first")
-        navigate('/home')
+        navigate('/dashboard')
     }
     return (
         <div>
