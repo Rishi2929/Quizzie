@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import styles from '../styles/Dashboard.module.scss';
 import Analytics from '../pages/Analytics';
+import Poll from './Poll';
 
 const Popup = ({ onClose, isPopupVisible }) => {
     const [selectedType, setSelectedType] = useState('');
+    const [continueClicked, setContinueClicked] = useState(false);
 
     const handleTypeButtonClick = (type) => {
         setSelectedType(type);
@@ -11,14 +13,8 @@ const Popup = ({ onClose, isPopupVisible }) => {
 
     const handleSubmit = () => {
         console.log(selectedType);
-        // Return the component outside the render function
-        if (selectedType === 'Q&A') {
-            return <Analytics />;
-        } else if (selectedType === 'Poll') {
-            return <h1>sjdkdlsj</h1>;
-        }
-
-        return null;
+        // Update the state when "Continue" is clicked
+        setContinueClicked(true);
     };
 
     return (
@@ -50,8 +46,11 @@ const Popup = ({ onClose, isPopupVisible }) => {
                         </div>
                     </div>
                 </div>
-                {/* Render the component based on handleSubmit result */}
-                {handleSubmit()}
+                {/* Render the component based on the state of continueClicked */}
+                {continueClicked && (
+                    selectedType === 'Q&A' ? <Analytics /> :
+                        selectedType === 'Poll' ? <Poll onClose={onClose} /> : null
+                )}
             </div>
         ) : null
     );
