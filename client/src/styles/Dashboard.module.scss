@@ -1,426 +1,415 @@
-@import url('https://fonts.googleapis.com/css2?family=Jomhuria&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Jomhuria&display=swap");
 
 /*GLOBAL STYLES*/
 
 button:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 input:focus {
-    outline: none;
+  outline: none;
 }
 
 /*NAVBAR STYLES*/
 
 .nav-parent-cont {
-    background-color: white;
-    width: 15rem;
-    height: 100vh;
-    box-shadow: 10px 0px 10px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  width: 15rem;
+  height: 100vh;
+  box-shadow: 10px 0px 10px rgba(0, 0, 0, 0.1);
 
-
-    h1 {
-        font-family: "Jomhuria", serif;
-        color: #474444;
-        font-size: 4rem;
-        font-weight: 100;
-        margin-left: 1.5rem;
-    }
+  h1 {
+    font-family: "Jomhuria", serif;
+    color: #474444;
+    font-size: 4rem;
+    font-weight: 100;
+    margin-left: 1.5rem;
+  }
 }
 
 .nav-links {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 90vh;
-    gap: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 90vh;
+  gap: 3rem;
+  background-color: white;
+
+  .nav-btn {
+    text-decoration: none;
+    border: none;
+    font-size: 1.2rem;
+    background-color: transparent;
+    color: black;
+    padding: 10px 25px;
+    border-radius: 10px;
+  }
+
+  // .nav-btn:hover {
+  //     background-color: #474444;
+  //     border-radius: 4px;
+  // }
+
+  .active-btn {
     background-color: white;
-
-    .nav-btn {
-        text-decoration: none;
-        border: none;
-        font-size: 1.2rem;
-        background-color: transparent;
-        color: black;
-        padding: 10px 25px;
-        border-radius: 10px;
-
-    }
-
-    // .nav-btn:hover {
-    //     background-color: #474444;
-    //     border-radius: 4px;
-    // }
-
-    .active-btn {
-        background-color: white;
-        box-shadow: 10px 5px 10px rgba(0, 0, 0, 0.1);
-    }
+    box-shadow: 10px 5px 10px rgba(0, 0, 0, 0.1);
+  }
 }
 
 /*DASHBOARD STYLES*/
 
 .dashboard-parent-cont {
+  display: flex;
+  background-color: #ededed;
+  width: 100vw;
+  height: 100vh;
+
+  .dashboard-flex-cont {
     display: flex;
-    background-color: #EDEDED;
-    width: 100vw;
-    height: 100vh;
+    gap: 2rem;
+    margin-left: 6rem;
+    margin-top: 6rem;
 
-    .dashboard-flex-cont {
-        display: flex;
-        gap: 2rem;
-        margin-left: 6rem;
-        margin-top: 6rem;
+    .dashboard-cont {
+      width: 20rem;
+      height: 10rem;
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px 30px;
 
-        .dashboard-cont {
-            width: 20rem;
-            height: 10rem;
-            background-color: white;
-            border-radius: 10px;
-            padding: 20px 30px;
+      h1 {
+        font-size: 3.5rem;
+      }
 
-            h1 {
-                font-size: 3.5rem;
-            }
+      .heading-1 {
+        color: #ff5d01;
+      }
 
-            .heading-1 {
-                color: #FF5D01;
+      .heading-2 {
+        font-size: 3.5rem;
+      }
 
-            }
+      .heading-3 {
+        font-size: 3.5rem;
+      }
 
-            .heading-2 {
-                font-size: 3.5rem;
-
-            }
-
-            .heading-3 {
-                font-size: 3.5rem;
-
-            }
-
-            span {
-                font-size: 1.5rem;
-                margin-left: 2rem;
-                color: blue;
-            }
-
-        }
-
+      span {
+        font-size: 1.5rem;
+        margin-left: 2rem;
+        color: blue;
+      }
     }
+  }
 }
 
 .dashboard-cont {
-    // background-color: #EDEDED;
-
+  // background-color: #EDEDED;
 }
 
 /*ANALYTICS STYLES*/
 .analytics-parent-cont {
-    display: flex;
-    background-color: red;
-    width: 100vw;
-    height: 100vh;
-
-
+  display: flex;
+  background-color: red;
+  width: 100vw;
+  height: 100vh;
 }
 
 /*POPUP STYLES*/
 
 .popup-parent-cont {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .popup-child-cont {
-    display: grid;
-    place-items: center;
-    height: 100vh;
+  display: grid;
+  place-items: center;
+  height: 100vh;
 }
 
 .popup-cont {
-    width: 45rem;
-    height: 20rem;
+  width: 45rem;
+  height: 20rem;
+  border-radius: 5px;
+  background-color: white;
+  padding: 4rem 7rem;
+
+  .input-box {
+    width: 30rem;
+    height: 3rem;
+    border: none;
     border-radius: 5px;
-    background-color: white;
-    padding: 4rem 7rem;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1),
+      -10px -10px 20px rgba(0, 0, 0, 0.1);
+    padding: 5px 10px;
+  }
 
+  .popup-details-row-2 {
+    display: flex;
+    gap: 3.5rem;
+    margin-top: 2rem;
+    color: #9f9f9f;
 
-    .input-box {
-        width: 30rem;
-        height: 3rem;
-        border: none;
-        border-radius: 5px;
-        box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1), -10px -10px 20px rgba(0, 0, 0, 0.1);
-        padding: 5px 10px;
+    label {
+      font-size: 1.3rem;
     }
 
-    .popup-details-row-2 {
-        display: flex;
-        gap: 3.5rem;
-        margin-top: 2rem;
-        color: #9F9F9F;
-
-        label {
-            font-size: 1.3rem;
-        }
-
-        .selected-button {
-            background-color: rgb(96, 184, 75, 0.7);
-        }
+    .selected-button {
+      background-color: rgb(96, 184, 75, 0.7);
     }
+  }
+
+  button {
+    width: 8rem;
+    height: 2rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    padding: 5px 10px;
+    color: #9f9f9f;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1),
+      -10px -10px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .popup-details-row-3 {
+    display: flex;
+    gap: 4rem;
+    margin-top: 2rem;
 
     button {
-        width: 8rem;
-        height: 2rem;
-        border: none;
-        border-radius: 5px;
-        font-size: 1rem;
-        padding: 5px 10px;
-        color: #9F9F9F;
-        box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1), -10px -10px 20px rgba(0, 0, 0, 0.1);
-
+      width: 14rem;
+      height: 2.5rem;
     }
 
-    .popup-details-row-3 {
-        display: flex;
-        gap: 4rem;
-        margin-top: 2rem;
-
-        button {
-            width: 14rem;
-            height: 2.5rem;
-        }
-
-        button:hover {
-            background-color: rgb(159, 159, 159, 0.5);
-            cursor: pointer;
-        }
-
-        .cont-btn {
-            background-color: #60B84B;
-            color: white;
-        }
-
-        .cont-btn:hover {
-            background-color: rgb(50, 132, 30);
-            ;
-        }
+    button:hover {
+      background-color: rgb(159, 159, 159, 0.5);
+      cursor: pointer;
     }
+
+    .cont-btn {
+      background-color: #60b84b;
+      color: white;
+    }
+
+    .cont-btn:hover {
+      background-color: rgb(50, 132, 30);
+    }
+  }
 }
 
 /*POLL STYLES*/
 .poll-parent-cont {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    top: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
 }
 
 .poll-cont {
-    width: 50rem;
-    height: 38rem;
+  width: 50rem;
+  height: 38rem;
+  border-radius: 5px;
+  background-color: white;
+  padding: 4rem 7rem;
+
+  .poll-row1 {
+    width: 40rem;
+    height: 5rem;
+    display: flex;
+    gap: 1rem;
+
+    .circle {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 10px 20px 20px rgba(0, 0, 0, 0.1),
+        -10px -10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    p {
+      color: #9f9f9f;
+    }
+
+    button {
+      border: none;
+      background-color: transparent;
+      font-size: 3rem;
+      color: #969696;
+    }
+
+    .add-circle-btn {
+      margin-top: -2rem;
+    }
+
+    .del-circle-btn {
+      position: absolute;
+      margin-top: -5rem;
+
+      margin-left: 2rem;
+
+      img {
+        margin-top: -10rem;
+      }
+    }
+
+    .remind {
+      position: absolute;
+      margin-left: 25rem;
+      margin-top: 0.7rem;
+    }
+  }
+
+  .poll-row2 {
+    input {
+      width: 35rem;
+      height: 3rem;
+      border: none;
+      border-radius: 5px;
+      box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1),
+        -10px -10px 20px rgba(0, 0, 0, 0.1);
+      padding: 5px 10px;
+    }
+  }
+
+  .poll-row3 {
+    display: flex;
+    margin-top: 2rem;
+    gap: 1.5rem;
+    color: #9f9f9f;
+    font-size: 1rem;
+
+    label {
+      input {
+        margin-left: 2rem;
+      }
+    }
+  }
+
+  .timer-row-4 {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: absolute;
+    margin-left: 30rem;
+    margin-top: -16rem;
+    width: 5rem;
+    height: 12rem;
+    // background-color: yellow;
+
+    p {
+      text-align: center;
+      color: #9f9f9f;
+    }
+
+    button {
+      width: 5rem;
+      height: 2rem;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      padding: 5px 15px;
+      box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1),
+        -10px -10px 20px rgba(0, 0, 0, 0.1);
+      color: #9f9f9f;
+      font-size: 0.9rem;
+    }
+
+    .selected-timer-btn {
+      background-color: #d60000;
+      color: white;
+    }
+  }
+
+  .poll-row-5 {
+    display: flex;
+    justify-content: space-between;
+    margin-top: -4.3rem;
+    margin-left: -0.5rem;
+
+    button {
+      height: 2.5rem;
+      width: 14rem;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      padding: 5px 10px;
+      box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1),
+        -10px -10px 20px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .cancel-btn {
+    color: black;
+  }
+
+  .del-btn {
+    background-color: #60b84b;
+    color: white;
+  }
+}
+
+.poll-row4 {
+  width: 25rem;
+  height: 20rem;
+  margin-top: 2rem;
+  margin-left: -2rem;
+
+  .input-box {
+    width: 13rem;
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+    height: 2.4rem;
+    border-radius: 5px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1),
+      -10px -10px 30px rgba(0, 0, 0, 0.1);
+    border: none;
+    padding: 1rem 1rem;
+  }
+
+  .add-btn {
+    width: 15rem;
+    margin-bottom: 1rem;
+    margin-left: 1.8rem;
+    height: 2.4rem;
     border-radius: 5px;
     background-color: white;
-    padding: 4rem 7rem;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1),
+      -10px -10px 30px rgba(0, 0, 0, 0.1);
+    border: none;
+    color: #9f9f9f;
+  }
 
-    .poll-row1 {
-        width: 40rem;
-        height: 5rem;
-        display: flex;
-        gap: 1rem;
+  .img-text {
+    display: flex;
+    width: 25rem;
+  }
 
-        .circle {
-            width: 3rem;
-            height: 3rem;
-            border-radius: 50%;
-            background-color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 10px 20px 20px rgba(0, 0, 0, 0.1), -10px -10px 20px rgba(0, 0, 0, 0.1);
+  .delete-btn {
+    border: none;
+    width: 1.5rem;
+    background-color: transparent;
 
-
-        }
-
-        p {
-            color: #9F9F9F;
-        }
-
-        button {
-            border: none;
-            background-color: transparent;
-            font-size: 3rem;
-            color: #969696;
-        }
-
-        .add-circle-btn {
-            margin-top: -2rem;
-
-        }
-
-        .del-circle-btn {
-            position: absolute;
-            margin-top: -5rem;
-
-            margin-left: 2rem;
-
-            img {
-                margin-top: -10rem;
-
-            }
-        }
-
-        .remind {
-            position: absolute;
-            margin-left: 25rem;
-            margin-top: 0.7rem;
-        }
-
+    img {
+      width: 1.5em;
+      margin-left: 1rem;
+      margin-bottom: 0.5rem;
     }
+  }
 
-    .poll-row2 {
-        input {
-            width: 35rem;
-            height: 3rem;
-            border: none;
-            border-radius: 5px;
-            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1), -10px -10px 20px rgba(0, 0, 0, 0.1);
-            padding: 5px 10px;
-        }
-    }
+  .delete-btn-img-text {
+    width: 4rem;
+  }
 
-    .poll-row3 {
-        display: flex;
-        margin-top: 2rem;
-        gap: 1.5rem;
-        color: #9F9F9F;
-        font-size: 1rem;
-
-        label {
-            input {
-                margin-left: 2rem;
-            }
-        }
-    }
-
-    .poll-row4 {
-        width: 25rem;
-        height: 20rem;
-        margin-top: 2rem;
-        margin-left: -2rem;
-
-        .input-box {
-            width: 13rem;
-            margin-bottom: 1rem;
-            margin-left: 1rem;
-            height: 2.4rem;
-            border-radius: 5px;
-            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1), -10px -10px 30px rgba(0, 0, 0, 0.1);
-            border: none;
-            padding: 1rem 1rem;
-        }
-
-        .add-btn {
-            width: 15rem;
-            margin-bottom: 1rem;
-            margin-left: 1.8rem;
-            height: 2.4rem;
-            border-radius: 5px;
-            background-color: white;
-            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1), -10px -10px 30px rgba(0, 0, 0, 0.1);
-            border: none;
-            color: #9F9F9F;
-        }
-
-        .img-text {
-            display: flex;
-            width: 25rem;
-        }
-
-        .delete-btn {
-            border: none;
-            width: 1.5rem;
-            background-color: transparent;
-
-            img {
-                width: 1.5em;
-                margin-left: 1rem;
-                margin-bottom: 0.5rem;
-            }
-        }
-
-        .delete-btn-img-text {
-            width: 4rem;
-        }
-
-        .input-types {
-            display: flex;
-        }
-
-    }
-
-    .timer-row-4 {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        position: absolute;
-        margin-left: 30rem;
-        margin-top: -16rem;
-        width: 5rem;
-        height: 12rem;
-        // background-color: yellow;
-
-        p {
-            text-align: center;
-            color: #9F9F9F;
-        }
-
-        button {
-            width: 5rem;
-            height: 2rem;
-            border: none;
-            border-radius: 5px;
-            font-size: 1rem;
-            padding: 5px 15px;
-            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1), -10px -10px 20px rgba(0, 0, 0, 0.1);
-            color: #9F9F9F;
-            font-size: 0.9rem;
-        }
-
-        .selected-timer-btn {
-            background-color: #D60000;
-            color: white;
-        }
-    }
-
-    .poll-row-5 {
-        display: flex;
-        justify-content: space-between;
-        margin-top: -4.3rem;
-        margin-left: -0.5rem;
-
-        button {
-            height: 2.5rem;
-            width: 14rem;
-            border: none;
-            border-radius: 5px;
-            font-size: 1rem;
-            padding: 5px 10px;
-            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1), -10px -10px 20px rgba(0, 0, 0, 0.1);
-        }
-    }
-
-    .cancel-btn {
-        color: black;
-    }
-
-    .del-btn {
-        background-color: #60B84B;
-        color: white;
-    }
+  .input-types {
+    display: flex;
+  }
 }
