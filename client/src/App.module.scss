@@ -1,11 +1,73 @@
-/* CSS Reset */
-* {
+@import url('https://fonts.googleapis.com/css2?family=Jomhuria&family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
+    border: 0;
+    outline: 0;
+    list-style: none;
+    text-decoration: none;
     box-sizing: border-box;
 }
 
-/* Your additional styles go here */
+:root {
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
+    line-height: 1;
+    font-weight: 400;
+
+    /******** Font Families ********/
+    --ff-poppins: "Poppins", sans-serif;
+    --ff-jomhuria: "Jomhuria", sans-serif;
+
+    /******** colors ********/
+    --light: #fff;
+    --dark: #000;
+
+    --gray-100: #F0F0F0;
+    --gray-200: #EDEDED;
+    --gray-300: #F4F4F4;
+    --gray-400: #969696;
+    --gray-500: #9F9F9F;
+    --gray-600: #474444;
+
+    --red-100: #D60000;
+
+    --green-100: #60B84B;
+
+    --blue-200: #B3C4FF;
+    --blue-100: #A9BCFF;
+    --blue-300: #5076FF;
+
+    --orange-100: #FF5D01;
+    --orange-200: #FF4B4B;
+
+    /******** Font Sizes ********/
+    --fs-100: 0.6875rem;
+    --fs-200: 0.8125rem;
+    --fs-300: 0.875rem;
+    --fs-400: 0.9375rem;
+    --fs-500: 1.125rem;
+    --fs-600: 1.25rem;
+    --fs-700: 1.3125rem;
+    --fs-800: 1.43rem;
+    --fs-900: 1.5625rem;
+    --fs-1000: 1.875rem;
+    --fs-1100: 2.1875rem;
+    --fs-1200: 2.4375rem;
+    --fs-1300: 2.5rem;
+    --fs-1400: 3.75rem;
+    --fs-1500: 4.375rem;
+    --fs-1600: 4.625rem;
+    --fs-1700: 6.25rem;
+    --fs-1800: 8.785rem;
+}
+
 body {
-    font-family: 'Arial', sans-serif;
+    max-width: 1440px;
+    min-height: 100vh;
+    max-height: 1080px;
+    // background-color: var(--dark);
 }
