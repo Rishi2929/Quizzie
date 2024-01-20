@@ -4,7 +4,10 @@ const OptionSchema = new mongoose.Schema({
   id: {
     type: String,
   },
-  img: {
+  optionTitle: {
+    type: String,
+  },
+  imgURL: {
     type: String,
   },
   count: {
@@ -21,12 +24,18 @@ const questionSchema = new mongoose.Schema({
     type: [OptionSchema],
     required: true,
   },
+  optionType: {
+    type: String,
+  },
   correctAnswer: {
     type: String,
     required: true,
   },
   totalAttempts: {
     type: Number,
+  },
+  timer: {
+    type: String,
   },
 });
 
