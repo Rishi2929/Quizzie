@@ -1,5 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Jomhuria&display=swap');
 
+/*GLOBAL STYLES*/
+
+button:hover {
+    cursor: pointer;
+}
+
+input:focus {
+    outline: none;
+}
+
 /*NAVBAR STYLES*/
 
 .nav-parent-cont {
@@ -213,7 +223,7 @@
 
 .poll-cont {
     width: 50rem;
-    height: 40rem;
+    height: 38rem;
     border-radius: 5px;
     background-color: white;
     padding: 4rem 7rem;
@@ -233,14 +243,12 @@
             justify-content: center;
             align-items: center;
             box-shadow: 10px 20px 20px rgba(0, 0, 0, 0.1), -10px -10px 20px rgba(0, 0, 0, 0.1);
+
+
         }
 
         p {
             color: #9F9F9F;
-        }
-
-        .remind {
-            margin-right: -5rem;
         }
 
         button {
@@ -248,8 +256,31 @@
             background-color: transparent;
             font-size: 3rem;
             color: #969696;
-            margin-top: -2rem;
         }
+
+        .add-circle-btn {
+            margin-top: -2rem;
+
+        }
+
+        .del-circle-btn {
+            position: absolute;
+            margin-top: -5rem;
+
+            margin-left: 2rem;
+
+            img {
+                margin-top: -10rem;
+
+            }
+        }
+
+        .remind {
+            position: absolute;
+            margin-left: 25rem;
+            margin-top: 0.7rem;
+        }
+
     }
 
     .poll-row2 {
@@ -281,10 +312,10 @@
         width: 25rem;
         height: 20rem;
         margin-top: 2rem;
-        // background-color: yellow;
+        margin-left: -2rem;
 
         .input-box {
-            width: 15rem;
+            width: 13rem;
             margin-bottom: 1rem;
             margin-left: 1rem;
             height: 2.4rem;
@@ -308,6 +339,88 @@
 
         .img-text {
             display: flex;
+            width: 25rem;
         }
+
+        .delete-btn {
+            border: none;
+            width: 1.5rem;
+            background-color: transparent;
+
+            img {
+                width: 1.5em;
+                margin-left: 1rem;
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        .delete-btn-img-text {
+            width: 4rem;
+        }
+
+        .input-types {
+            display: flex;
+        }
+
+    }
+
+    .timer-row-4 {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        position: absolute;
+        margin-left: 30rem;
+        margin-top: -16rem;
+        width: 5rem;
+        height: 12rem;
+        // background-color: yellow;
+
+        p {
+            text-align: center;
+            color: #9F9F9F;
+        }
+
+        button {
+            width: 5rem;
+            height: 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            padding: 5px 15px;
+            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1), -10px -10px 20px rgba(0, 0, 0, 0.1);
+            color: #9F9F9F;
+            font-size: 0.9rem;
+        }
+
+        .selected-timer-btn {
+            background-color: #D60000;
+            color: white;
+        }
+    }
+
+    .poll-row-5 {
+        display: flex;
+        justify-content: space-between;
+        margin-top: -4.3rem;
+        margin-left: -0.5rem;
+
+        button {
+            height: 2.5rem;
+            width: 14rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            padding: 5px 10px;
+            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1), -10px -10px 20px rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    .cancel-btn {
+        color: black;
+    }
+
+    .del-btn {
+        background-color: #60B84B;
+        color: white;
     }
 }

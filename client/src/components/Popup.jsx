@@ -46,11 +46,9 @@ const Popup = ({ onClose, isPopupVisible }) => {
                         </div>
                     </div>
                 </div>
-                {/* Render the component based on the state of continueClicked */}
-                {continueClicked && (
-                    selectedType === 'Q&A' ? <Analytics /> :
-                        selectedType === 'Poll' ? <Poll onClose={onClose} /> : null
-                )}
+
+                {continueClicked && selectedType === 'Q&A' && <Poll onClose={onClose} showTimerRow={true} />}
+                {continueClicked && selectedType === 'Poll' && <Poll onClose={onClose} />}
             </div>
         ) : null
     );

@@ -1,4 +1,5 @@
 import './App.module.scss'
+import Poll from './components/Poll';
 import Analytics from './pages/Analytics';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login'
