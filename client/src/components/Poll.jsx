@@ -14,7 +14,6 @@ const Poll = ({ onClose, showTimerRow }) => {
     quizName: "",
     quizType: "",
     pollQuestion: "",
-    optionType: "",
     options: [],
   });
 
