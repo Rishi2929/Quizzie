@@ -1,18 +1,14 @@
-import React from 'react'
-import Navbar from '../components/Navbar'
-import styles from '../styles/Dashboard.module.scss';
-
+import React from "react";
+import Navbar from "../components/Navbar";
+import styles from "../styles/Dashboard.module.scss";
 
 const Analytics = () => {
-    return (
-        <div className={styles['analytics-parent-cont']}>
-            <Navbar />
-            <div className={styles['analytics-child-cont']}>
-                Analytics
+  return (
+    <div className={styles["analytics-parent-cont"]}>
+      <Navbar />
+      <div className={styles["analytics-child-cont"]}>Analytics</div>
+    </div>
+  );
+};
 
-            </div>
-        </div>
-    )
-}
-
-export default Analytics
+export default Analytics;

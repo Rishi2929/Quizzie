@@ -1,0 +1,33 @@
+import express from "express";
+import { config } from "dotenv";
+import { connectDB } from "./data/database.js";
+import userRouter from "./routes/user.js";
+import cookieParser from "cookie-parser";
+
+export const app = express();
+//CONFIGURATION
+config({
+  path: "./data/.env",
+});
+
+//USING MIDDLEWARE
+app.use(express.json());
+app.use(cookieParser());
+
+//HEALTH API
+app.get("/", (req, res) => {
+  res.status(200).json({
+    status: "Active",
+    message: "Server is healthy and running",
+  });
+});
+
+//ROUTES
+app.use("/api/v1/users", userRouter);
+
+//MONGOOSE SETUP
+connectDB();
+const port = process.env.PORT || 3001;
+app.listen(port, () => {
+  console.log(`Server is working on port: ${port}`);
+});
