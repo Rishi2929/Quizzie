@@ -11,11 +11,6 @@ export const login = async (req, res, next) => {
     if (!user) return next(new ErrorHandler("Invalid Email or Password", 400));
 
     const isMatch = await bcrypt.compare(password, user.password);
-
-    // if (!isMatch) return res.status(404).json({
-    //     success: false,
-    //     message: "Invalid Email or Password"
-    // });
     if (!isMatch)
       return next(new ErrorHandler("Invalid Email or Password", 400));
 
@@ -25,17 +20,14 @@ export const login = async (req, res, next) => {
   }
 };
 
-export const Register = async (req, res) => {
+export const Register = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
 
     let user = await User.findOne({ email });
 
     if (user) return next(new ErrorHandler("User Already Exists", 400));
-    // if (user) return res.status(404).json({
-    //     success: false,
-    //     message: "User Already Exists"
-    // });
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     user = await User.create({ name, email, password: hashedPassword });

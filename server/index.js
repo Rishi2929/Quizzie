@@ -2,6 +2,8 @@ import express from "express";
 import { config } from "dotenv";
 import { connectDB } from "./data/database.js";
 import userRouter from "./routes/user.js";
+import quizRouter from "./routes/quiz.js";
+
 import cookieParser from "cookie-parser";
 
 export const app = express();
@@ -24,6 +26,7 @@ app.get("/", (req, res) => {
 
 //ROUTES
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/quiz", quizRouter);
 
 //MONGOOSE SETUP
 connectDB();
