@@ -1,0 +1,11 @@
+.analytics-parent-cont {
+  display: flex;
+  .analytics-child-cont {
+    // background-color: yellow;
+    margin-top: 7rem;
+    height: 4rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}

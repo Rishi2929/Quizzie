@@ -16,20 +16,19 @@ const OptionSchema = new mongoose.Schema({
 });
 
 const questionSchema = new mongoose.Schema({
+  qId: {
+    type: String,
+  },
   questionTitle: {
     type: String,
-    required: true,
+    // required: true,
   },
-  options: {
-    type: [OptionSchema],
-    required: true,
-  },
+  options: [OptionSchema],
   optionType: {
     type: String,
   },
   correctAnswer: {
     type: String,
-    required: true,
   },
   totalAttempts: {
     type: Number,
@@ -42,32 +41,30 @@ const questionSchema = new mongoose.Schema({
 const schema = new mongoose.Schema({
   quizName: {
     type: String,
-    required: true,
+    // required: true,
+
   },
   quizType: {
     type: String,
-    required: true,
+    // required: true,
   },
-  title: {
-    type: String,
-    required: true,
-    unique: true,
-  },
+  // title: {
+  //   type: String,
+  //   // required: true,
+  // },
   quizCount: {
     type: Number,
   },
-  questions: {
-    type: [questionSchema],
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
+  questions: [questionSchema],
+
+  // createdAt: {
+  //   type: Date,
+  //   default: Date.now,
+  // },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: true,
+    // required: true,
   },
 });
 

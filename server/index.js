@@ -3,10 +3,12 @@ import { config } from "dotenv";
 import { connectDB } from "./data/database.js";
 import userRouter from "./routes/user.js";
 import quizRouter from "./routes/quiz.js";
-
 import cookieParser from "cookie-parser";
+import cors from 'cors';
+
 
 export const app = express();
+
 //CONFIGURATION
 config({
   path: "./data/.env",
@@ -14,6 +16,13 @@ config({
 
 //USING MIDDLEWARE
 app.use(express.json());
+app.use(cors({
+  // origin: [process.env.FRONTEND_URI],
+  origin: 'http://localhost:5173',
+
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+}))
 app.use(cookieParser());
 
 //HEALTH API

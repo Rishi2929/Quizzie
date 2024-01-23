@@ -2,17 +2,18 @@ import { Quiz } from "../models/quiz.js"; // Adjust the path based on your proje
 
 export const createQuiz = async (req, res) => {
   try {
-    const { quizName, quizType, title, quizCount, questions } = req.body;
+    const { quizName, quizType, quizCount, questions } = req.body;
 
     // Create a new Quiz instance
+    console.dir({ quizName, quizType, quizCount, questions }, { depth: null });
     const newQuiz = new Quiz({
       quizName,
       quizType,
-      title,
       quizCount,
       questions,
       user: req.user,
     });
+    console.log(req.user)
 
     // Save the new quiz to the database
     const savedQuiz = await newQuiz.save();
@@ -26,13 +27,33 @@ export const createQuiz = async (req, res) => {
     console.error("Error creating quiz:", error);
     res.status(500).json({ success: false, error: "Internal server error" });
   }
+  // try {
+  //   await Quiz.create({
+  //     quizName,
+  //     quizType,
+  //     quizCount,
+  //     questions,
+  //     user: req.user,
+  //   })
+  //   res.status(200).json({
+  //     success: true,
+  //     message: "quiz created successfully"
+  //   })
+  // } catch (error) {
+  //   console.error("Error creating quiz:", error);
+  //   res.status(500).json({ success: false, error: "Internal server error" });
+
+  // }
 };
 
 export const getMyQuiz = async (req, res, next) => {
   try {
     const userid = req.user.id;
+    console.log("User Id " + userid)
 
     const quiz = await Quiz.find({ user: userid });
+
+    console.log(userid)
 
     res.status(200).json({
       success: true,
