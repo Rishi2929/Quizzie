@@ -1,6 +1,6 @@
 .analytics-parent-cont {
   display: flex;
-  background-color: #ededed;
+  background-color: var(--gray-200);
   width: 100vw;
   height: 100vh;
 
@@ -20,7 +20,7 @@
       justify-content: center;
     }
     h1 {
-      color: #5076ff;
+      color: var(--blue-300);
     }
     .table-cont {
       width: 100%;
@@ -43,7 +43,7 @@
     }
     //HEADING OF TABLE
     th {
-      background-color: #5076ff;
+      background-color: var(--blue-300);
       color: white;
       // min-width: 10rem;
     }
@@ -57,14 +57,14 @@
     }
 
     tr {
-      background-color: #ededed;
+      background-color: var(--gray-200);
     }
 
     tr:nth-child(even) {
-      background-color: #b3c4ff;
+      background-color: var(--blue-200);
     }
     tr:nth-child(odd) {
-      background-color: #ededed;
+      background-color: var(--gray-200);
     }
 
     tr:hover {

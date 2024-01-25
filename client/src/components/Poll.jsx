@@ -8,13 +8,11 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
-  // initialData is used when we add a question to the question
+
   const [initialData, setInitialData] = useState({
-    // qNo: "1",
     qId: uuid(),
-    // title: "",
     optionType: "text",
-    correctAnswer: "", //correct answer will have correct option id in case of quiz type QA
+    correctAnswer: "",
     options: [
       {
         id: uuid(),
@@ -29,13 +27,10 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
     ],
   });
 
-  // this array stores all our quiz data.
   const [questions, setQuestions] = useState([initialData]);
-
-  // selectedOption storing the qId of the question that is selected in the quiz
   const [selectedOption, setSelectedOption] = useState(initialData.qId);
 
-  // handling when we click on particular question, i.e., selection a question
+  // Handles clicking on a question
   const handleQuestionClick = (qId) => {
     if (questions.some((ques) => ques.qId == qId)) {
       setSelectedOption(qId);
@@ -43,7 +38,7 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
     console.log("handleQuestionClick: " + qId);
   };
 
-  // handling adding question to the quiz
+  // Handles adding a question to the quiz
   const handlePlusClick = () => {
     if (questions.length >= 5) return;
 
@@ -56,10 +51,9 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
     setSelectedOption(newObj.qId);
   };
 
-  //handling delete question button click
+  // Handles deleting a question
   const handleDeleteClick = (e, qId, index) => {
     e.stopPropagation();
-
     if (questions.some((ques) => ques.qId === qId)) {
       setQuestions((old) => old.filter((ques) => ques.qId !== qId));
 
@@ -70,54 +64,20 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
   };
 
   // handling change in input fields and for timer buttons also
-  const handleChange = (
-    value, // value of each field
-    field, // what type of field it is, like: questionTitle field, optionType field, optionField
-    qId, // for question, it is taking question qId
-    opId = "null", // for options, it is taking particular option id
-    answerField = "null", // for QA quiz, it takes which option is pressed for the answer.
-    textImgTypeFieldName = "null" // when option is text-imgUrl, then it takes what type of field it is: text or imgUrl
-  ) => {
-    // changing the question Title
+  const handleChange = (value, field, qId, opId = "null", answerField = "null", textImgTypeFieldName = "null") => {
     if (field === "questionTitle") {
-      setQuestions((old) =>
-        old.map((ques) =>
-          ques.qId === qId ? { ...ques, questionTitle: value } : ques
-        )
-      );
-    }
-    // changing the option type
-    else if (field === "optionType") {
-      // resetOptionsArr is used to reset the options if option type is changed
+      setQuestions((old) => old.map((ques) => ques.qId === qId ? { ...ques, questionTitle: value } : ques));
+    } else if (field === "optionType") {
       const resetOptionsArr = [
-        {
-          id: uuid(),
-          imgUrl: "",
-          optionTitle: "",
-        },
-        {
-          id: uuid(),
-          imgUrl: "",
-          optionTitle: "",
-        },
+        { id: uuid(), imgUrl: "", optionTitle: "", },
+        { id: uuid(), imgUrl: "", optionTitle: "", },
       ];
-
-      setQuestions((old) =>
-        old.map((ques) =>
-          ques.qId === qId
-            ? { ...ques, optionType: value, options: resetOptionsArr }
-            : ques
-        )
-      );
+      setQuestions((old) => old.map((ques) => ques.qId === qId ? { ...ques, optionType: value, options: resetOptionsArr } : ques));
     }
     // handling change in option field for different types like: text, imgUrl and text-imgUrl
     else if (field === "optionField") {
       if (answerField === "answer") {
-        setQuestions((old) =>
-          old.map((ques) =>
-            ques.qId === qId ? { ...ques, correctAnswer: value } : ques
-          )
-        );
+        setQuestions((old) => old.map((ques) => ques.qId === qId ? { ...ques, correctAnswer: value } : ques));
         return;
       }
 
@@ -150,26 +110,15 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
           );
         }
       }
-
-      setQuestions((old) =>
-        old.map((ques) =>
-          ques.qId === qId ? { ...ques, options: selectedOptions } : ques
-        )
-      );
+      setQuestions((old) => old.map((ques) => ques.qId === qId ? { ...ques, options: selectedOptions } : ques));
     } else if (field === "timer") {
-      setQuestions((old) =>
-        old.map((ques) => (ques.qId === qId ? { ...ques, timer: value } : ques))
-      );
+      setQuestions((old) => old.map((ques) => (ques.qId === qId ? { ...ques, timer: value } : ques)));
     }
   };
 
-  // handling adding option to the particular question
+  // Handles adding an option to a question
   const handleAddOptionBtn = (qId) => {
-    const optionObj = {
-      id: uuid(),
-      imgUrl: "",
-      optionTitle: "",
-    };
+    const optionObj = { id: uuid(), imgUrl: "", optionTitle: "" };
 
     if (questions.some((question) => question.qId === qId)) {
       const selectedQuestion = questions.find((ques) => ques.qId === qId);
@@ -178,50 +127,36 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
 
       const quesOptions = [...selectedQuestion.options, optionObj];
 
-      setQuestions((old) =>
-        old.map((ques) =>
-          ques.qId === qId ? { ...ques, options: quesOptions } : ques
-        )
-      );
+      setQuestions((old) => old.map((ques) => ques.qId === qId ? { ...ques, options: quesOptions } : ques));
     }
   };
 
-  //delete option handling here if options length is more than 2
+  // Handles deleting an option from a question
   const handleDeleteOptionBtn = (qId, opId) => {
     const selectionQuestion = questions.find((ques) => ques.qId === qId);
-
-    const questionOptions = [
-      ...selectionQuestion.options.filter((opt) => opt.id !== opId),
-    ];
+    const questionOptions = [...selectionQuestion.options.filter((opt) => opt.id !== opId)];
 
     setQuestions((old) =>
-      old.map((ques) =>
-        ques.qId === qId ? { ...ques, options: questionOptions } : ques
-      )
-    );
+      old.map((ques) => ques.qId === qId ? { ...ques, options: questionOptions } : ques));
   };
 
-  //sending payload to backend here
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = {
-      quizName: quizName,
-      quizType: quizType,
-      questions: questions,
-    };
-
-    console.log(data);
-
+    const data = { quizName: quizName, quizType: quizType, questions: questions, };
+    // console.log(data);
     try {
-      const response = await axios.post(`http://localhost:3000/api/v1/quiz/new`, data, {
-        headers: {
-          "Content-Type": "application/json"
-        },
-        withCredentials: true,
-      });
+      const response = await axios.post(`http://localhost:3000/api/v1/quiz/new`, data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
 
-      console.log(response.data);  // Log the response data
+      // console.log(response.data); 
       toast.success("Quiz created successfully");
+
     } catch (error) {
       console.error("handleSubmit Error:", error);
       toast.error("Quiz failed to create");
@@ -237,21 +172,12 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
               return (
                 <React.Fragment key={ques.qId}>
                   <div onClick={() => handleQuestionClick(ques.qId)}>
-                    <div
-                      key={index}
-                      className={`${styles.circle} ${selectedOption === ques.qId
-                        ? styles["circle-selected"]
-                        : ""
-                        }`}
-                    >
+                    <div key={index} className={`${styles.circle} ${selectedOption === ques.qId ? styles["circle-selected"] : ""}`}>
                       <p>{index + 1}</p>
                     </div>
 
                     {index > 0 && (
-                      <button
-                        onClick={(e) => handleDeleteClick(e, ques.qId, index)}
-                        className={styles["del-circle-btn"]}
-                      >
+                      <button onClick={(e) => handleDeleteClick(e, ques.qId, index)} className={styles["del-circle-btn"]}>
                         <img src={img2} alt="" />
                       </button>
                     )}
@@ -259,13 +185,7 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
                 </React.Fragment>
               );
             })}
-
-            <button
-              onClick={() => handlePlusClick()}
-              className={styles["add-circle-btn"]}
-            >
-              +
-            </button>
+            <button onClick={() => handlePlusClick()} className={styles["add-circle-btn"]}> + </button>
 
             <div className={styles["remind"]}>
               <p>Max 5 questions</p>
@@ -280,17 +200,7 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
                   <React.Fragment key={ques.qId}>
                     {/* for question title */}
                     <div className={styles["poll-row2"]}>
-                      <input
-                        placeholder="Poll Question"
-                        onChange={(e) =>
-                          handleChange(
-                            e.target.value,
-                            "questionTitle",
-                            ques.qId
-                          )
-                        }
-                        value={ques.questionTitle}
-                      />
+                      <input placeholder="Poll Question" onChange={(e) => handleChange(e.target.value, "questionTitle", ques.qId)} value={ques.questionTitle} />
                     </div>
 
                     {/* for option types */}
@@ -302,10 +212,7 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
                           value="text"
                           name="optionType"
                           checked={ques.optionType === "text"}
-                          onChange={(e) =>
-                            handleChange(e.target.value, "optionType", ques.qId)
-                          }
-                        />
+                          onChange={(e) => handleChange(e.target.value, "optionType", ques.qId)} />
                         Text
                       </label>
                       <label>
@@ -314,10 +221,7 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
                           value="imgUrl"
                           name="optionType"
                           checked={ques.optionType === "imgUrl"}
-                          onChange={(e) =>
-                            handleChange(e.target.value, "optionType", ques.qId)
-                          }
-                        />
+                          onChange={(e) => handleChange(e.target.value, "optionType", ques.qId)} />
                         Image URL
                       </label>
                       <label>
@@ -326,10 +230,7 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
                           name="optionType"
                           value="text-imgUrl"
                           checked={ques.optionType === "text-imgUrl"}
-                          onChange={(e) =>
-                            handleChange(e.target.value, "optionType", ques.qId)
-                          }
-                        />
+                          onChange={(e) => handleChange(e.target.value, "optionType", ques.qId)} />
                         Text & Image URL
                       </label>
                     </div>
@@ -348,22 +249,8 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
                                   value={option.id}
                                   checked={ques.correctAnswer === option.id}
                                   className="input-radio"
-                                  style={{
-                                    accentColor: `${ques.correctAnswer === option.id
-                                      ? "green"
-                                      : ""
-                                      }`,
-                                  }}
-                                  onChange={(e) =>
-                                    handleChange(
-                                      e.target.value,
-                                      "optionField",
-                                      ques.qId,
-                                      option.id,
-                                      "answer"
-                                    )
-                                  }
-                                />
+                                  style={{ accentColor: `${ques.correctAnswer === option.id ? "green" : ""}`, }}
+                                  onChange={(e) => handleChange(e.target.value, "optionField", ques.qId, option.id, "answer")} />
                               )}
                               {/* render this input if option type selected is text */}
                               {ques.optionType === "text" && (
@@ -372,21 +259,8 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
                                   placeholder="Text"
                                   className={styles["input-box"]}
                                   value={option.optionTitle}
-                                  style={{
-                                    background: `${ques.correctAnswer === option.id
-                                      ? "#60B84B"
-                                      : ""
-                                      }`,
-                                  }}
-                                  onChange={(e) =>
-                                    handleChange(
-                                      e.target.value,
-                                      "optionField",
-                                      ques.qId,
-                                      option.id
-                                    )
-                                  }
-                                />
+                                  style={{ background: `${ques.correctAnswer === option.id ? "#60B84B" : ""}`, }}
+                                  onChange={(e) => handleChange(e.target.value, "optionField", ques.qId, option.id)} />
                               )}
 
                               {/* render this input if option type selected is image Url */}
@@ -396,21 +270,8 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
                                   placeholder="Image URL"
                                   className={styles["input-box"]}
                                   value={option.imgUrl}
-                                  style={{
-                                    background: `${ques.correctAnswer === option.id
-                                      ? "green"
-                                      : ""
-                                      }`,
-                                  }}
-                                  onChange={(e) =>
-                                    handleChange(
-                                      e.target.value,
-                                      "optionField",
-                                      ques.qId,
-                                      option.id
-                                    )
-                                  }
-                                />
+                                  style={{ background: `${ques.correctAnswer === option.id ? "green" : ""}`, }}
+                                  onChange={(e) => handleChange(e.target.value, "optionField", ques.qId, option.id)} />
                               )}
 
                               {/* render this input if option type selected is Text & Image URL */}
@@ -421,60 +282,21 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
                                     placeholder="Text"
                                     className={styles["input-box"]}
                                     value={option.optionTitle}
-                                    style={{
-                                      background: `${ques.correctAnswer === option.id
-                                        ? "green"
-                                        : ""
-                                        }`,
-                                    }}
-                                    onChange={(e) =>
-                                      handleChange(
-                                        e.target.value,
-                                        "optionField",
-                                        ques.qId,
-                                        option.id,
-                                        "null",
-                                        "text-field"
-                                      )
-                                    }
-                                  />
+                                    style={{ background: `${ques.correctAnswer === option.id ? "green" : ""}`, }}
+                                    onChange={(e) => handleChange(e.target.value, "optionField", ques.qId, option.id, "null", "text-field")} />
                                   <input
                                     type="text"
                                     placeholder="Image URL"
                                     className={styles["input-box"]}
                                     value={option.imgUrl}
-                                    style={{
-                                      background: `${ques.correctAnswer === option.id
-                                        ? "green"
-                                        : ""
-                                        }`,
-                                    }}
-                                    onChange={(e) =>
-                                      handleChange(
-                                        e.target.value,
-                                        "optionField",
-                                        ques.qId,
-                                        option.id,
-                                        "null",
-                                        "imgUrl-field"
-                                      )
-                                    }
-                                  />
+                                    style={{ background: `${ques.correctAnswer === option.id ? "green" : ""}`, }} onChange={(e) => handleChange(e.target.value, "optionField", ques.qId, option.id, "null", "imgUrl-field")} />
                                 </>
                               )}
 
                               {/* only show delete buttons with options if total options are more than 2 and show delete for option 3 and 4 only */}
                               {ques.options.length >= 3 &&
                                 (optionIndex === 2 || optionIndex === 3) && (
-                                  <button
-                                    onClick={() =>
-                                      handleDeleteOptionBtn(ques.qId, option.id)
-                                    }
-                                    className={`${styles["delete-btn"]} ${selectedOption === "Text & Image URL"
-                                      ? styles["delete-btn-img-text"]
-                                      : ""
-                                      }`}
-                                  >
+                                  <button onClick={() => handleDeleteOptionBtn(ques.qId, option.id)} className={`${styles["delete-btn"]} ${selectedOption === "Text & Image URL" ? styles["delete-btn-img-text"] : ""}`}  >
                                     <img src={img} alt="" />
                                   </button>
                                 )}
@@ -485,50 +307,18 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
 
                       {/* Button for adding more option. Max options can only be 4 */}
                       {ques.options.length <= 3 && (
-                        <button
-                          className={styles["add-btn"]}
-                          onClick={() => handleAddOptionBtn(ques.qId)}
-                        >
-                          Add option
-                        </button>
+                        <button className={styles["add-btn"]} onClick={() => handleAddOptionBtn(ques.qId)}>Add option</button>
                       )}
 
                       {/* timer option for a particular question */}
                       {showTimerRow && (
                         <div className={styles["timer-row-4"]}>
                           <p>Timer</p>
-                          <button
-                            onClick={() =>
-                              handleChange("null", "timer", ques.qId)
-                            }
-                            className={
-                              ques.timer === "null"
-                                ? styles["selected-timer-btn"]
-                                : ""
-                            }
-                          >
-                            OFF
-                          </button>
-                          <button
-                            onClick={() => handleChange("5", "timer", ques.qId)}
-                            className={
-                              ques.timer === "5"
-                                ? styles["selected-timer-btn"]
-                                : ""
-                            }
-                          >
+                          <button onClick={() => handleChange("null", "timer", ques.qId)} className={ques.timer === "null" ? styles["selected-timer-btn"] : ""}>OFF</button>
+                          <button onClick={() => handleChange("5", "timer", ques.qId)} className={ques.timer === "5" ? styles["selected-timer-btn"] : ""}>
                             5 sec
                           </button>
-                          <button
-                            onClick={() =>
-                              handleChange("10", "timer", ques.qId)
-                            }
-                            className={
-                              ques.timer === "10"
-                                ? styles["selected-timer-btn"]
-                                : ""
-                            }
-                          >
+                          <button onClick={() => handleChange("10", "timer", ques.qId)} className={ques.timer === "10" ? styles["selected-timer-btn"] : ""}>
                             10 sec
                           </button>
                         </div>
@@ -540,12 +330,8 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
             );
           })}
           <div className={styles["poll-row-5"]}>
-            <button onClick={onClose} className={styles["cancel-btn"]}>
-              Cancel
-            </button>
-            <button className={styles["del-btn"]} onClick={handleSubmit}>
-              Create Quiz
-            </button>
+            <button onClick={onClose} className={styles["cancel-btn"]}>Cancel</button>
+            <button className={styles["del-btn"]} onClick={handleSubmit}>Create Quiz</button>
           </div>
         </div>
       </div>

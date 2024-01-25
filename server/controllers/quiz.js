@@ -5,7 +5,7 @@ export const createQuiz = async (req, res) => {
     const { quizName, quizType, quizCount, questions } = req.body;
 
     // Create a new Quiz instance
-    console.dir({ quizName, quizType, quizCount, questions }, { depth: null });
+    // console.dir({ quizName, quizType, quizCount, questions }, { depth: null });
     const newQuiz = new Quiz({
       quizName,
       quizType,

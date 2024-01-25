@@ -2,7 +2,7 @@
 
 .dashboard-parent-cont {
   display: flex;
-  background-color: #ededed;
+  background-color: var(--gray-200);
   width: 100vw;
   height: 100vh;
 
@@ -20,17 +20,17 @@
       padding: 20px 30px;
       .flex-cont-1 {
         h1 {
-          color: #ff5d01;
+          color: var(--orange-100);
         }
       }
       .flex-cont-2 {
         h1 {
-          color: #60b84b;
+          color: var(--green-100);
         }
       }
       .flex-cont-3 {
         h1 {
-          color: #5076ff;
+          color: var(--blue-300);
         }
       }
     }
@@ -40,7 +40,7 @@
   }
 
   .heading-1 {
-    color: #ff5d01;
+    color: var(--orange-100);
   }
 
   .heading-2 {
@@ -61,7 +61,7 @@
     margin-top: 10rem;
     height: 25rem;
     font-family: Poppins;
-    color: #474444;
+    color: var(--gray-600);
     overflow-x: auto;
 
     .quiz-cont {
@@ -87,7 +87,7 @@
         }
       }
       .green-span {
-        color: #60b84b;
+        color: var(--green-100);
         margin-top: 0.7rem;
       }
     }
@@ -130,15 +130,14 @@
     display: flex;
     gap: 4rem;
     margin-top: 2rem;
-    color: #9f9f9f;
-    // background-color: yellow;
+    color: var(--gray-500);
 
     label {
       font-size: 1.1rem;
     }
 
     .selected-button {
-      background-color: #60b84b;
+      background-color: var(--green-100);
       color: white;
     }
     .poll-button {
@@ -153,7 +152,7 @@
     border-radius: 5px;
     font-size: 1rem;
     padding: 5px 10px;
-    color: #9f9f9f;
+    color: var(--gray-500);
   }
 
   .popup-details-row-3 {
@@ -172,7 +171,7 @@
     }
 
     .cont-btn {
-      background-color: #60b84b;
+      background-color: var(--green-100);
       color: white;
       box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.15);
     }
@@ -219,18 +218,18 @@
       width: 3rem;
       height: 3rem;
       border-radius: 50%;
-      border: 2px solid #60b84b;
+      border: 2px solid var(--green-100);
     }
 
     p {
-      color: #9f9f9f;
+      color: var(--gray-500);
     }
 
     button {
       border: none;
       background-color: transparent;
       font-size: 3rem;
-      color: #969696;
+      color: var(--gray-400);
     }
 
     .add-circle-btn {
@@ -269,7 +268,7 @@
     display: flex;
     margin-top: 2rem;
     gap: 1.5rem;
-    color: #9f9f9f;
+    color: var(--gray-500);
     font-size: 1rem;
     span {
       font-size: 1rem;
@@ -291,11 +290,10 @@
     margin-top: -9rem;
     width: 5rem;
     height: 12rem;
-    // background-color: yellow;
 
     p {
       text-align: center;
-      color: #9f9f9f;
+      color: var(--gray-500);
     }
 
     button {
@@ -306,12 +304,12 @@
       font-size: 1rem;
       padding: 5px 15px;
       box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.15);
-      color: #9f9f9f;
+      color: var(--gray-500);
       font-size: 0.9rem;
     }
 
     .selected-timer-btn {
-      background-color: #d60000;
+      background-color: var(--red-100);
       color: white;
     }
   }
@@ -338,7 +336,7 @@
   }
 
   .del-btn {
-    background-color: #60b84b;
+    background-color: var(--green-100);
     color: white;
   }
 }
@@ -369,7 +367,7 @@
     background-color: white;
     box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.15);
     border: none;
-    color: #9f9f9f;
+    color: var(--gray-500);
   }
 
   .img-text {
@@ -396,7 +394,7 @@
   .input-types {
     display: flex;
     .input-radio {
-      color: #9f9f9f;
+      color: var(--gray-500);
     }
   }
 }
