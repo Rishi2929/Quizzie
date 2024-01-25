@@ -4,6 +4,10 @@
   width: 100vw;
   height: 100vh;
 
+  button {
+    background-color: transparent;
+  }
+
   .analytics-child-cont {
     display: flex;
     justify-content: center;
@@ -28,7 +32,6 @@
       width: 100%;
       border-collapse: collapse;
       height: 10vh;
-      // margin-top: 12rem;
       border-radius: 10px;
       overflow-x: auto;
     }
@@ -64,9 +67,8 @@
       background-color: #ededed;
     }
 
-    // tr:hover {
-    //   background-color: #5076ff;
-    // }
+    tr:hover {
+    }
 
     //Rightmost border
     tr:nth-child(even) td:first-child {

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import styles from "../styles/Dashboard.module.scss";
+import styles from "../styles/Navbar.module.scss";
 import Popup from "./Popup";
 import { Context } from "../main";
 import { server } from "../App";

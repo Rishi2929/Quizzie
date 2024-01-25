@@ -59,9 +59,9 @@ const Analytics = () => {
                     <td>{row.quizName}</td>
                     <td>{row.createdOn}</td>
                     <td>{row.impression}</td>
-                    <td><img src={EditIcon} alt="" /></td>
-                    <td><img src={Delete} alt="" /></td>
-                    <td><img src={ShareIcon} alt="" /></td>
+                    <td><Link><img src={EditIcon} alt="" /></Link></td>
+                    <td><button><img src={Delete} alt="" /></button></td>
+                    <td><button><img src={ShareIcon} alt="" /></button></td>
                     <td><Link>Question Wise Analysis</Link></td>
                   </tr>
                 ))}

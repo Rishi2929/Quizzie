@@ -1,0 +1,66 @@
+/*NAVBAR STYLES*/
+
+.nav-parent-cont {
+  background-color: white;
+  width: 15rem;
+  height: 100%;
+  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.15);
+
+  h1 {
+    font-family: "Jomhuria", serif;
+    color: #474444;
+    font-size: 4rem;
+    font-weight: 100;
+    margin-left: 1.5rem;
+  }
+  .logout-div {
+    position: absolute;
+    margin-top: 45rem;
+    .line {
+      height: 0.1rem;
+      width: 10rem;
+      background-color: black;
+      margin-left: -0.7rem;
+    }
+    button {
+      text-decoration: none;
+      border: none;
+      font-size: 1.2rem;
+      background-color: transparent;
+      color: black;
+      padding: 10px 25px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+  }
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 90vh;
+  gap: 3rem;
+  background-color: white;
+
+  .nav-btn {
+    text-decoration: none;
+    border: none;
+    font-size: 1.2rem;
+    background-color: transparent;
+    color: black;
+    padding: 10px 25px;
+    border-radius: 10px;
+  }
+
+  // .nav-btn:hover {
+  //     background-color: #474444;
+  //     border-radius: 4px;
+  // }
+
+  .active-btn {
+    background-color: white;
+    box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.15);
+  }
+}
