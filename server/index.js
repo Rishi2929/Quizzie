@@ -17,9 +17,7 @@ config({
 //USING MIDDLEWARE
 app.use(express.json());
 app.use(cors({
-  // origin: [process.env.FRONTEND_URI],
-  origin: 'http://localhost:5173',
-
+  origin: [process.env.FRONTEND_URI],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 }))
