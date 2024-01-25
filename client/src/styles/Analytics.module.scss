@@ -5,5 +5,79 @@
   height: 100vh;
 
   .analytics-child-cont {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 80vw;
+    .Analytics-heading {
+      margin-bottom: 3rem;
+      display: flex;
+      justify-content: center;
+    }
+    h1 {
+      color: #5076ff;
+    }
+    .table-cont {
+      width: 100%;
+      overflow-x: auto;
+      height: 80vh;
+      margin-top: 20px;
+    }
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      height: 10vh;
+      // margin-top: 12rem;
+      border-radius: 10px;
+      overflow-x: auto;
+    }
+
+    th,
+    td {
+      padding: 15px;
+      text-align: left;
+    }
+    //HEADING OF TABLE
+    th {
+      background-color: #5076ff;
+      color: white;
+      // min-width: 10rem;
+    }
+    th:first-child {
+      border-top-left-radius: 15px;
+      border-bottom-left-radius: 15px;
+    }
+    th:last-child {
+      border-top-right-radius: 15px;
+      border-bottom-right-radius: 15px;
+    }
+
+    tr {
+      background-color: #ededed;
+    }
+
+    tr:nth-child(even) {
+      background-color: #b3c4ff;
+    }
+    tr:nth-child(odd) {
+      background-color: #ededed;
+    }
+
+    // tr:hover {
+    //   background-color: #5076ff;
+    // }
+
+    //Rightmost border
+    tr:nth-child(even) td:first-child {
+      border-top-left-radius: 15px;
+      border-bottom-left-radius: 15px;
+    }
+
+    //Leftmost border
+    tr:nth-child(even) td:last-child {
+      border-top-right-radius: 15px;
+      border-bottom-right-radius: 15px;
+    }
   }
 }

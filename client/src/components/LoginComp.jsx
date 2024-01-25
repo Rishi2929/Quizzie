@@ -11,9 +11,7 @@ import * as Yup from 'yup';
 const validationSchema = Yup.object({
   email: Yup.string().required('Email is required'),
   password: Yup.string().required('Password is required'),
-}
-)
-
+})
 
 const Logincomp = () => {
 
@@ -28,7 +26,7 @@ const Logincomp = () => {
 
   const handleLogin = async (values) => {
     try {
-      const { name, email, password } = values; // Destructure values
+      const { name, email, password } = values;
 
       const { data } = await axios.post(
         `${server}/users/login`,
@@ -50,6 +48,7 @@ const Logincomp = () => {
 
     }
   };
+
   return (
     <div>
       <Formik
@@ -62,7 +61,7 @@ const Logincomp = () => {
               {" "}
               <label>Email</label>
             </div>
-            <Field type="email" id="email" name="email" placeholder="Email" />
+            <Field type="email" name="email" placeholder="Email" />
             <ErrorMessage name="email" component="div" className={styles["error-message"]} />
 
           </div>
