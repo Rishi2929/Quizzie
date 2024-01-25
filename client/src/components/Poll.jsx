@@ -145,7 +145,7 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
     const data = { quizName: quizName, quizType: quizType, questions: questions, };
     // console.log(data);
     try {
-      const response = await axios.post(`http://localhost:3000/api/v1/quiz/new`, data,
+      const response = await axios.post(`${server}/quiz/new`, data,
         {
           headers: {
             "Content-Type": "application/json",
