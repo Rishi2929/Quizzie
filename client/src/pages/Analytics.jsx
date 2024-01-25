@@ -7,7 +7,7 @@ const Analytics = () => {
     <div className={styles["analytics-parent-cont"]}>
       <Navbar />
       <div className={styles["analytics-child-cont"]}>
-        <h1>Quiz Analysis</h1>
+        <div className="analytics-heading"><h1>Quiz Analysis</h1></div>
       </div>
     </div>
   );

@@ -5,20 +5,31 @@ import axios from "axios";
 import { server } from "../App";
 import { Context } from "../main";
 import toast from 'react-hot-toast';
+import { Form, Formik, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+
+const validationSchema = Yup.object({
+  email: Yup.string().required('Email is required'),
+  password: Yup.string().required('Password is required'),
+}
+)
 
 
 const Logincomp = () => {
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const initialValues = {
+    email: '',
+    password: ''
+  }
+
   const { isAuthenticated, setIsAuthenticated, loading, setLoading } = useContext(Context);
 
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
+  const handleLogin = async (values) => {
     try {
+      const { name, email, password } = values; // Destructure values
+
       const { data } = await axios.post(
         `${server}/users/login`,
         { email, password },
@@ -30,10 +41,10 @@ const Logincomp = () => {
         }
       );
       toast.success("Logged In successfully")
-
       setIsAuthenticated(true)
       navigate("/dashboard");
     } catch (error) {
+      toast.error(error.response.message)
       console.error("Login failed", error);
       setIsAuthenticated(false)
 
@@ -41,27 +52,34 @@ const Logincomp = () => {
   };
   return (
     <div>
-      <form className={styles["input-cont"]} onSubmit={handleLogin}>
-        <div className={styles["input-fields"]}>
-          <div className={styles["label-cont"]}>
-            {" "}
-            <label>Email</label>
-          </div>
-          <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        </div>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleLogin}>
+        <Form className={styles["input-cont"]}>
+          <div className={styles["input-fields"]}>
+            <div className={styles["label-cont"]}>
+              {" "}
+              <label>Email</label>
+            </div>
+            <Field type="email" id="email" name="email" placeholder="Email" />
+            <ErrorMessage name="email" component="div" className={styles["error-message"]} />
 
-        <div className={styles["input-fields"]}>
-          <div className={styles["label-cont"]}>
-            {" "}
-            <label>Password</label>
           </div>
-          <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        </div>
 
-        <button type="submit" className={styles["btn1"]}>
-          Log In
-        </button>
-      </form>
+          <div className={styles["input-fields"]}>
+            <div className={styles["label-cont"]}>
+              {" "}
+              <label>Password</label>
+            </div>
+            <Field type="password" id="password" name="password" placeholder="Password" />
+            <ErrorMessage name="password" component="div" className={styles["error-message"]} />        </div>
+
+          <button type="submit" className={styles["btn1"]}>
+            Log In
+          </button>
+        </Form>
+      </Formik>
     </div>
   );
 };

@@ -37,7 +37,6 @@ const Navbar = () => {
       setIsAuthenticated(false);
       navigate('/')
     } catch (error) {
-      // Handle errors if necessary
       console.error(error);
     } finally {
       setLoading(false);

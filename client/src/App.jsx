@@ -11,8 +11,6 @@ import axios from "axios";
 
 export const server = "http://localhost:3000/api/v1";
 
-
-
 function App() {
   const { setUser, setIsAuthenticated, setLoading } = useContext(Context)
 

@@ -13,7 +13,7 @@ export const createQuiz = async (req, res) => {
       questions,
       user: req.user,
     });
-    console.log(req.user)
+    // console.log(req.user)
 
     // Save the new quiz to the database
     const savedQuiz = await newQuiz.save();
@@ -24,36 +24,16 @@ export const createQuiz = async (req, res) => {
       quiz: savedQuiz,
     });
   } catch (error) {
-    console.error("Error creating quiz:", error);
+    // console.error("Error creating quiz:", error);
     res.status(500).json({ success: false, error: "Internal server error" });
   }
-  // try {
-  //   await Quiz.create({
-  //     quizName,
-  //     quizType,
-  //     quizCount,
-  //     questions,
-  //     user: req.user,
-  //   })
-  //   res.status(200).json({
-  //     success: true,
-  //     message: "quiz created successfully"
-  //   })
-  // } catch (error) {
-  //   console.error("Error creating quiz:", error);
-  //   res.status(500).json({ success: false, error: "Internal server error" });
-
-  // }
 };
 
 export const getMyQuiz = async (req, res, next) => {
   try {
     const userid = req.user.id;
-    console.log("User Id " + userid)
 
     const quiz = await Quiz.find({ user: userid });
-
-    console.log(userid)
 
     res.status(200).json({
       success: true,

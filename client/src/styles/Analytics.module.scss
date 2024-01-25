@@ -1,11 +1,9 @@
 .analytics-parent-cont {
   display: flex;
+  background-color: #ededed;
+  width: 100vw;
+  height: 100vh;
+
   .analytics-child-cont {
-    // background-color: yellow;
-    margin-top: 7rem;
-    height: 4rem;
-    width: 100%;
-    display: flex;
-    justify-content: center;
   }
 }
