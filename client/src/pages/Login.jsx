@@ -21,20 +21,19 @@ const Login = () => {
         <div className={styles["flex-btn"]}>
           <button
             onClick={() => handleButtonClick("register")}
-            className={`${styles["btn"]} ${
-              btnClicked === "register" ? styles["btn-clicked"] : ""
-            }`}
+            className={`${styles["btn"]} ${btnClicked === "register" ? styles["btn-clicked"] : ""
+              }`}
           >
             Sign Up
           </button>
           <button
             onClick={() => handleButtonClick("login")}
-            className={`${styles["btn"]} ${
-              btnClicked === "login" ? styles["btn-clicked"] : ""
-            }`}
+            className={`${styles["btn"]} ${btnClicked === "login" ? styles["btn-clicked"] : ""
+              }`}
           >
             Login
           </button>
+
         </div>
         <div className="renderComps">
           {activeComponent === "login" && <Logincomp />}

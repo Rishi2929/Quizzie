@@ -65,7 +65,7 @@ const Popup = ({ onClose, isPopupVisible }) => {
             </button>
             <button
               className={
-                selectedQuizType === "Poll" ? styles["selected-button"] : ""
+                selectedQuizType === "Poll" ? styles["selected-button"] : "poll-button"
               }
               onClick={() => handleTypeButtonClick("Poll")}
             >
@@ -75,7 +75,7 @@ const Popup = ({ onClose, isPopupVisible }) => {
           {error.quizType && <p>Please select quiz type</p>}
 
           <div className={styles["popup-details-row-3"]}>
-            <button onClick={onClose}>Cancel</button>
+            <button onClick={onClose} className={styles['cancel-btn']}>Cancel</button>
             <button className={styles["cont-btn"]} onClick={handleSubmit}>
               Continue
             </button>
