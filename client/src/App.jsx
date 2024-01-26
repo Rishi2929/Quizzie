@@ -9,8 +9,8 @@ import { useContext, useEffect } from "react";
 import { Context } from "./main";
 import axios from "axios";
 
-// export const server = "http://localhost:3000/api/v1";
-export const server = "https://quizzie-amms.onrender.com/api/v1";
+export const server = "http://localhost:3000/api/v1";
+// export const server = "https://quizzie-amms.onrender.com/api/v1";
 
 
 function App() {
