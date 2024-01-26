@@ -1,0 +1,165 @@
+@import "../../../mixins.module.scss";
+
+.quiz-container {
+  min-height: 100vh;
+  background: var(--blue-400);
+  
+  @include md {
+    padding: 6rem;
+  }
+  @include xxl {
+    display: grid;
+    place-content: center;
+  }
+  
+  .quiz-body {
+    max-width: 1900px;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    background: var(--light);
+    @include md {
+      min-height: fit-content;
+      padding: 2rem 2rem;
+      border-radius: 0.93rem;
+    }
+
+    // question header
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+
+      span {
+        font-weight: 700;
+        font-size: var(--fs-900);
+        @include md {
+          font-size: var(--fs-1300);
+        }
+      }
+
+      .question-count {
+        color: var(--gray-600);
+      }
+
+      .question-time {
+        color: var(--red-100);
+      }
+    }
+
+    //question body
+    .question-body {
+      margin-top: 4rem;
+
+      @include sm {
+        padding: 0 2.5rem;
+      }
+      @include md {
+        padding: 0;
+      }
+
+      .question-title {
+        color: var(--gray-600);
+        font-size: var(--fs-1000);
+        font-weight: 700;
+        text-align: center;
+        line-height: 1.25;
+        @include md {
+          font-size: var(--fs-1300);
+        }
+      }
+
+      .options-container {
+        margin-top: 2rem;
+        padding: 0 1rem;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto auto;
+        grid-template-areas:
+          "option1"
+          "option2"
+          "option3"
+          "option4"
+        ;
+        row-gap: 1.85rem;
+
+        @include md {
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: auto auto;
+          grid-template-areas:
+            "option1 option2"
+            "option3 option4"
+          ;
+          gap: 4rem 6rem;
+        }
+
+        .option {
+          border: 3px solid #fff;
+          border-radius: 0.625rem;
+          background: var(--gray-200);
+          color: var(--dark);
+          font-size: var(--fs-600);
+          font-weight: 600;
+          margin: 0 auto;
+
+          @include md {
+            font-size: var(--fs-1000);
+            width: 92%;
+            padding: 2rem 3rem;
+          }
+        }
+
+        .option-text {
+          padding: 1rem 5rem;
+          width: 92%;
+        }
+
+        .option-img {
+          padding: 0;
+          width: 70%;
+          height: 3rem;
+          background: round;
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+
+        .option-text-img {
+          padding: 0.5rem 2rem;
+          width: 92%;
+        }
+
+        .option1 {
+          grid-area: option1;
+        }
+
+        .option2 {
+          grid-area: option2;
+        }
+
+        .option3 {
+          grid-area: option3;
+        }
+
+        .option4 {
+          grid-area: option4;
+        }
+      }
+
+      // next button
+      .next-btn {
+        display: block;
+        border-radius: 0.625rem;
+        padding: 0.40rem 4.25rem;
+        margin-inline: auto;
+        margin-block: 5rem 0;
+        font-size: var(--fs-700);
+        font-weight: 600;
+        background: var(--green-100);
+        color: var(--light);
+        @include md {
+          padding: 0.40rem 7.62rem;
+          margin-block: 3rem 0;
+          font-size: var(--fs-1000);
+        }
+      }
+    }
+  }
+}

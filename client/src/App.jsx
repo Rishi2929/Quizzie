@@ -1,5 +1,6 @@
 import './App.module.scss'
 import Poll from './components/Poll';
+import Quiz from './components/quizInterface/quiz/Quiz';
 import Analytics from './pages/Analytics';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login'
@@ -14,7 +15,7 @@ const App = () => {
         <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/analytics" element={<Analytics />} />
-        {/* <Route path="/quiz/:id" element={<Quiz />} /> */}
+        <Route path="/quiz/:id" element={<Quiz />} />
       </Routes>
     </Router>
   );

@@ -26,9 +26,9 @@
   --light: #fff;
   --dark: #000;
 
-  --gray-100: #f0f0f0;
-  --gray-200: #ededed;
-  --gray-300: #f4f4f4;
+  --gray-100: #f4f1f1;
+  --gray-200: #d9d9d9;
+  --gray-300: #bcbcbc;
   --gray-400: #969696;
   --gray-500: #9f9f9f;
   --gray-600: #474444;
@@ -40,6 +40,7 @@
   --blue-200: #b3c4ff;
   --blue-100: #a9bcff;
   --blue-300: #5076ff;
+  --blue-400: #041325;
 
   --orange-100: #ff5d01;
   --orange-200: #ff4b4b;
@@ -66,8 +67,8 @@
 }
 
 body {
-  max-width: 1440px;
+  // max-width: 1440px;
   min-height: 100vh;
-  max-height: 1080px;
+  // max-height: 1080px;
   // background-color: var(--dark);
 }

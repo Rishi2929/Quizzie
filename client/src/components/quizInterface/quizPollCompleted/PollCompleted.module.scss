@@ -1,0 +1,28 @@
+@import "../../../mixins.module.scss";
+
+.poll-msg-container {
+  min-height: 100vh;
+  padding: 0 3.3rem;
+  background-color: var(--light);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @include md {
+    min-height: calc(100vh - 6rem - 6rem);
+    padding: 3rem 2rem;
+  }
+
+  .thanks-msg {
+    font-size: var(--fs-1100);
+    font-weight: 700;
+    line-height: normal;
+    color: var(--gray-600);
+
+    @include md {
+      font-size: var(--fs-1600);
+    }
+  }
+}
