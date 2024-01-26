@@ -16,12 +16,14 @@ config({
 
 //USING MIDDLEWARE
 app.use(express.json());
+console.log(process.env.FRONTEND_URI);
+app.use(cookieParser());
 app.use(cors({
   origin: [process.env.FRONTEND_URI],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
-}))
-app.use(cookieParser());
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 
 //HEALTH API
 app.get("/", (req, res) => {
