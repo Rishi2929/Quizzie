@@ -9,9 +9,9 @@ import axios from 'axios'
 
 
 const Navbar = () => {
+  const { isAuthenticated, setIsAuthenticated, loading, setLoading } = useContext(Context);
   const [activeBtn, setActiveBtn] = useState("dashboard");
   const [isPopupVisible, setPopupVisible] = useState(false);
-  const { isAuthenticated, setIsAuthenticated, loading, setLoading } = useContext(Context);
   const navigate = useNavigate();
 
   console.log(isAuthenticated)
@@ -31,15 +31,16 @@ const Navbar = () => {
     setLoading(true);
     try {
       await axios.get(`${server}/users/logout`, {
-        // withCredentials: true,
+        withCredentials: true,
       });
       toast.success("Logged out successfully");
-      setIsAuthenticated(false);
+      setIsAuthenticated(false)
+      setLoading(false)
       navigate('/')
     } catch (error) {
       console.error(error);
-    } finally {
-      setLoading(false);
+      setIsAuthenticated(true)
+      setLoading(false)
     }
   };
 

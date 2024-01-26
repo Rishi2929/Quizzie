@@ -25,6 +25,7 @@ const Logincomp = () => {
   const navigate = useNavigate();
 
   const handleLogin = async (values) => {
+    setLoading(true);
     try {
       const { name, email, password } = values;
 
@@ -35,17 +36,19 @@ const Logincomp = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          // withCredentials: true,
+          withCredentials: true,
         }
       );
       toast.success("Logged In successfully")
       setIsAuthenticated(true)
       navigate("/dashboard");
+      setLoading(false);
+
     } catch (error) {
       toast.error(error.response.message)
       console.error("Login failed", error);
       setIsAuthenticated(false)
-
+      setLoading(false);
     }
   };
 
@@ -74,7 +77,7 @@ const Logincomp = () => {
             <Field type="password" id="password" name="password" placeholder="Password" />
             <ErrorMessage name="password" component="div" className={styles["error-message"]} />        </div>
 
-          <button type="submit" className={styles["btn1"]}>
+          <button disabled={loading} type="submit" className={styles["btn1"]}>
             Log In
           </button>
         </Form>

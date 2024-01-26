@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import Navbar from "../components/Navbar";
 import styles from "../styles/Dashboard.module.scss";
 import views from '../assets/Views.svg'
+import { Navigate } from "react-router-dom";
+import { Context } from "../main";
+
 
 
 const quizData = [
@@ -30,6 +33,12 @@ const quizData = [
 
 
 const Dashboard = () => {
+
+  const { isAuthenticated, setIsAuthenticated, loading, setLoading } = useContext(Context);
+
+
+  // if (isAuthenticated) return <Navigate to={"/"} />
+
   return (
     <div className={styles["dashboard-parent-cont"]}>
       <Navbar />

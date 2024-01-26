@@ -17,21 +17,26 @@ function App() {
   const { setUser, setIsAuthenticated, setLoading } = useContext(Context)
 
   useEffect(() => {
+    console.log("Use Effect")
     setLoading(true)
-    axios.get(`${server}/users/me`,
-      {
-        // withCredentials: true
+    axios.get(`${server}/users/me`, {
+      withCredentials: true
 
-      }).then(res => {
+    })
+      .then(res => {
+        console.log("then user is authenticated")
+
         setUser(res.data.user),
           setIsAuthenticated(true)
         setLoading(false)
+        console.log("then user is authenticated")
 
       }).catch((error) => {
         // error.response.data.message,
         setUser({});
         setIsAuthenticated(false)
         setLoading(false)
+        console.log("catch")
 
 
       })
