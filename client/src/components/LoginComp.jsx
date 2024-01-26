@@ -35,7 +35,7 @@ const Logincomp = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          withCredentials: true,
+          // withCredentials: true,
         }
       );
       toast.success("Logged In successfully")

@@ -31,7 +31,7 @@ const Navbar = () => {
     setLoading(true);
     try {
       await axios.get(`${server}/users/logout`, {
-        withCredentials: true,
+        // withCredentials: true,
       });
       toast.success("Logged out successfully");
       setIsAuthenticated(false);

@@ -20,7 +20,7 @@ function App() {
     setLoading(true)
     axios.get(`${server}/users/me`,
       {
-        withCredentials: true
+        // withCredentials: true
 
       }).then(res => {
         setUser(res.data.user),
