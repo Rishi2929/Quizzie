@@ -18,7 +18,6 @@ const QuizCompleted = ({ response, correctAnswers }) => {
 
   return (
     <div className={styles["qa-result-container"]}>
-      <p>{JSON.stringify(response)}</p>
       <h1 className={styles["winner-msg"]}>Congrats Quiz is completed</h1>
       <img
         src={trophyImg}
