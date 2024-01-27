@@ -53,6 +53,7 @@ const schema = new mongoose.Schema({
   },
   quizCount: {
     type: Number,
+    default: 0,
   },
   questions: [questionSchema],
 

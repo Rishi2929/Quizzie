@@ -13,6 +13,7 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
     qId: uuid(),
     optionType: "text",
     correctAnswer: "",
+    questionTitle: "",
     options: [
       {
         id: uuid(),
@@ -149,10 +150,12 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
           },
         }
       );
-      // console.log(response.data); 
-      toast.success("Quiz created successfully");
-      console.log(response)
-      // console.log(response.data.quiz._id)
+      
+      if (response && response?.data?.success === false) {
+        toast.error(response?.data?.message);
+      } else {
+        toast.success(response.data.message);
+      }
 
     } catch (error) {
       console.error("handleSubmit Error:", error);

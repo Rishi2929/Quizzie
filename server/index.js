@@ -45,8 +45,12 @@ app.use("/api/v1/quiz", quizRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
+  try {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+  } catch (error) {
+    console.log('app.use error: ', error);
+  }
 });
 
 const port = process.env.PORT || 3001;

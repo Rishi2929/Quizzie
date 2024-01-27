@@ -8,11 +8,56 @@ export const createQuiz = async (req, res) => {
     // Create a new Quiz instance
     // console.dir({ quizName, quizType, quizCount, questions }, { depth: null });
 
+    //validation for required quiz fields
+    if (!(quizName && quizType && questions)) {
+      return res.status(401).json({
+        success: false,
+        message: "Important Fields are empty"
+      });
+    }
+
+    //validation for required question fields
+    for (const question of questions) {
+      if (!(question.questionTitle && question.optionType)) {
+        return res.status(202).json({
+          success: false,
+          message: "Important Fields are empty"
+        });
+      }
+      else if (quizType === "QA" && question.correctAnswer === "") {
+        return res.status(202).json({
+          success: false,
+          message: "Important Fields are empty"
+        });
+      }
+    }
+
+    //validation for required option fields
+    for (const question of questions) {
+      for (const option of question.options) {
+        if (question.optionType === "text" && option.optionTitle === "")
+          return res.status(401).json({
+            success: false,
+            message: "Important Fields are empty"
+          });
+        else if (question.optionType === "imgUrl" && option.imgUrl === "")
+          return res.status(401).json({
+            success: false,
+            message: "Important Fields are empty"
+          });
+        else if (question.optionType === "text-imgUrl" && (option.optionTitle === "" || option.imgUrl === ""))
+          return res.status(401).json({
+            success: false,
+            message: "Important Fields are empty"
+          });
+      }
+    }
+
     const objId = mongoose.Types.ObjectId;
-    let correctAnswerId = new objId();
 
     // assigning the option _id and correctAnswer to same mongoose objectId instead of client side uuid
     const newQuestions = questions.map(question => {
+      let correctAnswerId = new objId();
       question.options = question.options.map(option => {
         if (option.id === question.correctAnswer) {
           question.correctAnswer = correctAnswerId;
@@ -22,7 +67,7 @@ export const createQuiz = async (req, res) => {
         }
         return option;
       });
-      question.qId = new objId();
+      question._id = new objId();
       return question;
     });
 
@@ -44,6 +89,7 @@ export const createQuiz = async (req, res) => {
       quiz: savedQuiz,
     });
   } catch (error) {
+    console.log("createQuiz: ", error);
     res.status(500).json({ success: false, error: "Internal server error" });
   }
 };
@@ -113,7 +159,6 @@ export const updateQuiz = async (req, res, next) => {
 
 export const getQuizById = async (req, res, next) => {
   try {
-    console.log("aaa")
     const quizId = req.params.id;
 
     const quiz = await Quiz.findById(quizId);
@@ -135,8 +180,96 @@ export const getQuizById = async (req, res, next) => {
 
 export const updateQuizCount = async (req, res, next) => {
   try {
-    console.log("req.response: ", req.body);
+    console.log("req.params: ", req.params.id);
+    const userResponse = req.body || [];
+    const quizId = req.params.id || "";
+
+    if (!userResponse) return;
+
+    const quiz = await Quiz.findOne({ _id: quizId }, { quizType: 1, questions: 1 }).lean();
+
+    let updateRes;
+
+    if (quiz && quiz.questions.length && quiz.quizType === "Poll") {
+      for (const response of userResponse) {
+        const { qId, optionId } = response;
+
+        updateRes = await Quiz.updateOne(
+          {
+            _id: quizId,
+            "questions._id": qId,
+            "questions.options._id": optionId,
+          },
+          {
+            $inc: {
+              "questions.$.totalAttempts": 1,
+            }
+          }
+        );
+
+        updateRes = await Quiz.updateOne(
+          {
+            _id: quizId,
+            "questions._id": qId,
+          },
+          {
+            $inc: {
+              "questions.$[q].options.$[o].count": 1,
+            },
+          },
+          {
+            arrayFilters: [
+              { "q._id": qId },
+              { "o._id": optionId },
+            ],
+          }
+        );
+      }
+    }
+    else if (quiz && quiz.questions.length && quiz.quizType === "QA") {
+      for (const response of userResponse) {
+        const { qId, optionId } = response;
+
+        updateRes = await Quiz.updateOne(
+          {
+            _id: quizId,
+            "questions._id": qId,
+            "questions.options._id": optionId,
+          },
+          {
+            $inc: {
+              "questions.$.totalAttempts": 1,
+            }
+          }
+        );
+
+        updateRes = await Quiz.updateOne(
+          {
+            _id: quizId,
+            "questions._id": qId,
+            "questions.correctAnswer": optionId
+          },
+          {
+            $inc: {
+              "questions.$[q].options.$[o].count": 1,
+            },
+          },
+          {
+            arrayFilters: [
+              { "q._id": qId },
+              { "o._id": optionId },
+            ],
+          }
+        );
+
+      }
+    }
+
+    console.log("updateRes: ", updateRes);
+
+    res.status(200).json({ success: true, message: "Your Response submitted successfully" });
   } catch (error) {
-    console.log("updateQuizCount error: ", updateQuizCount);
+    console.log("updateQuizCount error: ", error);
+    next(error);
   }
-}
+};
