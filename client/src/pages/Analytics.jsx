@@ -7,6 +7,8 @@ import Delete from "../assets/Delete icon.svg";
 import ShareIcon from "../assets/ShareIcon.svg";
 import { Link } from "react-router-dom";
 import { server } from "../App";
+import toast from "react-hot-toast";
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 const Analytics = () => {
   const [tableData, setTableData] = useState([]);
@@ -22,33 +24,28 @@ const Analytics = () => {
           },
         });
         setTableData(response.data.quiz);
-        // console.log(response.data.quiz);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
     fetchData();
-  }, [tableData]);
+  }, []);
 
   const handleDelete = async (id) => {
     try {
       const token = localStorage.getItem('token');
-
       await axios.delete(`${server}/quiz/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json"
         },
       });
-      // Filter out the deleted item from the table data
       setTableData(tableData.filter(item => item.id !== id));
     } catch (error) {
       console.error('Error deleting data:', error);
     }
   };
-
-
 
   return (
     <div className={styles["analytics-parent-cont"]}>
@@ -81,7 +78,14 @@ const Analytics = () => {
                     <td>{row.impression}</td>
                     <td><Link><img src={EditIcon} alt="" /></Link></td>
                     <td><button onClick={() => handleDelete(row._id)}><img src={Delete} alt="" /></button></td>
-                    <td><button><img src={ShareIcon} alt="" /></button></td>
+                    <td>
+                      <CopyToClipboard text={`${window.location.origin}/quiz/${row._id}`}
+                        onCopy={() => toast.success("Link copied successfully")}>
+                        <button>
+                          <img src={ShareIcon} alt="Share" />
+                        </button>
+                      </CopyToClipboard>
+                    </td>
                     <td><Link>Question Wise Analysis</Link></td>
                   </tr>
                 ))}

@@ -119,7 +119,7 @@ export const deleteMyQuiz = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message: "Quiz Deleted!",
+      message: "Task Deleted!",
     });
   } catch (error) {
     next(error);
@@ -156,6 +156,7 @@ export const updateQuiz = async (req, res, next) => {
     next(error);
   }
 };
+
 
 export const getQuizById = async (req, res, next) => {
   try {

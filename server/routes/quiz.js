@@ -8,7 +8,6 @@ router.post("/new", isAuthenticated, createQuiz);
 router.get("/myQuiz",isAuthenticated, getMyQuiz);
 router.delete("/:id", isAuthenticated, deleteMyQuiz);
 router.patch("/quizzes/:id", updateQuiz);
-// router.get("quiz/:id", getQuizById);
 router.get("/getQuiz/:id", getQuizById)
 router.post("/userRes/:id", updateQuizCount)
 

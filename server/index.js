@@ -23,8 +23,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use(cors({
-  origin: [process.env.FRONTEND_URI],
-  // origin: "*",
+  // origin: [process.env.FRONTEND_URI],
+  origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE"],
 
 }));
