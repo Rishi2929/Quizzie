@@ -30,8 +30,10 @@ const Quiz = () => {
   let { id } = useParams(); // taking param id from url bar and assigning it new name i.e., quizId
 
   useEffect(() => {
-    setQuizId("65b577bea9fe5afe61ffe74f")
-    fetchQuizData("65b577bea9fe5afe61ffe74f");
+    if (id) {
+      setQuizId(id);
+      fetchQuizData(id);
+    }
   }, []);
 
   const fetchQuizData = async (quizId) => {
@@ -42,7 +44,7 @@ const Quiz = () => {
 
       if (response?.data?.success && response?.data?.quiz) {
         const quizResponse = response?.data?.quiz;
-        console.log("quizResponse: ", quizResponse);
+
         setQuizData(quizResponse);
 
         if (quizResponse?.questions?.length) {
@@ -154,7 +156,7 @@ const Quiz = () => {
   console.log("questionData: ", questionData);
   console.log("userResponses: ", userResponses);
 
-  if (!quizData?.question?.length) {
+  if (quizData?.question?.length === 0) {
     return (
       <div className={styles["quiz-container"]}>
         <div className={styles["quiz-body"]}>

@@ -88,7 +88,7 @@
             "option1 option2"
             "option3 option4"
           ;
-          gap: 4rem 6rem;
+          gap: 4rem 1.5rem;
         }
 
         .option {
@@ -110,6 +110,10 @@
         .option-text {
           padding: 1rem 5rem;
           width: 92%;
+
+          @include md {
+            padding: 2rem 1rem;
+          }
         }
 
         .option-img {

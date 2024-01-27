@@ -5,7 +5,7 @@ import Popup from "./Popup";
 import { Context } from "../main";
 import { server } from "../App";
 import toast from 'react-hot-toast';
-import axios from 'axios'
+import axios from 'axios';
 
 
 const Navbar = () => {
@@ -28,9 +28,8 @@ const Navbar = () => {
   const logoutHandler = () => {
     setLoading(true);
     localStorage.removeItem("token");
-    console.log("logut")
-    setIsAuthenticated(false)
-    navigate('/')
+    setIsAuthenticated(false);
+    navigate('/');
   };
 
 
