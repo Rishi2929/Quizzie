@@ -1,4 +1,5 @@
 import { Quiz } from "../models/quiz.js"; // Adjust the path based on your project structure
+import mongoose from "mongoose";
 
 export const createQuiz = async (req, res) => {
   try {
@@ -6,17 +7,36 @@ export const createQuiz = async (req, res) => {
 
     // Create a new Quiz instance
     // console.dir({ quizName, quizType, quizCount, questions }, { depth: null });
+
+    const objId = mongoose.Types.ObjectId;
+    let correctAnswerId = new objId();
+
+    // assigning the option _id and correctAnswer to same mongoose objectId instead of client side uuid
+    const newQuestions = questions.map(question => {
+      question.options = question.options.map(option => {
+        if (option.id === question.correctAnswer) {
+          question.correctAnswer = correctAnswerId;
+          option._id = correctAnswerId;
+        } else {
+          option._id = new objId();
+        }
+        return option;
+      });
+      question.qId = new objId();
+      return question;
+    });
+
     const newQuiz = new Quiz({
       quizName,
       quizType,
+      user: req.user._id,
       quizCount,
-      questions,
-      user: req.user,
+      questions: newQuestions,
     });
-    // console.log(req.user)
+
 
     // Save the new quiz to the database
-    const savedQuiz = await newQuiz.save();
+    const savedQuiz = await Quiz(newQuiz).save();
 
     res.status(201).json({
       success: true,
@@ -59,6 +79,7 @@ export const deleteMyQuiz = async (req, res, next) => {
     next(error);
   }
 };
+
 export const updateQuiz = async (req, res, next) => {
   try {
     const { quizName, quizType, quizCount, questions } = req.body;
@@ -90,4 +111,11 @@ export const updateQuiz = async (req, res, next) => {
   }
 };
 
-
+export const getQuizById = async (req, res, next) => {
+  try {
+    console.log("aaaa");
+    console.log("req params: ", req.params);
+  } catch (error) {
+    console.log("getQuizById error: ", error);
+  }
+};

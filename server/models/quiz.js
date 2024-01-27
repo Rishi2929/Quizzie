@@ -1,23 +1,24 @@
 import mongoose from "mongoose";
 
 const OptionSchema = new mongoose.Schema({
-  id: {
-    type: String,
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
   },
   optionTitle: {
     type: String,
   },
-  imgURL: {
+  imgUrl: {
     type: String,
   },
   count: {
     type: Number,
+    default: 0,
   },
 });
 
 const questionSchema = new mongoose.Schema({
-  qId: {
-    type: String,
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
   },
   questionTitle: {
     type: String,
@@ -26,15 +27,18 @@ const questionSchema = new mongoose.Schema({
   options: [OptionSchema],
   optionType: {
     type: String,
+    required: true
   },
   correctAnswer: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
   },
   totalAttempts: {
     type: Number,
+    default: 0
   },
   timer: {
     type: String,
+    default: ""
   },
 });
 
@@ -45,6 +49,7 @@ const schema = new mongoose.Schema({
   },
   quizType: {
     type: String,
+    required: true,
   },
   quizCount: {
     type: Number,

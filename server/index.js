@@ -17,6 +17,8 @@ config({
 //USING MIDDLEWARE
 app.use(express.json());
 console.log(process.env.FRONTEND_URI);
+app.use(express.urlencoded({ extended: true }));
+
 app.use(cookieParser());
 app.use(cors({
   origin: [process.env.FRONTEND_URI],
