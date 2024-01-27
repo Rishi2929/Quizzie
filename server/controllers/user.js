@@ -1,7 +1,8 @@
 import { User } from "../models/user.js";
 import bcrypt from "bcrypt";
 import ErrorHandler from "../middleware/error.js";
-import { sendCookie } from "../Cookie.js";
+import jwt from 'jsonwebtoken';
+
 
 export const login = async (req, res, next) => {
   try {
@@ -14,7 +15,12 @@ export const login = async (req, res, next) => {
     if (!isMatch)
       return next(new ErrorHandler("Invalid Email or Password", 400));
 
-    sendCookie(user, res, `Welcome back, ${user.name}`, 200);
+    const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    res.setHeader('Authorization', `Bearer ${token}`);
+    console.log(User.name)
+
+    res.status(201).json({ message: 'Logged In', token, name: user.name });
   } catch (error) {
     next(error);
   }
@@ -32,7 +38,13 @@ export const Register = async (req, res, next) => {
 
     user = await User.create({ name, email, password: hashedPassword });
 
-    sendCookie(user, res, "Registered", 201);
+    const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    res.setHeader('Authorization', `Bearer ${token}`);
+
+    res.status(201).json({ message: 'Registered', token, name: user.name });
+
+
   } catch (error) {
     next(error);
   }
@@ -45,16 +57,11 @@ export const getMyProfile = (req, res) => {
   });
 };
 
-export const logout = (req, res) => {
-  res
-    .status(200)
-    .cookie("token", "", {
-      expires: new Date(Date.now()),
-      sameSite: 'none',
-      secure: true,
-    })
-    .json({
-      success: true,
-      user: req.user,
-    });
+export const logout = async (req, res, next) => {
+  try {
+    res.setHeader('Authorization', '');
+    res.status(200).json({ message: 'Logged Out', });
+  } catch (error) {
+    next(error);
+  }
 };

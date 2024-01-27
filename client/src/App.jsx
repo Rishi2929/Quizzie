@@ -10,8 +10,9 @@ import { Context } from "./main";
 import axios from "axios";
 import Quiz from "./components/quizInterface/quiz/Quiz";
 
-// export const server = "http://localhost:3000/api/v1";
-export const server = "https://quizzie-amms.onrender.com/api/v1";
+export const server = "http://localhost:3000/api/v1";
+// export const server = "https://quizzie-amms.onrender.com/api/v1";
+// export const server = "https://quizzie-exp.onrender.com/api/v1";
 
 
 function App() {
@@ -20,27 +21,9 @@ function App() {
   useEffect(() => {
     console.log("Use Effect")
     setLoading(true)
-    axios.get(`${server}/users/me`, {
-      withCredentials: true
-
-    })
-      .then(res => {
-        console.log("then user is authenticated")
-
-        setUser(res.data.user),
-          setIsAuthenticated(true)
-        setLoading(false)
-        console.log("then user is authenticated")
-
-      }).catch((error) => {
-        // error.response.data.message,
-        setUser({});
-        setIsAuthenticated(false)
-        setLoading(false)
-        console.log("catch")
-
-
-      })
+    if (localStorage.getItem("token")) {
+      setIsAuthenticated(true)
+    }
   }, [])
   return (
     <Router>

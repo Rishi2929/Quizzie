@@ -140,17 +140,19 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
     const data = { quizName: quizName, quizType: quizType, questions: questions, };
     // console.log(data);
     try {
+      const token = localStorage.getItem('token');
       const response = await axios.post(`${server}/quiz/new`, data,
         {
           headers: {
-            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
           },
-          withCredentials: true,
         }
       );
-
       // console.log(response.data); 
       toast.success("Quiz created successfully");
+      console.log(response)
+      // console.log(response.data.quiz._id)
 
     } catch (error) {
       console.error("handleSubmit Error:", error);

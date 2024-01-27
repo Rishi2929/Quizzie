@@ -139,32 +139,16 @@ const quizObj = {
 const Quiz = () => {
   const [quizData, setQuizData] = useState(quizObj); //storing all quiz data fetching from database
   const [questionData, setQuestionData] = useState({}); //storing the question which will be shown on screen
-
   const [questionCounter, setQuestionCounter] = useState(0);
-
   const [userResponses, setUserResponses] = useState({
     //dummy data
     quizId: "",
     questions: [
-      {
-        qId: "",
-        optionId: "",
-      },
-      {
-        qId: "",
-        optionId: "",
-      },
+      { qId: "", optionId: "", }, { qId: "", optionId: "", },
     ],
   });
   const [correctAnswers, setCorrectAnswers] = useState([
-    {
-      qId: "",
-      correctAnswer: "",
-    },
-    {
-      qId: "",
-      correctAnswer: "",
-    },
+    { qId: "", correctAnswer: "", }, { qId: "", correctAnswer: "", },
   ]);
 
   const [isQuizCompleted, setIsQuizCompleted] = useState(false); // to show the quiz or poll completed page
@@ -179,12 +163,10 @@ const Quiz = () => {
     try {
       // const response = axios.get(`/api/quiz/${quizId}`);
       setQuizData(quizData);
-      quizData?.questions?.length
-        ? (() => {
-            setQuestionData(quizData.questions[0]);
-            setQuestionCounter(0);
-          })()
-        : setQuestionData({});
+      quizData?.questions?.length ? (() => {
+        setQuestionData(quizData.questions[0]);
+        setQuestionCounter(0);
+      })() : setQuestionData({});
       setUserResponses({ quizId: quizData?._id, questions: [] });
       setCorrectAnswers([
         ...quizData.questions.map((question) => ({
@@ -218,34 +200,21 @@ const Quiz = () => {
     // pushing into questions array. This array have previous question responses and we are pushing new response of next question also.
     let allQuestions = userResponses.questions;
 
-    const isSameResponse = allQuestions.some(
-      (question) =>
-        question.qId === questionData.qId && question.optionId === optionId
-    );
+    const isSameResponse = allQuestions.some((question) => question.qId === questionData.qId && question.optionId === optionId);
 
-    const isResponseNotExist = !allQuestions.some(
-      (question) => question.qId === questionData.qId
-    );
+    const isResponseNotExist = !allQuestions.some((question) => question.qId === questionData.qId);
 
-    const isDifferentResponse = !allQuestions.some(
-      (question) =>
-        question.qId === questionData.qId && question.optionId === optionId
-    ); //for checking that questionId exist in response but option that exist is different from current selected option
+    const isDifferentResponse = !allQuestions.some((question) => question.qId === questionData.qId && question.optionId === optionId);
+    //for checking that questionId exist in response but option that exist is different from current selected option
 
     if (isSameResponse) {
-      //questionId already exist in user responses
-      //do nothing
+      //questionId already exist in user responses do nothing
     } else if (isResponseNotExist) {
       // user have not responded to the question yet
       allQuestions.push(questionResponse);
     } else if (isDifferentResponse) {
-      allQuestions = allQuestions.map((question) =>
-        question.qId === questionData.qId
-          ? { ...question, optionId: optionId }
-          : question
-      );
+      allQuestions = allQuestions.map((question) => question.qId === questionData.qId ? { ...question, optionId: optionId } : question);
     }
-
     // setting quiz or poll questions response in userResponses state.
     setUserResponses({ ...userResponses, questions: allQuestions });
   };
@@ -257,16 +226,7 @@ const Quiz = () => {
         className={`${styles["option"]} ${styles[`option${index + 1}`]} 
         ${styles["option-text"]}`}
         onClick={() => handleOptionClick(option.id)}
-        style={{
-          borderColor: `${
-            userResponses.questions.some(
-              (question) => question.optionId === option.id
-            )
-              ? "#5076FF"
-              : ""
-          }`,
-        }}
-      >
+        style={{ borderColor: `${userResponses.questions.some((question) => question.optionId === option.id) ? "#5076FF" : ""}`, }}>
         {option?.optionTitle}
       </button>
     );
@@ -279,17 +239,7 @@ const Quiz = () => {
         className={`${styles["option"]} ${styles[`option${index + 1}`]} 
         ${styles["option-img"]}`}
         onClick={() => handleOptionClick(option.id)}
-        style={{
-          borderColor: `${
-            userResponses.questions.some(
-              (question) => question.optionId === option.id
-            )
-              ? "#5076FF"
-              : ""
-          }`,
-          // backgroundImage: `url(${imgurl})`,
-          // height: "3rem",
-        }}
+        style={{ borderColor: `${userResponses.questions.some((question) => question.optionId === option.id) ? "#5076FF" : ""}`, }}
       >
         {/* <img src={option?.imgUrl} alt="img url" /> */}
         <img src={imgurl} alt="img url" className={styles["option-img"]} />
@@ -304,15 +254,7 @@ const Quiz = () => {
         className={`${styles["option"]} ${styles[`option${index + 1}`]} 
         ${styles["option-text-img"]}`}
         onClick={() => handleOptionClick(option.id)}
-        style={{
-          borderColor: `${
-            userResponses.questions.some(
-              (question) => question.optionId === option.id
-            )
-              ? "#5076FF"
-              : ""
-          }`,
-        }}
+        style={{ borderColor: `${userResponses.questions.some((question) => question.optionId === option.id) ? "#5076FF" : ""}`, }}
       >
         {option?.optionTitle}
         <img
@@ -343,23 +285,18 @@ const Quiz = () => {
             <div className={styles["question-title"]}>{questionData.title}</div>
 
             <div className={styles["options-container"]}>
-              {questionData.optionType === "text"
-                ? questionData?.options?.map((option, index) => {
-                    return OptionButtonText(option, index);
-                  })
-                : questionData.optionType === "imgUrl"
-                ? questionData?.options?.map((option, index) => {
-                    return OptionButtonImg(option, index);
-                  })
+              {questionData.optionType === "text" ? questionData?.options?.map((option, index) => {
+                return OptionButtonText(option, index);
+              }) : questionData.optionType === "imgUrl" ? questionData?.options?.map((option, index) => {
+                return OptionButtonImg(option, index);
+              })
                 : questionData?.options?.map((option, index) => {
-                    return OptionButtonTextImg(option, index);
-                  })}
+                  return OptionButtonTextImg(option, index);
+                })}
             </div>
 
             <button className={styles["next-btn"]} onClick={handleNextBtnClick}>
-              {questionCounter + 1 < quizData?.questions?.length
-                ? "NEXT"
-                : "SUBMIT"}
+              {questionCounter + 1 < quizData?.questions?.length ? "NEXT" : "SUBMIT"}
             </button>
           </div>
         </div>

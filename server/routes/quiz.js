@@ -5,7 +5,7 @@ import { createQuiz, deleteMyQuiz, getMyQuiz, updateQuiz } from "../controllers/
 const router = express.Router();
 
 router.post("/new", isAuthenticated, createQuiz);
-router.get("/myQuiz", isAuthenticated, getMyQuiz);
+router.get("/myQuiz", getMyQuiz);
 router.delete("/:id", isAuthenticated, deleteMyQuiz);
 router.patch("/quizzes/:id", updateQuiz);
 

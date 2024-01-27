@@ -6,25 +6,27 @@ import quizRouter from "./routes/quiz.js";
 import cookieParser from "cookie-parser";
 import cors from 'cors';
 
-
-export const app = express();
-
 //CONFIGURATION
 config({
   path: "./data/.env",
 });
 
+//MONGOOSE SETUP
+connectDB();
+
 //USING MIDDLEWARE
+export const app = express();
 app.use(express.json());
 console.log(process.env.FRONTEND_URI);
 app.use(cookieParser());
+
 app.use(cors({
   origin: [process.env.FRONTEND_URI],
   // origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true,
-  allowedHeaders: ["Content-Type", "Authorization"]
+
 }));
+
 
 //HEALTH API
 app.get("/", (req, res) => {
@@ -34,12 +36,17 @@ app.get("/", (req, res) => {
   });
 });
 
+
 //ROUTES
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/quiz", quizRouter);
 
-//MONGOOSE SETUP
-connectDB();
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
   console.log(`Server is working on port: ${port}`);

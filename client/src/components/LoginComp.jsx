@@ -14,10 +14,8 @@ const validationSchema = Yup.object({
 })
 
 const Logincomp = () => {
-
   const initialValues = {
-    email: '',
-    password: ''
+    email: '', password: ''
   }
 
   const { isAuthenticated, setIsAuthenticated, loading, setLoading } = useContext(Context);
@@ -28,20 +26,12 @@ const Logincomp = () => {
     setLoading(true);
     try {
       const { name, email, password } = values;
-
-      const { data } = await axios.post(
-        `${server}/users/login`,
-        { email, password },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.post(`${server}/users/login`, { email, password });
+      const { token } = response.data;
+      localStorage.setItem('token', token);
+      navigate("/dashboard");
       toast.success("Logged In successfully")
       setIsAuthenticated(true)
-      navigate("/dashboard");
       setLoading(false);
 
     } catch (error) {
@@ -75,9 +65,10 @@ const Logincomp = () => {
               <label>Password</label>
             </div>
             <Field type="password" id="password" name="password" placeholder="Password" />
-            <ErrorMessage name="password" component="div" className={styles["error-message"]} />        </div>
+            <ErrorMessage name="password" component="div" className={styles["error-message"]} />
+          </div>
 
-          <button disabled={loading} type="submit" className={styles["btn1"]}>
+          <button type="submit" className={styles["btn1"]}>
             Log In
           </button>
         </Form>

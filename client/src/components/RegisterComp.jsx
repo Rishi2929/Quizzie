@@ -27,16 +27,8 @@ const RegisterComp = () => {
     console.log(values);
     try {
       const { name, email, password } = values; // Destructure values
-      const { data } = await axios.post(
-        `${server}/users/new`,
-        { name, email, password },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          // withCredentials: true,
-        }
-
+      const response = await axios.post(
+        `${server}/users/new`, { name, email, password }
       );
       toast.success("User Registered Successfully");
     } catch (error) {
