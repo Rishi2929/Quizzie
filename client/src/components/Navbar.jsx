@@ -14,8 +14,6 @@ const Navbar = () => {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const navigate = useNavigate();
 
-  console.log(isAuthenticated)
-
   const handleButtonClick = (btnName) => {
     setActiveBtn(btnName);
     if (btnName === "createQuiz") {
@@ -27,21 +25,12 @@ const Navbar = () => {
     setPopupVisible(false);
   };
 
-  const logoutHandler = async () => {
+  const logoutHandler = () => {
     setLoading(true);
-    try {
-      await axios.get(`${server}/users/logout`, {
-        withCredentials: true,
-      });
-      toast.success("Logged out successfully");
-      setIsAuthenticated(false)
-      setLoading(false)
-      navigate('/')
-    } catch (error) {
-      console.error(error);
-      setIsAuthenticated(true)
-      setLoading(false)
-    }
+    localStorage.removeItem("token");
+    console.log("logut")
+    setIsAuthenticated(false)
+    navigate('/')
   };
 
 
@@ -79,8 +68,10 @@ const Navbar = () => {
           isAuthenticated ?
             (<div className={styles['logout-div']}>
               <div className={styles['line']}></div>
-              <button disabled={loading} onClick={logoutHandler} className='btn'>LOGOUT</button>
-            </div>) : (null)
+              <button onClick={logoutHandler} className='btn'>LOGOUT</button>
+            </div>) : (
+              null
+            )
         }
       </div>
 

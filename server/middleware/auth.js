@@ -1,17 +1,30 @@
-import { User } from "../models/user.js";
-import jwt from "jsonwebtoken";
+
+import jwt from 'jsonwebtoken';
+import { User } from '../models/user.js';
+import ErrorHandler from '../middleware/error.js';
 
 export const isAuthenticated = async (req, res, next) => {
-  const { token } = req.cookies;
+  try {
+    const token = req.header('Authorization').replace('Bearer ', '');
 
-  if (!token)
-    return res.status(404).json({
-      success: false,
-      message: "Login First",
-    });
+    // console.log(token)
+    if (!token) {
+      throw new ErrorHandler('Authentication failed', 401);
+    }
 
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  req.user = await User.findById(decoded._id);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-  next();
+    const user = await User.findOne({ _id: decoded.userId, email: decoded.email });
+
+    if (!user) {
+      throw new ErrorHandler('User not found', 404);
+    }
+
+    req.user = user;
+    req.token = token;
+
+    next();
+  } catch (error) {
+    next(error);
+  }
 };

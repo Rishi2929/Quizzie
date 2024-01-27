@@ -1,6 +1,9 @@
 import styles from "./PollCompleted.module.scss";
 
-const PollCompleted = () => {
+const PollCompleted = ({response, quizId}) => {
+
+
+
   return (
     <div className={styles["poll-msg-container"]}>
       <h1 className={styles["thanks-msg"]}>

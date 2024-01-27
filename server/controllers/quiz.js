@@ -73,7 +73,7 @@ export const deleteMyQuiz = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message: "Task Deleted!",
+      message: "Quiz Deleted!",
     });
   } catch (error) {
     next(error);
@@ -113,9 +113,30 @@ export const updateQuiz = async (req, res, next) => {
 
 export const getQuizById = async (req, res, next) => {
   try {
-    console.log("aaaa");
-    console.log("req params: ", req.params);
+    console.log("aaa")
+    const quizId = req.params.id;
+
+    const quiz = await Quiz.findById(quizId);
+
+    // Check if the quiz exists
+    if (!quiz) {
+      return res.status(404).json({ success: false, message: "Quiz not found" });
+    }
+
+    // Return the quiz to the client
+    res.status(200).json({
+      success: true,
+      quiz,
+    });
   } catch (error) {
-    console.log("getQuizById error: ", error);
+    next(error);
   }
 };
+
+export const updateQuizCount = async (req, res, next) => {
+  try {
+    console.log("req.response: ", req.body);
+  } catch (error) {
+    console.log("updateQuizCount error: ", updateQuizCount);
+  }
+}

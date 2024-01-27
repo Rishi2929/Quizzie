@@ -1,8 +1,24 @@
+import { useEffect } from "react";
 import trophyImg from "../../../assets/trophy.png";
 import styles from "./QuizCompleted.module.scss";
+import axios from "axios";
+import { server } from "../../../App";
 
-const QuizCompleted = ({ response, correctAnswers }) => {
-  console.log("response: ", response, "correctAnswers: ", correctAnswers);
+const QuizCompleted = ({ response, correctAnswers, quizId }) => {
+
+  useEffect(() => {
+    updateUserResponse();
+  }, [])
+
+  const updateUserResponse = async () => {
+    try {
+      console.log("ccccccccccccc")
+      const res = await axios.post(`${server}/quiz/userRes/${quizId}`)
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   let score = 0;
   response?.questions?.forEach((question) => {
     if (
