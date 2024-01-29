@@ -8,6 +8,8 @@ export const Context = createContext({ isAuthenticated: false })
 const AppWrapper = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [tableData, setTableData] = useState([]);
+
   // const [user, setUser] = useState({})
 
 
@@ -15,6 +17,7 @@ const AppWrapper = () => {
     <Context.Provider value={{
       isAuthenticated, setIsAuthenticated,
       loading, setLoading,
+      tableData, setTableData
       // user, setUser
     }}>
       <App />
@@ -24,7 +27,7 @@ const AppWrapper = () => {
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <AppWrapper />
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <AppWrapper />
+  // </React.StrictMode> 
 )

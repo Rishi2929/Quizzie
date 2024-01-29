@@ -1,36 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import styles from "../styles/Analytics.module.scss";
 import EditIcon from "../assets/EditIcon.svg";
 import Delete from "../assets/Delete icon.svg";
 import ShareIcon from "../assets/ShareIcon.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { server } from "../App";
 import toast from "react-hot-toast";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { Context } from "../main";
 
 const Analytics = () => {
-  const [tableData, setTableData] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get(`${server}/quiz/myQuiz`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
-          },
-        });
-        setTableData(response.data.quiz);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+  const { setUser, setIsAuthenticated, setLoading, tableData, setTableData } = useContext(Context)
+  const navigate = useNavigate();
 
-    fetchData();
-  }, []);
 
   const handleDelete = async (id) => {
     try {
@@ -46,6 +31,14 @@ const Analytics = () => {
       console.error('Error deleting data:', error);
     }
   };
+  // /ques-analysis/: id
+
+
+  const handleQuestionAnalysis = (id) => {
+    navigate(`/ques-analysis/${id}`);
+  };
+
+
 
   return (
     <div className={styles["analytics-parent-cont"]}>
@@ -86,7 +79,7 @@ const Analytics = () => {
                         </button>
                       </CopyToClipboard>
                     </td>
-                    <td><Link>Question Wise Analysis</Link></td>
+                    <td><button onClick={() => handleQuestionAnalysis(row._id)}>Question Wise Analysis</button></td>
                   </tr>
                 ))}
               </tbody>
