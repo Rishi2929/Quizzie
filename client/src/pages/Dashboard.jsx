@@ -4,6 +4,8 @@ import styles from "../styles/Dashboard.module.scss";
 import views from '../assets/Views.svg'
 import { Navigate } from "react-router-dom";
 import { Context } from "../main";
+import moment from 'moment';
+
 
 
 
@@ -34,8 +36,11 @@ const quizData = [
 
 const Dashboard = () => {
 
-  const { isAuthenticated, setIsAuthenticated, loading, setLoading } = useContext(Context);
+  const { setUser, setIsAuthenticated, setLoading, tableData, setTableData } = useContext(Context)
+  const sumOfQuestions = tableData.reduce((sum, quiz) => sum + quiz.questions.length, 0);
 
+  // console.log(sumOfQuestions)
+  // console.log(tableData)
 
   // if (isAuthenticated) return <Navigate to={"/"} />
 
@@ -43,12 +48,15 @@ const Dashboard = () => {
     <div className={styles["dashboard-parent-cont"]}>
       <Navbar />
       <div className={styles["dashboard-child-cont"]}>
+
         <div className={styles["dashboard-flex-cont"]}>
           <div className={styles["dashboard-cont"]}>
             <div className={styles['flex-cont-1']}>
+
               <h1>
-                12<span>Quiz</span>
+                {tableData.length}<span>Quiz</span>
               </h1>
+
               <h1>
                 <span>Created</span>
               </h1>
@@ -56,9 +64,11 @@ const Dashboard = () => {
           </div>
           <div className={styles["dashboard-cont"]}>
             <div className={styles['flex-cont-2']}>
-              <h1 >
-                12 <span>questions</span>
+
+              <h1>
+                {sumOfQuestions} <span>questions</span>
               </h1>
+
               <h1>
                 <span>Created</span>
               </h1>
@@ -78,13 +88,13 @@ const Dashboard = () => {
         <div className={styles['quiz-parent-cont']}>
           <h2>Trending Quizs</h2>
           <div className={styles['quiz-cont']}>
-            {quizData.map((quiz, index) => (
+            {tableData.map((quiz, index) => (
               <div className={styles['quiz-box']} key={index}>
                 <div className={styles['quiz-flex-data']}>
                   <p className={styles['quiz-name']}>{quiz.quizName}</p>
-                  <p> {quiz.views}<img src={views} alt="" /></p>
+                  <p> {quiz.quizCount}<img src={views} alt="" /></p>
                 </div>
-                <p className={styles['green-span']}>Created on: {quiz.createdOn}</p>
+                <p className={styles['green-span']}>Created on: {moment(quiz.createdAt).format('DD MMM, YYYY')}</p>
               </div>
             ))}
           </div>

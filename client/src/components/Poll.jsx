@@ -6,6 +6,7 @@ import { v4 as uuid } from "uuid";
 import { server } from "../App";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
 
@@ -31,6 +32,8 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
 
   const [questions, setQuestions] = useState([initialData]);
   const [selectedOption, setSelectedOption] = useState(initialData._id);
+  const [shareLink, setShareLink] = useState(false);
+  const [quizId, setQuizId] = useState(null);
 
   // Handles clicking on a question
   const handleQuestionClick = (qId) => {
@@ -153,7 +156,16 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
       );
 
       if (response && response?.data?.success === false) {
+        const createdQuizId = response.data.quiz._id;
+        setQuizId(createdQuizId);
+        // Extract the ID of the created quiz from the response
+        const quizId = response.data.quiz._id; // Assuming quizId is stored under _id
+        console.log("Created Quiz ID:", quizId);
+
+        // Set shareLink state to true to show the share link component
+        setShareLink(true);
         toast.error(response?.data?.message);
+
       } else {
         toast.success(response.data.message);
       }
@@ -338,6 +350,22 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
           </div>
         </div>
       </div>
+      {shareLink && (
+        <div className={styles["share-parent-popup"]}>
+
+          <div className={styles["share-popup"]}>
+
+            <h7>Congrats your Quiz is<br /> Published!</h7>
+
+            <div className={styles["share-dialog-box"]}>
+              <p>{`${window.location.origin}/quiz/quizId`}</p>
+            </div>
+            <CopyToClipboard text={`${window.location.origin}/quiz/quizId`} onCopy={() => toast.success("Link copied successfully")} className={styles["btn-div"]}>
+              <button>Share</button>
+            </CopyToClipboard>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

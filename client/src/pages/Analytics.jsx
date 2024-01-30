@@ -1,41 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import styles from "../styles/Analytics.module.scss";
 import EditIcon from "../assets/EditIcon.svg";
 import Delete from "../assets/Delete icon.svg";
 import ShareIcon from "../assets/ShareIcon.svg";
-import { Link, NavLink } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { server } from "../App";
 import toast from "react-hot-toast";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { useNavigate } from "react-router-dom";
+import { Context } from "../main";
 
 const Analytics = () => {
-  const [tableData, setTableData] = useState([]);
+  const { setUser, setIsAuthenticated, setLoading, tableData, setTableData } = useContext(Context);
   const navigate = useNavigate();
+  const [deletePopup, setDeletePopup] = useState(false);
+  const [selectedItemId, setSelectedItemId] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get(`${server}/quiz/myQuiz`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
-          },
-        });
-        setTableData(response.data.quiz);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+  const handleDeletePopup = (id) => {
+    setSelectedItemId(id);
+    setDeletePopup(true);
+    // console.log(id)
 
-    fetchData();
-  }, []);
+  };
 
   const handleDelete = async (id) => {
     try {
+      console.log(id);
       const token = localStorage.getItem('token');
       await axios.delete(`${server}/quiz/${id}`, {
         headers: {
@@ -44,9 +35,14 @@ const Analytics = () => {
         },
       });
       setTableData(tableData.filter(item => item._id !== id));
+      setDeletePopup(false);
     } catch (error) {
       console.error('Error deleting data:', error);
     }
+  };
+
+  const handleQuestionAnalysis = (id) => {
+    navigate(`/ques-analysis/${id}`);
   };
 
   return (
@@ -78,8 +74,10 @@ const Analytics = () => {
                     <td>{row.quizName}</td>
                     <td>{row.createdOn}</td>
                     <td>{row.impression}</td>
+
                     <td><Link to={`/editQuiz/${row._id}`} ><img src={EditIcon} alt="" /></Link></td>
-                    <td><button onClick={() => handleDelete(row._id)}><img src={Delete} alt="" /></button></td>
+                    <td><button onClick={() => handleDeletePopup(row._id)} ><img src={Delete} alt="" /></button></td>
+
                     <td>
                       <CopyToClipboard text={`${window.location.origin}/quiz/${row._id}`}
                         onCopy={() => toast.success("Link copied successfully")}>
@@ -88,7 +86,7 @@ const Analytics = () => {
                         </button>
                       </CopyToClipboard>
                     </td>
-                    <td><Link>Question Wise Analysis</Link></td>
+                    <td><button onClick={() => handleQuestionAnalysis(row._id)}>Question Wise Analysis</button></td>
                   </tr>
                 ))}
               </tbody>
@@ -96,6 +94,17 @@ const Analytics = () => {
           </div>
         </div>
       </div>
+      {deletePopup && (
+        <div className={styles["delete-parent-popup"]}>
+          <div className={styles["delete-popup"]}>
+            <p>Are you sure you<br /> want to delete this item?</p>
+            <div className={styles["flex-btn"]}>
+              <button onClick={() => handleDelete(selectedItemId)} className={styles["confirm-btn"]}>Confirm Delete</button>
+              <button onClick={() => setDeletePopup(false)} className={styles["cancel-btn"]}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
