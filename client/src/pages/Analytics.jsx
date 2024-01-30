@@ -5,13 +5,15 @@ import styles from "../styles/Analytics.module.scss";
 import EditIcon from "../assets/EditIcon.svg";
 import Delete from "../assets/Delete icon.svg";
 import ShareIcon from "../assets/ShareIcon.svg";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { server } from "../App";
 import toast from "react-hot-toast";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { useNavigate } from "react-router-dom";
 
 const Analytics = () => {
   const [tableData, setTableData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,7 +43,7 @@ const Analytics = () => {
           "Content-Type": "application/json"
         },
       });
-      setTableData(tableData.filter(item => item.id !== id));
+      setTableData(tableData.filter(item => item._id !== id));
     } catch (error) {
       console.error('Error deleting data:', error);
     }
@@ -76,7 +78,7 @@ const Analytics = () => {
                     <td>{row.quizName}</td>
                     <td>{row.createdOn}</td>
                     <td>{row.impression}</td>
-                    <td><Link><img src={EditIcon} alt="" /></Link></td>
+                    <td><Link to={`/editQuiz/${row._id}`} ><img src={EditIcon} alt="" /></Link></td>
                     <td><button onClick={() => handleDelete(row._id)}><img src={Delete} alt="" /></button></td>
                     <td>
                       <CopyToClipboard text={`${window.location.origin}/quiz/${row._id}`}

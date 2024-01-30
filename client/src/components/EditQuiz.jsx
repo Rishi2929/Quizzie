@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../styles/Dashboard.module.scss";
 import img from "../assets/Delete icon.svg";
 import img2 from "../assets/Quiz Test Vector.png";
@@ -6,15 +6,18 @@ import { v4 as uuid } from "uuid";
 import { server } from "../App";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useParams, useNavigate } from "react-router-dom";
 
-const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
+const EditQuiz = () => {
+  const [quizName, setQuizName] = useState("");
+  const [quizType, setQuizType] = useState("");
+  const [showTimerRow, setShowTimerRow] = useState(false);
 
   const [initialData, setInitialData] = useState({
     _id: uuid(),
     optionType: "text",
     correctAnswer: "",
     questionTitle: "",
-    timer: "",
     options: [
       {
         _id: uuid(),
@@ -29,8 +32,46 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
     ],
   });
 
-  const [questions, setQuestions] = useState([initialData]);
+  const [questions, setQuestions] = useState([]);
   const [selectedOption, setSelectedOption] = useState(initialData._id);
+
+  const navigate = useNavigate();
+  const param = useParams();
+  const quizId = param?.id;
+
+  useEffect(() => {
+    if (quizId) {
+      fetchQuizData();
+    }
+  }, [quizId]);
+
+  console.log("questions: ", questions, 111, "selectedOption: ", selectedOption);
+
+  const fetchQuizData = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${server}/quiz/myQuiz/${quizId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+          },
+        }
+      );
+
+      if (response && response?.data?.quiz) {
+        const quiz = response?.data?.quiz;
+        console.log("quiz: ", quiz);
+        setQuizName(quiz.quizName);
+        setQuizType(quiz.quizType);
+        setQuestions(quiz.questions);
+        setSelectedOption(quiz?.questions?.[0]._id);
+        if (quiz.quizType === 'QA') setShowTimerRow(true);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   // Handles clicking on a question
   const handleQuestionClick = (qId) => {
@@ -140,10 +181,9 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = { quizName: quizName, quizType: quizType, questions: questions, };
-    // console.log(data);
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post(`${server}/quiz/new`, data,
+      const response = await axios.put(`${server}/quiz/updateQuiz/${quizId}`, data,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -160,7 +200,7 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
 
     } catch (error) {
       console.error("handleSubmit Error:", error);
-      toast.error("Quiz failed to create");
+      toast.error("Quiz failed to update");
     }
   };
 
@@ -241,6 +281,7 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
                     {/* rendering the options array which is stored in questions array */}
                     <div className={styles["poll-row4"]}>
                       {ques.options?.map((option, optionIndex) => {
+                        console.log("ques: ", ques);
                         return (
                           <React.Fragment key={option._id}>
                             {/* this radio button used to select the answer if quiz is QA type. If quiz if poll type then we don't show this button */}
@@ -333,8 +374,8 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
             );
           })}
           <div className={styles["poll-row-5"]}>
-            <button onClick={onClose} className={styles["cancel-btn"]}>Cancel</button>
-            <button className={styles["del-btn"]} onClick={handleSubmit}>Create Quiz</button>
+            <button onClick={() => navigate(`/analytics`)} className={styles["cancel-btn"]}>Cancel</button>
+            <button className={styles["del-btn"]} onClick={handleSubmit}>Update Quiz</button>
           </div>
         </div>
       </div>
@@ -342,4 +383,4 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
   );
 };
 
-export default Poll;
+export default EditQuiz;
