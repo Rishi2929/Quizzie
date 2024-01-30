@@ -12,13 +12,21 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Context } from "../main";
 
 const Analytics = () => {
-
-  const { setUser, setIsAuthenticated, setLoading, tableData, setTableData } = useContext(Context)
+  const { setUser, setIsAuthenticated, setLoading, tableData, setTableData } = useContext(Context);
   const navigate = useNavigate();
+  const [deletePopup, setDeletePopup] = useState(false);
+  const [selectedItemId, setSelectedItemId] = useState(null);
 
+  const handleDeletePopup = (id) => {
+    setSelectedItemId(id);
+    setDeletePopup(true);
+    // console.log(id)
+
+  }
 
   const handleDelete = async (id) => {
     try {
+      console.log(id)
       const token = localStorage.getItem('token');
       await axios.delete(`${server}/quiz/${id}`, {
         headers: {
@@ -26,19 +34,16 @@ const Analytics = () => {
           "Content-Type": "application/json"
         },
       });
-      setTableData(tableData.filter(item => item.id !== id));
+      setTableData(tableData.filter(item => item._id !== id));
+      setDeletePopup(false);
     } catch (error) {
       console.error('Error deleting data:', error);
     }
   };
-  // /ques-analysis/: id
-
 
   const handleQuestionAnalysis = (id) => {
     navigate(`/ques-analysis/${id}`);
   };
-
-
 
   return (
     <div className={styles["analytics-parent-cont"]}>
@@ -70,7 +75,11 @@ const Analytics = () => {
                     <td>{row.createdOn}</td>
                     <td>{row.impression}</td>
                     <td><Link><img src={EditIcon} alt="" /></Link></td>
-                    <td><button onClick={() => handleDelete(row._id)}><img src={Delete} alt="" /></button></td>
+                    <td><button onClick={() => handleDeletePopup(row._id)} ><img src={Delete} alt="" /></button></td>
+                    {/* {console.log(row._id)} */}
+
+
+
                     <td>
                       <CopyToClipboard text={`${window.location.origin}/quiz/${row._id}`}
                         onCopy={() => toast.success("Link copied successfully")}>
@@ -87,6 +96,17 @@ const Analytics = () => {
           </div>
         </div>
       </div>
+      {deletePopup && (
+        <div className={styles["delete-parent-popup"]}>
+          <div className={styles["delete-popup"]}>
+            <p>Are you sure you<br /> want to delete this item?</p>
+            <div className={styles["flex-btn"]}>
+              <button onClick={() => handleDelete(selectedItemId)} className={styles["confirm-btn"]}>Confirm Delete</button>
+              <button onClick={() => setDeletePopup(false)} className={styles["cancel-btn"]}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

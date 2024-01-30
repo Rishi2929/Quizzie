@@ -56,6 +56,7 @@ function App() {
         <Route path="/quiz/:id" element={<Quiz />} />
         <Route path="/ques-analysis/:id" element={<QuestionAnalysis />} />
 
+
       </Routes>
       <Toaster />
     </Router>
