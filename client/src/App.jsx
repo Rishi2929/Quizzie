@@ -9,6 +9,7 @@ import { useContext, useEffect } from "react";
 import { Context } from "./main";
 import axios from "axios";
 import Quiz from "./components/quizInterface/quiz/Quiz";
+import EditQuiz from "./components/EditQuiz";
 import QuestionAnalysis from "./pages/QuestionAnalysis";
 
 export const server = "http://localhost:3000/api/v1";
@@ -55,6 +56,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/quiz/:id" element={<Quiz />} />
+        <Route path="/editQuiz/:id" element={<EditQuiz />} />
         <Route path="/ques-analysis/:id" element={<QuestionAnalysis />} />
 
 

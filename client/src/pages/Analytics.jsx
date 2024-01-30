@@ -24,7 +24,7 @@ const Analytics = () => {
     setDeletePopup(true);
     // console.log(id)
 
-  }
+  };
 
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const Analytics = () => {
 
   const handleDelete = async (id) => {
     try {
-      console.log(id)
+      console.log(id);
       const token = localStorage.getItem('token');
       await axios.delete(`${server}/quiz/${id}`, {
         headers: {
@@ -98,11 +98,9 @@ const Analytics = () => {
                     <td>{row.quizName}</td>
                     <td>{row.createdOn}</td>
                     <td>{row.impression}</td>
-                    <td><Link><img src={EditIcon} alt="" /></Link></td>
+
+                    <td><Link to={`/editQuiz/${row._id}`} ><img src={EditIcon} alt="" /></Link></td>
                     <td><button onClick={() => handleDeletePopup(row._id)} ><img src={Delete} alt="" /></button></td>
-                    {/* {console.log(row._id)} */}
-
-
 
                     <td>
                       <CopyToClipboard text={`${window.location.origin}/quiz/${row._id}`}

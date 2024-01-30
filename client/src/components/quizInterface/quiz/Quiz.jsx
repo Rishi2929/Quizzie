@@ -21,6 +21,9 @@ const Quiz = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [quizId, setQuizId] = useState("");
 
+  const [time, setTime] = useState();
+  const [remainingTime, setRemainingTime] = useState("00:00");
+
   //this state stores the question id and the option id of the option that user have chosen
   const [userResponses, setUserResponses] = useState([]);
 
@@ -36,6 +39,30 @@ const Quiz = () => {
     }
   }, []);
 
+  useEffect(() => {
+    // if(time == null) {
+    //   clearTimeout(timeOut);
+    //   return;
+    // }
+    if(time < 0 || time == null) return
+
+    const remTime = time < 10 ? `0${time}` : time;
+    setRemainingTime(`00:${remTime}`)
+
+    const timeOut = setTimeout(() => {
+      setTime(prev => prev - 1);
+    }, 1000);
+
+    if(time == 0) {
+      clearTimeout(timeOut)
+      nextQuestion();
+    }
+
+    return (
+      () => clearTimeout(timeOut)
+    )
+  }, [time]);
+
   const fetchQuizData = async (quizId) => {
     try {
       setIsLoading(true);
@@ -50,6 +77,13 @@ const Quiz = () => {
         if (quizResponse?.questions?.length) {
           setQuestionData(quizResponse.questions[0]);
           setQuestionCounter(0);
+
+          let  time = quizResponse?.questions?.[0]?.timer
+          time = time ? Number(time) : null;
+          console.log("timeeeeeeeeeeee: ", time)
+          if(time !== null)
+            setTime(time);
+
         } else {
           setQuestionData({ quizId: quizId, question: [] });
         }
@@ -65,15 +99,35 @@ const Quiz = () => {
   };
   // console.log("questionCounter: ", questionCounter);
 
-  const handleNextBtnClick = () => {
+  const nextQuestion = () => {
     const currentQuestionCounter = questionCounter;
 
     if (currentQuestionCounter + 1 < quizData?.questions?.length) {
       setQuestionData(quizData.questions[currentQuestionCounter + 1]);
       setQuestionCounter(currentQuestionCounter + 1);
+
+      const nextQuestionTimer = quizData.questions[currentQuestionCounter + 1]?.timer;
+      if(nextQuestionTimer !== "" && nextQuestionTimer !== null) {
+        console.log("nextQuestionTimer: ", nextQuestionTimer)
+        setTime(nextQuestionTimer);
+      }
     } else {
       setIsQuizCompleted(true);
     }
+  }
+
+  const handleNextBtnClick = () => {
+
+    nextQuestion();
+    // const currentQuestionCounter = questionCounter;
+
+    // if (currentQuestionCounter + 1 < quizData?.questions?.length) {
+    //   setQuestionData(quizData.questions[currentQuestionCounter + 1]);
+    //   setQuestionCounter(currentQuestionCounter + 1);
+    //   setTime(quizData.questions[currentQuestionCounter + 1]?.timer);
+    // } else {
+    //   setIsQuizCompleted(true);
+    // }
   };
 
   const handleOptionClick = (optionId) => {
@@ -143,7 +197,7 @@ const Quiz = () => {
         onClick={() => handleOptionClick(option._id)}
         style={{ borderColor: `${userResponses?.some((question) => question.optionId === option._id) ? "#5076FF" : ""}`, }}
       >
-        {option?.optionTitle}
+        <span>{option?.optionTitle}</span>
         <img
           src={option?.imgUrl}
           alt="text img url"
@@ -153,8 +207,8 @@ const Quiz = () => {
     );
   };
 
-  console.log("questionData: ", questionData);
-  console.log("userResponses: ", userResponses);
+  // console.log("questionData: ", questionData);
+  // console.log("userResponses: ", userResponses);
 
   if (quizData?.question?.length === 0) {
     return (
@@ -193,7 +247,7 @@ const Quiz = () => {
                 {quizData?.questions?.length && questionCounter + 1}/{quizData?.questions?.length}
               </span>
               <span className={styles["question-time"]}>
-                {questionData?.timer && "00:10s"}
+                {questionData?.timer && remainingTime}
               </span>
             </div>
             <div className={styles["question-body"]}>

@@ -1,5 +1,6 @@
 import { Quiz } from "../models/quiz.js"; // Adjust the path based on your project structure
 import mongoose from "mongoose";
+const ObjectId = mongoose.Types.ObjectId;
 
 export const createQuiz = async (req, res) => {
   try {
@@ -59,7 +60,7 @@ export const createQuiz = async (req, res) => {
     const newQuestions = questions.map(question => {
       let correctAnswerId = new objId();
       question.options = question.options.map(option => {
-        if (option.id === question.correctAnswer) {
+        if (option._id === question.correctAnswer) {
           question.correctAnswer = correctAnswerId;
           option._id = correctAnswerId;
         } else {
@@ -157,16 +158,119 @@ export const updateQuiz = async (req, res, next) => {
   }
 };
 
+export const updateQuizById = async (req, res) => {
+  try {
+    const { quizName, quizType, quizCount, questions } = req.body;
+    const quizId = req.params.id;
+
+    // Create a new Quiz instance
+    // console.dir({ quizName, quizType, quizCount, questions }, { depth: null });
+
+    //validation for required quiz fields
+    if (!(quizName && quizType && questions)) {
+      return res.status(401).json({
+        success: false,
+        message: "Important Fields are empty"
+      });
+    }
+
+    //validation for required question fields
+    for (const question of questions) {
+      if (!(question.questionTitle && question.optionType)) {
+        return res.status(202).json({
+          success: false,
+          message: "Important Fields are empty"
+        });
+      }
+      else if (quizType === "QA" && question.correctAnswer === "") {
+        return res.status(202).json({
+          success: false,
+          message: "Important Fields are empty"
+        });
+      }
+    }
+
+    //validation for required option fields
+    for (const question of questions) {
+      for (const option of question.options) {
+        if (question.optionType === "text" && option.optionTitle === "")
+          return res.status(401).json({
+            success: false,
+            message: "Important Fields are empty"
+          });
+        else if (question.optionType === "imgUrl" && option.imgUrl === "")
+          return res.status(401).json({
+            success: false,
+            message: "Important Fields are empty"
+          });
+        else if (question.optionType === "text-imgUrl" && (option.optionTitle === "" || option.imgUrl === ""))
+          return res.status(401).json({
+            success: false,
+            message: "Important Fields are empty"
+          });
+      }
+    }
+
+    const objId = mongoose.Types.ObjectId;
+
+    // assigning the option _id and correctAnswer to same mongoose objectId instead of client side uuid
+    const newQuestions = questions.map(question => {
+      let correctAnswerId = new objId();
+      question.options = question.options.map(option => {
+        if (option._id === question.correctAnswer) {
+          question.correctAnswer = correctAnswerId;
+          option._id = correctAnswerId;
+        } else {
+          option._id = new objId();
+        }
+        return option;
+      });
+      question._id = new objId();
+      return question;
+    });
+
+    const newQuiz = new Quiz({
+      questions: newQuestions,
+    });
+
+    const savedQuiz = await Quiz.updateOne({_id: quizId}, {$set: {questions: questions}});
+
+    res.status(201).json({
+      success: true,
+      message: "Quiz updated successfully",
+      quiz: savedQuiz,
+    });
+  } catch (error) {
+    console.log("updateQuizById: ", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+};
+
 
 export const getQuizById = async (req, res, next) => {
   try {
-    const quizId = req.params.id;
+    let quizId = req.params.id;
 
-    const quiz = await Quiz.findById(quizId);
+    if (!mongoose.Types.ObjectId.isValid(quizId)) {
+      return res.status(400).json({ success: false, message: 'Invalid quizId format' });
+    }
+
+    const quiz = await Quiz.findOne({ _id: quizId }).lean();
 
     // Check if the quiz exists
     if (!quiz) {
       return res.status(404).json({ success: false, message: "Quiz not found" });
+    }
+
+    // if req.user exists, then this function is for the creator of quiz, otherwise it is used by the user who is taking the quiz test
+    if (req.user == undefined) {
+      //updating quizCount if quiz is successfully found
+      const updatedQuiz = await Quiz.updateOne(
+        { _id: quizId },
+        {
+          $inc: { "quizCount": 1 }
+        }
+      );
     }
 
     // Return the quiz to the client
@@ -185,7 +289,9 @@ export const updateQuizCount = async (req, res, next) => {
     const userResponse = req.body || [];
     const quizId = req.params.id || "";
 
-    if (!userResponse) return;
+    if (!userResponse.length) {
+      return res.status(204).json({ success: true, message: "Thanks for your participation" });
+    }
 
     const quiz = await Quiz.findOne({ _id: quizId }, { quizType: 1, questions: 1 }).lean();
 
@@ -248,7 +354,7 @@ export const updateQuizCount = async (req, res, next) => {
           {
             _id: quizId,
             "questions._id": qId,
-            "questions.correctAnswer": optionId
+            // "questions.correctAnswer": optionId
           },
           {
             $inc: {
@@ -265,8 +371,6 @@ export const updateQuizCount = async (req, res, next) => {
 
       }
     }
-
-    console.log("updateRes: ", updateRes);
 
     res.status(200).json({ success: true, message: "Your Response submitted successfully" });
   } catch (error) {
