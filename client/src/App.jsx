@@ -17,36 +17,37 @@ export const server = "http://localhost:3000/api/v1";
 
 
 function App() {
-  const { setUser, setIsAuthenticated, setLoading, tableData, setTableData } = useContext(Context)
+  const { setUser, setIsAuthenticated, setLoading } = useContext(Context)
 
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (localStorage.getItem("token")) {
-        setIsAuthenticated(true)
-        try {
-          const token = localStorage.getItem('token');
-          const response = await axios.get(`${server}/quiz/myQuiz`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json"
-            },
-          });
-          setTableData(response.data.quiz);
-          // console.log(tableData)
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     if (localStorage.getItem("token")) {
+  //       setIsAuthenticated(true)
+  //       try {
+  //         const token = localStorage.getItem('token');
+  //         const response = await axios.get(`${server}/quiz/myQuiz`, {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //             "Content-Type": "application/json"
+  //           },
+  //         });
+  //         setTableData(response.data.quiz);
+  //         // console.log(tableData)
+  //       } catch (error) {
+  //         console.error('Error fetching data:', error);
+  //       }
 
-      }
-      else {
-        toast.error('Login Session Expired')
-      }
 
-    };
+  //     }
+  //     else {
+  //       toast.error('Login Session Expired')
+  //     }
 
-    fetchData();
-  }, [tableData]);
+  //   };
+
+  //   fetchData();
+  // }, []);
   return (
     <Router>
       <Routes>

@@ -42,6 +42,9 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
       setSelectedOption(qId);
     }
   };
+  const showToaster = () => {
+    toast.success("Link copied to clipboard")
+  }
 
   // handling adding question to the quiz
   const handlePlusClick = () => {
@@ -171,7 +174,8 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
   return (
     <>
       {
-        quizId === null && ( // Render the popup only if quizId is null
+        quizId === null && (
+          // Render the popup only if quizId is null
 
           <div className={styles["popup-parent-cont"]}>
             <div className={styles["popup-child-cont"]}>
@@ -367,7 +371,7 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
               <p>{`${window.location.origin}/quiz/quizId`}</p>
             </div>
             <CopyToClipboard text={`${window.location.origin}/quiz/quizId`} onCopy={() => toast.success("Link copied successfully")} className={styles["btn-div"]}>
-              <button>Share</button>
+              <button onClick={showToaster}>Share</button>
             </CopyToClipboard>
           </div>
         </div>

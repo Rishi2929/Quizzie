@@ -12,10 +12,12 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Context } from "../main";
 
 const Analytics = () => {
-  const { setUser, setIsAuthenticated, setLoading, tableData, setTableData } = useContext(Context);
+  const { setUser, setIsAuthenticated, setLoading } = useContext(Context);
   const navigate = useNavigate();
   const [deletePopup, setDeletePopup] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState(null);
+  const [tableData, setTableData] = useState([]);
+
 
   const handleDeletePopup = (id) => {
     setSelectedItemId(id);
@@ -23,6 +25,28 @@ const Analytics = () => {
     // console.log(id)
 
   }
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get(`${server}/quiz/myQuiz`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        setTableData(response.data.quiz);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    // Call the fetchData function when the component mounts
+    fetchData();
+  }, []);
+
 
   const handleDelete = async (id) => {
     try {

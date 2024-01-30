@@ -14,6 +14,7 @@ const QuestionAnalysis = () => {
             const quiz = tableData.find((quiz) => quiz._id === id);
             setSelectedQuiz(quiz);
       }, [id, tableData]);
+      // console.log(selectedQuiz?.quizType)
       // console.log(selectedQuiz)
       if (!selectedQuiz) {
             return <div>Loading...</div>;
@@ -35,29 +36,81 @@ const QuestionAnalysis = () => {
       //       </ul>
       // </div>
       return (
-            <div className={styles['question-parent-cont']}>
-                  <Navbar />
-                  <div className={styles['content-container']}>
-                        <div className={styles['quiz-analysis-header']}>
-                              <h2>{selectedQuiz.quizName} Question Analysis</h2>
-                        </div>
-                        {selectedQuiz.questions.map((question, index) => (
-                              <div key={index} className={styles['question-div']}>
-                                    <p>Question {index + 1}: {question.questionTitle}</p>
-                                    <div className={styles['options-container']}>
-                                          {question.options.map((option, optionIndex) => (
-                                                <div key={optionIndex} className={styles['option-div']}>
-                                                      {/* {option.optionTitle} */}
-                                                      option {optionIndex + 1}
-                                                </div>
-                                          ))}
+            <>
+                  {selectedQuiz?.quizType === "Poll" && (
+                        <div className={styles['question-parent-cont']}>
+                              <Navbar />
+                              <div className={styles['content-container']}>
+                                    <div className={styles['quiz-analysis-header']}>
+                                          <h2>{selectedQuiz.quizName} Question Analysis</h2>
                                     </div>
+                                    {selectedQuiz.questions.map((question, index) => (
+                                          <div key={index} className={styles['question-div']}>
+                                                <p>Question {index + 1}: {question.questionTitle}</p>
+                                                <div className={styles['options-container']}>
+                                                      {question.options.map((option, optionIndex) => (
+                                                            <div key={optionIndex} className={styles['option-div']}>
+                                                                  {/* {option.optionTitle} */}
+                                                                  option {optionIndex + 1}
+                                                            </div>
+                                                      ))}
+                                                </div>
+                                          </div>
+                                    ))}
                               </div>
-                        ))}
-                  </div>
-            </div>
+                        </div>
+                  )
+
+                  }
+                  {selectedQuiz?.quizType === 'QA' && (
+                        <div className={styles['question-parent-cont']}>
+                              <Navbar />
+                              <div className={styles['content-container']}>
+                                    <div className={styles['quiz-analysis-header']}>
+                                          <h2>{selectedQuiz.quizName} Question Analysis</h2>
+                                    </div>
+                                    {selectedQuiz.questions.map((question, index) => (
+                                          <div key={index} className={styles['question-div']}>
+                                                <p>Question {index + 1}: {question.questionTitle}</p>
+                                                <div className={styles['options-container']}>
+                                                      {question.options.map((option, optionIndex) => (
+                                                            <div key={optionIndex} className={styles['option-div']}>
+                                                                  {/* {option.optionTitle} */}
+                                                                  option {optionIndex + 1}
+                                                            </div>
+                                                      ))}
+                                                </div>
+                                          </div>
+                                    ))}
+                              </div>
+                        </div>
+                  )}
+            </>
       );
 
 };
 
 export default QuestionAnalysis;
+
+
+// <div className={styles['question-parent-cont']}>
+// <Navbar />
+// <div className={styles['content-container']}>
+//       <div className={styles['quiz-analysis-header']}>
+//             <h2>{selectedQuiz.quizName} Question Analysis</h2>
+//       </div>
+//       {selectedQuiz.questions.map((question, index) => (
+//             <div key={index} className={styles['question-div']}>
+//                   <p>Question {index + 1}: {question.questionTitle}</p>
+//                   <div className={styles['options-container']}>
+//                         {question.options.map((option, optionIndex) => (
+//                               <div key={optionIndex} className={styles['option-div']}>
+//                                     {/* {option.optionTitle} */}
+//                                     option {optionIndex + 1}
+//                               </div>
+//                         ))}
+//                   </div>
+//             </div>
+//       ))}
+// </div>
+// </div>
