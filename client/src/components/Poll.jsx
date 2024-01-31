@@ -365,7 +365,7 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
             <div className={styles["share-dialog-box"]}>
               <p>{`${window.location.origin}/quiz/quizId`}</p>
             </div>
-            <CopyToClipboard text={`${window.location.origin}/quiz/quizId`} onCopy={() => {
+            <CopyToClipboard text={`${window.location.origin}/quiz/${quizId}`} onCopy={() => {
               toast.success("Link copied successfully");
             }} className={styles["btn-div"]} >
               {/* <Link reloadDocument >Share</Link> */}

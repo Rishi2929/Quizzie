@@ -15,7 +15,7 @@ export const login = async (req, res, next) => {
     if (!isMatch)
       return next(new ErrorHandler("Invalid Email or Password", 400));
 
-    const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '3h' });
 
     res.setHeader('Authorization', `Bearer ${token}`);
     console.log(User.name)
@@ -38,7 +38,7 @@ export const Register = async (req, res, next) => {
 
     user = await User.create({ name, email, password: hashedPassword });
 
-    const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '3h' });
 
     res.setHeader('Authorization', `Bearer ${token}`);
 

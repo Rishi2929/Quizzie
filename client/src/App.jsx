@@ -13,42 +13,20 @@ import EditQuiz from "./components/EditQuiz";
 import QuestionAnalysis from "./pages/QuestionAnalysis";
 
 export const server = "http://localhost:3000/api/v1";
-// export const server = "https://quizzie-amms.onrender.com/api/v1";
 // export const server = "https://quizzie-exp.onrender.com/api/v1";
 
 
 function App() {
   const { setUser, setIsAuthenticated, setLoading } = useContext(Context)
 
+  useEffect(() => {
+    // console.log("Use Effect")
+    setLoading(true)
+    if (localStorage.getItem("token")) {
+      setIsAuthenticated(true)
+    }
+  }, [])
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     if (localStorage.getItem("token")) {
-  //       setIsAuthenticated(true)
-  //       try {
-  //         const token = localStorage.getItem('token');
-  //         const response = await axios.get(`${server}/quiz/myQuiz`, {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //             "Content-Type": "application/json"
-  //           },
-  //         });
-  //         setTableData(response.data.quiz);
-  //         // console.log(tableData)
-  //       } catch (error) {
-  //         console.error('Error fetching data:', error);
-  //       }
-
-
-  //     }
-  //     else {
-  //       toast.error('Login Session Expired')
-  //     }
-
-  //   };
-
-  //   fetchData();
-  // }, []);
   return (
     <Router>
       <Routes>

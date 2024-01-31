@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "../styles/Dashboard.module.scss";
 import img from "../assets/Delete icon.svg";
 import img2 from "../assets/Quiz Test Vector.png";
@@ -7,11 +7,14 @@ import { server } from "../App";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useParams, useNavigate } from "react-router-dom";
+import { Context } from "../main";
 
 const EditQuiz = () => {
   const [quizName, setQuizName] = useState("");
   const [quizType, setQuizType] = useState("");
   const [showTimerRow, setShowTimerRow] = useState(false);
+  const { isAuthenticated, setIsAuthenticated, loading, setLoading } = useContext(Context);
+
 
   const [initialData, setInitialData] = useState({
     _id: uuid(),
@@ -182,6 +185,7 @@ const EditQuiz = () => {
     e.preventDefault();
     const data = { quizName: quizName, quizType: quizType, questions: questions, };
     try {
+      setLoading(true);
       const token = localStorage.getItem('token');
       const response = await axios.put(`${server}/quiz/updateQuiz/${quizId}`, data,
         {
@@ -201,6 +205,9 @@ const EditQuiz = () => {
     } catch (error) {
       console.error("handleSubmit Error:", error);
       toast.error("Quiz failed to update");
+    }
+    finally {
+      setLoading(false);
     }
   };
 
