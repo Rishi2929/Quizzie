@@ -118,7 +118,7 @@ const Quiz = () => {
       setIsQuizCompleted(true);
     }
   }
-
+  console.log("time", time)
   const handleNextBtnClick = () => {
 
     nextQuestion();
