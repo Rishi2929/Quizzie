@@ -435,6 +435,7 @@
       font-weight: 500;
     }
     .share-dialog-box {
+      padding: 15px;
       border-radius: 10px;
       background: #ededed;
       margin-top: 2rem;
@@ -458,7 +459,7 @@
     }
     .share-dialog-box {
       width: 20rem;
-      height: 2rem;
+      // height: 2rem;
       text-align: center;
     }
   }
