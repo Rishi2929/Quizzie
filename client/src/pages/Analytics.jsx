@@ -11,6 +11,8 @@ import toast from "react-hot-toast";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Context } from "../main";
 import CustomLoader from "../components/CurstomLoader";
+import moment from 'moment';
+
 
 const Analytics = () => {
   const { setUser, setIsAuthenticated, setLoading, loading } = useContext(Context);
@@ -53,7 +55,7 @@ const Analytics = () => {
   const handleDelete = async (id) => {
     try {
       const token = localStorage.getItem('token');
-      
+
       await axios.delete(`${server}/quiz/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -101,8 +103,8 @@ const Analytics = () => {
                     <tr key={row._id}>
                       <td>{index + 1}</td>
                       <td>{row.quizName}</td>
-                      <td>{row.createdOn}</td>
-                      <td>{row.impression}</td>
+                      <td>{moment(row.createdAt).format('DD MMM, YYYY')}</td>
+                      <td>{row.quizCount}</td>
 
                       <td><Link to={`/editQuiz/${row._id}`} ><img src={EditIcon} alt="" /></Link></td>
                       <td><button onClick={() => handleDeletePopup(row._id)} ><img src={Delete} alt="" /></button></td>

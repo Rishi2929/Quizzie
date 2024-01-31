@@ -38,8 +38,8 @@ const Dashboard = () => {
 
   const sumOfQuestions = tableData.reduce((sum, quiz) => sum + quiz.questions.length, 0);
 
+  const sortedTableData = tableData.sort((a, b) => b.quizCount - a.quizCount);
 
-  // if (!isAuthenticated) return <Navigate to={"/"} />
 
   return (
     <div className={styles["dashboard-parent-cont"]}>
@@ -83,7 +83,7 @@ const Dashboard = () => {
           <div className={styles['quiz-parent-cont']}>
             <h2>Trending Quizs</h2>
             <div className={styles['quiz-cont']}>
-              {tableData.map((quiz, index) => (
+              {sortedTableData.map((quiz, index) => (
                 <div className={styles['quiz-box']} key={index}>
                   <div className={styles['quiz-flex-data']}>
                     <p className={styles['quiz-name']}>{quiz.quizName}</p>
