@@ -12,8 +12,8 @@ import Quiz from "./components/quizInterface/quiz/Quiz";
 import EditQuiz from "./components/EditQuiz";
 import QuestionAnalysis from "./pages/QuestionAnalysis";
 
-export const server = "http://localhost:3000/api/v1";
-// export const server = "https://quizzie-exp.onrender.com/api/v1";
+// export const server = "http://localhost:3000/api/v1";
+export const server = "https://quizzie-o9kt.onrender.com/api/v1";
 
 
 function App() {
