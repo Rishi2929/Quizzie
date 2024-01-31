@@ -59,8 +59,8 @@
   margin-top: 2rem;
   // background-color: yellow;
   .option-div {
-    width: 15rem;
-    height: 5rem;
+    width: 18rem;
+    height: 7rem;
     background-color: white;
     margin-left: 2rem;
     border-radius: 5px;
@@ -68,4 +68,46 @@
     padding-top: 1rem;
     margin-bottom: 2rem;
   }
+}
+.top-row {
+  position: absolute;
+  right: 0;
+  margin-right: 2rem;
+  color: var(--orange-100);
+  font-weight: 600;
+}
+.ques-heading {
+  color: #000;
+  font-family: Poppins;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.option-text {
+  color: var(--gray-600);
+  // color: yellow;
+  font-family: Poppins;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+.option-subtext {
+  color: var(--gray-600);
+  // color: yellow;
+
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+h2 {
+  color: var(--blue-300);
+  font-family: Poppins;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 }

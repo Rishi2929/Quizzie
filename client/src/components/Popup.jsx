@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "../styles/Dashboard.module.scss";
 import Analytics from "../pages/Analytics";
-import Poll from "./Poll";
+import CreateQuiz from "./CreateQuiz";
 
 const Popup = ({ onClose, isPopupVisible }) => {
   const [quizName, setQuizName] = useState("");
@@ -84,7 +84,7 @@ const Popup = ({ onClose, isPopupVisible }) => {
       </div>
 
       {continueClicked && selectedQuizType === "QA" && (
-        <Poll
+        <CreateQuiz
           onClose={onClose}
           quizName={quizName}
           quizType={selectedQuizType}
@@ -92,7 +92,7 @@ const Popup = ({ onClose, isPopupVisible }) => {
         />
       )}
       {continueClicked && selectedQuizType === "Poll" && (
-        <Poll
+        <CreateQuiz
           onClose={onClose}
           quizName={quizName}
           quizType={selectedQuizType}

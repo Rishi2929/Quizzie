@@ -63,6 +63,9 @@
     font-family: Poppins;
     color: var(--gray-600);
     overflow-x: auto;
+    h2 {
+      color: black;
+    }
 
     .quiz-cont {
       display: flex;
@@ -77,12 +80,22 @@
         box-sizing: border-box;
         background-color: white;
         border-radius: 5px;
-
         .quiz-flex-data {
           display: flex;
-          gap: 6rem;
+          justify-content: space-between;
+          margin-bottom: 1.2rem;
+
           .quiz-name {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+
+            .view-icon {
+              width: 2rem;
+              background-color: yellow;
+              margin-left: 1rem;
+              position: absolute;
+            }
           }
         }
       }
@@ -182,7 +195,7 @@
   }
 }
 
-/*POLL STYLES*/
+/*CREATE QUIZ STYLES*/
 .poll-parent-cont {
   position: absolute;
   width: 100%;

@@ -87,10 +87,13 @@ const Dashboard = () => {
                 <div className={styles['quiz-box']} key={index}>
                   <div className={styles['quiz-flex-data']}>
                     <p className={styles['quiz-name']}>{quiz.quizName}</p>
-                    <p> {quiz.quizCount}<img src={views} alt="" /></p>
+                    <div className={styles['view-icon']}>
+                      <p>{quiz.quizCount}<img src={views} alt="" /></p>
+                    </div>
                   </div>
                   <p className={styles['green-span']}>Created on: {moment(quiz.createdAt).format('DD MMM, YYYY')}</p>
                 </div>
+
               ))}
             </div>
           </div>

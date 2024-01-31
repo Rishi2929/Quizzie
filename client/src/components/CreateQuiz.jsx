@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Link, useNavigate } from "react-router-dom";
 
-const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
+const CreateQuiz = ({ onClose, quizName, quizType, showTimerRow }) => {
 
   const [initialData, setInitialData] = useState({
     _id: uuid(),
@@ -378,4 +378,4 @@ const Poll = ({ onClose, quizName, quizType, showTimerRow }) => {
   );
 };
 
-export default Poll;
+export default CreateQuiz;
