@@ -5,11 +5,11 @@ import { createQuiz, deleteMyQuiz, getMyQuiz, updateQuiz, getQuizById, updateQui
 const router = express.Router();
 
 router.post("/new", isAuthenticated, createQuiz);
-router.get("/myQuiz",isAuthenticated, getMyQuiz);
+router.get("/myQuiz", isAuthenticated, getMyQuiz);
 router.get("/myQuiz/:id", isAuthenticated, getQuizById);
 router.put("/updateQuiz/:id", isAuthenticated, updateQuizById);
 router.delete("/:id", isAuthenticated, deleteMyQuiz);
-router.patch("/quizzes/:id", updateQuiz);
+// router.patch("/quizzes/:id", updateQuiz);
 router.get("/getQuiz/:id", getQuizById)
 router.post("/userRes/:id", updateQuizCount)
 
