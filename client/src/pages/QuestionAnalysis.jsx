@@ -6,8 +6,6 @@ import Navbar from '../components/Navbar';
 import axios from 'axios';
 import { server } from '../App';
 
-
-
 const QuestionAnalysis = () => {
     const { id } = useParams();
     const { setUser, setIsAuthenticated, setLoading } = useContext(Context);
@@ -138,28 +136,5 @@ const QuestionAnalysis = () => {
 };
 
 export default QuestionAnalysis;
-
-
-// <div className={styles['question-parent-cont']}>
-// <Navbar />
-// <div className={styles['content-container']}>
-//       <div className={styles['quiz-analysis-header']}>
-//             <h2>{selectedQuiz.quizName} Question Analysis</h2>
-//       </div>
-//       {selectedQuiz.questions.map((question, index) => (
-//             <div key={index} className={styles['question-div']}>
-//                   <p>Question {index + 1}: {question.questionTitle}</p>
-//                   <div className={styles['options-container']}>
-//                         {question.options.map((option, optionIndex) => (
-//                               <div key={optionIndex} className={styles['option-div']}>
-//                                     {/* {option.optionTitle} */}
-//                                     option {optionIndex + 1}
-//                               </div>
-//                         ))}
-//                   </div>
-//             </div>
-//       ))}
-// </div>
-// </div>
 
 

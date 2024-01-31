@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 export const connectDB = () => {
   mongoose
     // .connect(process.env.MONGO_URI
-    .connect('mongodb://127.0.0.1:27017/'
+      .connect('mongodb://127.0.0.1:27017/'
       , {
         dbName: "quizzie",
         useNewUrlParser: true,
