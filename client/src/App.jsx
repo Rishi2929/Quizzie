@@ -20,7 +20,6 @@ function App() {
   const { setUser, setIsAuthenticated, setLoading } = useContext(Context)
 
   useEffect(() => {
-    // console.log("Use Effect")
     setLoading(true)
     if (localStorage.getItem("token")) {
       setIsAuthenticated(true)
@@ -36,8 +35,6 @@ function App() {
         <Route path="/quiz/:id" element={<Quiz />} />
         <Route path="/editQuiz/:id" element={<EditQuiz />} />
         <Route path="/ques-analysis/:id" element={<QuestionAnalysis />} />
-
-
       </Routes>
       <Toaster />
     </Router>
