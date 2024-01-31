@@ -112,11 +112,12 @@ export const getMyQuiz = async (req, res, next) => {
 
 export const deleteMyQuiz = async (req, res, next) => {
   try {
-    const quiz = await Quiz.findById(req.params.id);
+    const quizId = req?.params?.id;
+    const quiz = await Quiz.findById(quizId);
     if (!quiz) {
       return next(new Errorhandler("Quiz not found", 404));
     }
-    await Quiz.deleteOne();
+    await Quiz.deleteOne({_id: quizId});
 
     res.status(200).json({
       success: true,

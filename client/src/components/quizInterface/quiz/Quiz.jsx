@@ -177,7 +177,7 @@ const Quiz = () => {
     return (
       <button
         key={option._id}
-        className={`${styles["option"]} ${styles[`option${index + 1}`]} 
+        className={`${styles["option"]} ${styles["img-only-option-container"]} ${styles[`option${index + 1}`]} 
         ${styles["option-img"]}`}
         onClick={() => handleOptionClick(option._id)}
         style={{ borderColor: `${userResponses?.some((question) => question.optionId === option._id) ? "#5076FF" : ""}`, }}
@@ -197,11 +197,11 @@ const Quiz = () => {
         onClick={() => handleOptionClick(option._id)}
         style={{ borderColor: `${userResponses?.some((question) => question.optionId === option._id) ? "#5076FF" : ""}`, }}
       >
-        <span>{option?.optionTitle}</span>
+        <span className={styles["span-option-text"]}>{option?.optionTitle}</span>
         <img
           src={option?.imgUrl}
           alt="text img url"
-          className={styles["option-img"]}
+          className={`${styles["option-img"]} ${styles["option-text-img-image"]}`}
         />
       </button>
     );

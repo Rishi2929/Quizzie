@@ -20,6 +20,7 @@ const Navbar = () => {
       setPopupVisible(true);
     }
   };
+  console.log("activeBtn: ", activeBtn)
 
   const closePopup = () => {
     setPopupVisible(false);
@@ -40,16 +41,16 @@ const Navbar = () => {
         <Link
           to="/dashboard"
           className={`${styles["nav-btn"]} ${activeBtn === "dashboard" ? styles["active-btn"] : ""
-            }`}
-          onClick={() => handleButtonClick("dashboard")}
+        }`}
+        onClick={() => handleButtonClick("dashboard")}
         >
           Dashboard
         </Link>
         <Link
+          onClick={() => handleButtonClick("analytics")}
           to="/analytics"
           className={`${styles["nav-btn"]} ${activeBtn === "analytics" ? styles["active-btn"] : ""
             }`}
-          onClick={() => handleButtonClick("analytics")}
         >
           Analytics
         </Link>
