@@ -57,7 +57,7 @@ const Dashboard = () => {
             <div className={styles["dashboard-cont"]}>
               <div className={styles['flex-cont-1']}>
                 <h1>
-                  {tableData.length}<span>Quiz</span>
+                  {tableData.length} <span>Quiz</span>
                 </h1>
                 <h1>
                   <span>Created</span>

@@ -19,8 +19,8 @@ const Navbar = () => {
     if (btnName === "createQuiz") {
       setPopupVisible(true);
     }
+
   };
-  console.log("activeBtn: ", activeBtn)
 
   const closePopup = () => {
     setPopupVisible(false);
@@ -41,8 +41,8 @@ const Navbar = () => {
         <Link
           to="/dashboard"
           className={`${styles["nav-btn"]} ${activeBtn === "dashboard" ? styles["active-btn"] : ""
-        }`}
-        onClick={() => handleButtonClick("dashboard")}
+            }`}
+          onClick={() => handleButtonClick("dashboard")}
         >
           Dashboard
         </Link>
