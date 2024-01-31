@@ -168,7 +168,6 @@ const CreateQuiz = ({ onClose, quizName, quizType, showTimerRow }) => {
 
         // Set shareLink state to true to show the share link component
         setShareLink(true);
-
         toast.success(response.data.message);
       } else {
         toast.error(response?.data?.message);

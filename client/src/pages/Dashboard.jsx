@@ -8,6 +8,8 @@ import moment from 'moment';
 import axios from "axios";
 import { server } from "../App";
 import CustomLoader from "../components/CurstomLoader";
+import numeral from 'numeral';
+
 
 const Dashboard = () => {
 
@@ -39,6 +41,9 @@ const Dashboard = () => {
   const sumOfQuestions = tableData.reduce((sum, quiz) => sum + quiz.questions.length, 0);
 
   const sortedTableData = tableData.sort((a, b) => b.quizCount - a.quizCount);
+
+  const sumOfQuizCounts = tableData.reduce((sum, quiz) => sum + quiz.quizCount, 0);
+
 
 
   return (
@@ -72,7 +77,7 @@ const Dashboard = () => {
             <div className={styles["dashboard-cont"]}>
               <div className={styles['flex-cont-3']}>
                 <h1>
-                  12 <span>Total</span>
+                  {numeral(sumOfQuizCounts).format('0.0a')} <span>Total</span>
                 </h1>
                 <h1>
                   <span>Impressions</span>

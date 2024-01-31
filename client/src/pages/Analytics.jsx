@@ -12,6 +12,8 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Context } from "../main";
 import CustomLoader from "../components/CurstomLoader";
 import moment from 'moment';
+import numeral from 'numeral';
+
 
 
 const Analytics = () => {
@@ -104,8 +106,8 @@ const Analytics = () => {
                       <td>{index + 1}</td>
                       <td>{row.quizName}</td>
                       <td>{moment(row.createdAt).format('DD MMM, YYYY')}</td>
-                      <td>{row.quizCount}</td>
-
+                      <td>{numeral(row.quizCount).format('0.0a')}</td>
+                      {/* {row.quizCount} */}
                       <td><Link to={`/editQuiz/${row._id}`} ><img src={EditIcon} alt="" /></Link></td>
                       <td><button onClick={() => handleDeletePopup(row._id)} ><img src={Delete} alt="" /></button></td>
 
@@ -117,7 +119,7 @@ const Analytics = () => {
                           </button>
                         </CopyToClipboard>
                       </td>
-                      <td><button onClick={() => handleQuestionAnalysis(row._id)}>Question Wise Analysis</button></td>
+                      <td><button onClick={() => handleQuestionAnalysis(row._id)} className={styles["btn-ques-anlys"]}>Question Wise Analysis</button></td>
                     </tr>
                   ))}
                 </tbody>

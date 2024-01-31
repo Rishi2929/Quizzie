@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styles from "../styles/Dashboard.module.scss";
-import Analytics from "../pages/Analytics";
 import CreateQuiz from "./CreateQuiz";
 
 const Popup = ({ onClose, isPopupVisible }) => {
