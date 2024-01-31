@@ -44,7 +44,7 @@ const Quiz = () => {
     //   clearTimeout(timeOut);
     //   return;
     // }
-    if(time < 0 || time == null) return
+    if (time < 0 || time == null) return
 
     const remTime = time < 10 ? `0${time}` : time;
     setRemainingTime(`00:${remTime}`)
@@ -53,7 +53,7 @@ const Quiz = () => {
       setTime(prev => prev - 1);
     }, 1000);
 
-    if(time == 0) {
+    if (time == 0) {
       clearTimeout(timeOut)
       nextQuestion();
     }
@@ -78,10 +78,10 @@ const Quiz = () => {
           setQuestionData(quizResponse.questions[0]);
           setQuestionCounter(0);
 
-          let  time = quizResponse?.questions?.[0]?.timer
+          let time = quizResponse?.questions?.[0]?.timer
           time = time ? Number(time) : null;
           console.log("timeeeeeeeeeeee: ", time)
-          if(time !== null)
+          if (time !== null)
             setTime(time);
 
         } else {
@@ -107,9 +107,12 @@ const Quiz = () => {
       setQuestionCounter(currentQuestionCounter + 1);
 
       const nextQuestionTimer = quizData.questions[currentQuestionCounter + 1]?.timer;
-      if(nextQuestionTimer !== "" && nextQuestionTimer !== null) {
+      if (nextQuestionTimer !== "" && nextQuestionTimer !== null) {
         console.log("nextQuestionTimer: ", nextQuestionTimer)
         setTime(nextQuestionTimer);
+      }
+      else {
+        setTime(null);
       }
     } else {
       setIsQuizCompleted(true);
