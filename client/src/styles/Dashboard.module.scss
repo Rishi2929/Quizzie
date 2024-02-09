@@ -58,11 +58,11 @@
   .quiz-parent-cont {
     width: 70vw;
     margin-left: 6.6rem;
-    margin-top: 10rem;
-    height: 25rem;
+    margin-top: 9rem;
+    height: 45%;
     font-family: Poppins;
     color: var(--gray-600);
-    overflow-x: auto;
+
     h2 {
       color: black;
     }
@@ -70,7 +70,9 @@
     .quiz-cont {
       display: flex;
       flex-wrap: wrap;
-      margin-top: 2rem;
+      margin-top: 1rem;
+      overflow-x: auto;
+      height: 90%;
 
       .quiz-box {
         width: calc(25% - 20px);

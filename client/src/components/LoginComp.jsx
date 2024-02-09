@@ -71,7 +71,11 @@ const Logincomp = () => {
           </div>
 
           <button type="submit" disabled={loader} className={styles["btn1"]}>
-            Log In
+            {loader ? (
+              "Loading....."
+            ) : (
+              " Log In"
+            )}
           </button>
         </Form>
       </Formik>

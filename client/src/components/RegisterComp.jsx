@@ -87,7 +87,14 @@ const RegisterComp = () => {
             <ErrorMessage name="confirmPassword" component="div" className={styles["error-message"]} />
           </div>
 
-          <button type="submit" disabled={loader} className={styles["btn1"]}>Sign-Up</button>
+          <button type="submit" disabled={loader} className={styles["btn1"]}>
+            {loader ? (
+              "Loading....."
+            ) : (
+              "Sign-Up"
+            )}
+          </button>
+
         </Form>
       </Formik>
     </div>
