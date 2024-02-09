@@ -159,7 +159,8 @@
       font-size: 1.1rem;
     }
     button {
-      box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 0 25px 0 #00000026;
+      background: #fff;
     }
     .selected-button {
       background-color: var(--green-100);
@@ -186,6 +187,10 @@
     button {
       width: 14rem;
       height: 2.5rem;
+    }
+    .cancel-btn {
+      background-color: white;
+      box-shadow: 0 0 15px 0 #00000040;
     }
 
     button:hover {
