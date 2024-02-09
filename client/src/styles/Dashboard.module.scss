@@ -313,6 +313,10 @@
     margin-top: -9rem;
     width: 5rem;
     height: 12rem;
+    // top: 9rem;
+    // right: -11rem;
+    top: 55%;
+    right: -45%;
 
     p {
       text-align: center;
@@ -342,6 +346,7 @@
     justify-content: space-between;
     margin-top: -4.3rem;
     margin-left: -0.5rem;
+    position: relative;
 
     button {
       height: 2.5rem;
@@ -365,13 +370,14 @@
 }
 
 .poll-row4 {
+  position: relative;
   width: 25rem;
   height: 20rem;
   margin-top: 2rem;
   margin-left: -2rem;
 
   .input-box {
-    width: 13rem;
+    // width: 13rem;
     margin-bottom: 1rem;
     margin-left: 1rem;
     height: 2.4rem;
@@ -382,15 +388,26 @@
   }
 
   .add-btn {
-    width: 13rem;
-    margin-bottom: 1rem;
-    margin-left: 1.8rem;
+    width: 10.4rem;
+    // margin-bottom: 1rem;
+    // margin-left: 1.8rem;
     height: 2.4rem;
     border-radius: 10px;
     background-color: white;
     box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.15);
     border: none;
     color: var(--gray-500);
+    position: relative;
+    position: absolute;
+    // left: 1rem;
+  }
+
+  .add-btn-position-qa {
+    left: 2rem;
+  }
+
+  .add-btn-position-poll {
+    left: 1rem;
   }
 
   .img-text {

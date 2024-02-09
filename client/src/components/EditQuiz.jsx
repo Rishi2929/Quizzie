@@ -8,6 +8,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useParams, useNavigate } from "react-router-dom";
 import { Context } from "../main";
+import CustomLoader from "./CurstomLoader";
 
 const EditQuiz = () => {
   const [quizName, setQuizName] = useState("");
@@ -52,6 +53,7 @@ const EditQuiz = () => {
 
   const fetchQuizData = async () => {
     try {
+      setLoading(true);
       const token = localStorage.getItem('token');
       const response = await axios.get(`${server}/quiz/myQuiz/${quizId}`,
         {
@@ -73,6 +75,8 @@ const EditQuiz = () => {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -201,7 +205,7 @@ const EditQuiz = () => {
       } else {
         toast.success(response.data.message);
       }
-      navigate(`/analytics`)
+      navigate(`/analytics`);
     } catch (error) {
       console.error("handleSubmit Error:", error);
       toast.error("Quiz failed to update");
@@ -215,191 +219,195 @@ const EditQuiz = () => {
     <div className={styles["popup-parent-cont"]}>
       <div className={styles["popup-child-cont"]}>
         <div className={styles["poll-cont"]}>
-          <div className={styles["poll-row1"]}>
-            {questions.map((ques, index) => {
-              return (
-                <React.Fragment key={ques._id}>
-                  <div onClick={() => handleQuestionClick(ques._id)}>
-                    <div key={index} className={`${styles.circle} ${selectedOption === ques._id ? styles["circle-selected"] : ""}`}>
-                      <p>{index + 1}</p>
-                    </div>
-
-                    {index > 0 && (
-                      <button onClick={(e) => handleDeleteClick(e, ques._id, index)} className={styles["del-circle-btn"]}>
-                        <img src={img2} alt="" />
-                      </button>
-                    )}
-                  </div>
-                </React.Fragment>
-              );
-            })}
-            {questions.length < 5 &&
-              <button onClick={() => handlePlusClick()} className={styles["add-circle-btn"]}> + </button>
-            }
-
-            <div className={styles["remind"]}>
-              <p>Max 5 questions</p>
-            </div>
-          </div>
-
-          {questions?.map((ques, index) => {
-            return (
-              <>
-                {/* rendering only 1 selected question from array of questions */}
-                {selectedOption === ques._id && (
-                  <React.Fragment key={ques._id}>
-                    {/* for question title */}
-                    <div className={styles["poll-row2"]}>
-                      <input placeholder="Poll Question" onChange={(e) => handleChange(e.target.value, "questionTitle", ques._id)} value={ques.questionTitle} />
-                    </div>
-
-                    {/* for option types */}
-                    <div className={styles["poll-row3"]}>
-                      <span>Option Type</span>
-                      <label>
-                        <input
-                          type="radio"
-                          value="text"
-                          name="optionType"
-                          checked={ques.optionType === "text"}
-                          onChange={(e) => handleChange(e.target.value, "optionType", ques._id)} />
-                        Text
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          value="imgUrl"
-                          name="optionType"
-                          checked={ques.optionType === "imgUrl"}
-                          onChange={(e) => handleChange(e.target.value, "optionType", ques._id)} />
-                        Image URL
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="optionType"
-                          value="text-imgUrl"
-                          checked={ques.optionType === "text-imgUrl"}
-                          onChange={(e) => handleChange(e.target.value, "optionType", ques._id)} />
-                        Text & Image URL
-                      </label>
-                    </div>
-
-                    {/* rendering the options array which is stored in questions array */}
-                    <div className={styles["poll-row4"]}>
-                      {ques.options?.map((option, optionIndex) => {
-                        console.log("ques: ", ques);
-                        return (
-                          <React.Fragment key={option._id}>
-                            {/* this radio button used to select the answer if quiz is QA type. If quiz if poll type then we don't show this button */}
-                            <div className={styles["input-types"]}>
-                              {quizType === "QA" && (
-                                <input
-                                  type="radio"
-                                  name="options"
-                                  value={option._id}
-                                  checked={ques.correctAnswer === option._id}
-                                  className="input-radio"
-                                  style={{
-                                    accentColor: `${ques.correctAnswer === option._id ? "#60B84B" : ""}`,
-                                    color: `${ques.correctAnswer === option._id ? "white" : "black"}`,
-                                  }}
-                                  onChange={(e) => handleChange(e.target.value, "optionField", ques._id, option._id, "answer")} />
-                              )}
-                              {/* render this input if option type selected is text */}
-                              {ques.optionType === "text" && (
-                                <input
-                                  type="text"
-                                  placeholder="Text"
-                                  className={styles["input-box"]}
-                                  value={option.optionTitle}
-                                  style={{
-                                    background: `${ques.correctAnswer === option._id ? "#60B84B" : ""}`,
-                                    color: `${ques.correctAnswer === option._id ? "white" : "black"}`,
-                                  }}
-                                  onChange={(e) => handleChange(e.target.value, "optionField", ques._id, option._id)} />
-                              )}
-
-                              {/* render this input if option type selected is image Url */}
-                              {ques.optionType === "imgUrl" && (
-                                <input
-                                  type="text"
-                                  placeholder="Image URL"
-                                  className={styles["input-box"]}
-                                  value={option.imgUrl}
-                                  style={{
-                                    background: `${ques.correctAnswer === option._id ? "#60B84B" : ""}`,
-                                    color: `${ques.correctAnswer === option._id ? "white" : "black"}`,
-                                  }}
-                                  onChange={(e) => handleChange(e.target.value, "optionField", ques._id, option._id)} />
-                              )}
-
-                              {/* render this input if option type selected is Text & Image URL */}
-                              {ques.optionType === "text-imgUrl" && (
-                                <>
-                                  <input
-                                    type="text"
-                                    placeholder="Text"
-                                    className={styles["input-box"]}
-                                    value={option.optionTitle}
-                                    style={{
-                                      background: `${ques.correctAnswer === option._id ? "#60B84B" : ""}`,
-                                      color: `${ques.correctAnswer === option._id ? "white" : "black"}`,
-                                    }}
-                                    onChange={(e) => handleChange(e.target.value, "optionField", ques._id, option._id, "null", "text-field")} />
-                                  <input
-                                    type="text"
-                                    placeholder="Image URL"
-                                    className={styles["input-box"]}
-                                    value={option.imgUrl}
-                                    style={{
-                                      background: `${ques.correctAnswer === option._id ? "#60B84B" : ""}`,
-                                      color: `${ques.correctAnswer === option._id ? "white" : "black"}`,
-                                    }}
-                                    onChange={(e) => handleChange(e.target.value, "optionField", ques._id, option._id, "null", "imgUrl-field")} />
-                                </>
-                              )}
-
-                              {/* only show delete buttons with options if total options are more than 2 and show delete for option 3 and 4 only */}
-                              {ques.options.length >= 3 &&
-                                (optionIndex === 2 || optionIndex === 3) && (
-                                  <button onClick={() => handleDeleteOptionBtn(ques._id, option._id)} className={`${styles["delete-btn"]} ${selectedOption === "Text & Image URL" ? styles["delete-btn-img-text"] : ""}`}  >
-                                    <img src={img} alt="" />
-                                  </button>
-                                )}
-                            </div>
-                          </React.Fragment>
-                        );
-                      })}
-
-                      {/* Button for adding more option. Max options can only be 4 */}
-                      {ques.options.length <= 3 && (
-                        <button className={styles["add-btn"]} onClick={() => handleAddOptionBtn(ques._id)}>Add option</button>
-                      )}
-
-                      {/* timer option for a particular question */}
-                      {showTimerRow && (
-                        <div className={styles["timer-row-4"]}>
-                          <p>Timer</p>
-                          <button onClick={() => handleChange("", "timer", ques._id)} className={ques.timer === "" ? styles["selected-timer-btn"] : ""}>OFF</button>
-                          <button onClick={() => handleChange("5", "timer", ques._id)} className={ques.timer === "5" ? styles["selected-timer-btn"] : ""}>
-                            5 sec
-                          </button>
-                          <button onClick={() => handleChange("10", "timer", ques._id)} className={ques.timer === "10" ? styles["selected-timer-btn"] : ""}>
-                            10 sec
-                          </button>
+          {loading ? <CustomLoader isLoading={loading} /> :
+            <>
+              <div className={styles["poll-row1"]}>
+                {questions.map((ques, index) => {
+                  return (
+                    <React.Fragment key={ques._id}>
+                      <div onClick={() => handleQuestionClick(ques._id)}>
+                        <div key={index} className={`${styles.circle} ${selectedOption === ques._id ? styles["circle-selected"] : ""}`}>
+                          <p>{index + 1}</p>
                         </div>
-                      )}
-                    </div>
-                  </React.Fragment>
-                )}
-              </>
-            );
-          })}
-          <div className={styles["poll-row-5"]}>
-            <button onClick={() => navigate(`/analytics`)} className={styles["cancel-btn"]}>Cancel</button>
-            <button className={styles["del-btn"]} onClick={handleSubmit}>Update Quiz</button>
-          </div>
+
+                        {index > 0 && (
+                          <button onClick={(e) => handleDeleteClick(e, ques._id, index)} className={styles["del-circle-btn"]}>
+                            <img src={img2} alt="" />
+                          </button>
+                        )}
+                      </div>
+                    </React.Fragment>
+                  );
+                })}
+                {questions.length < 5 &&
+                  <button onClick={() => handlePlusClick()} className={styles["add-circle-btn"]}> + </button>
+                }
+
+                <div className={styles["remind"]}>
+                  <p>Max 5 questions</p>
+                </div>
+              </div>
+
+              {questions?.map((ques, index) => {
+                return (
+                  <>
+                    {/* rendering only 1 selected question from array of questions */}
+                    {selectedOption === ques._id && (
+                      <React.Fragment key={ques._id}>
+                        {/* for question title */}
+                        <div className={styles["poll-row2"]}>
+                          <input placeholder="Poll Question" onChange={(e) => handleChange(e.target.value, "questionTitle", ques._id)} value={ques.questionTitle} />
+                        </div>
+
+                        {/* for option types */}
+                        <div className={styles["poll-row3"]}>
+                          <span>Option Type</span>
+                          <label>
+                            <input
+                              type="radio"
+                              value="text"
+                              name="optionType"
+                              checked={ques.optionType === "text"}
+                              onChange={(e) => handleChange(e.target.value, "optionType", ques._id)} />
+                            Text
+                          </label>
+                          <label>
+                            <input
+                              type="radio"
+                              value="imgUrl"
+                              name="optionType"
+                              checked={ques.optionType === "imgUrl"}
+                              onChange={(e) => handleChange(e.target.value, "optionType", ques._id)} />
+                            Image URL
+                          </label>
+                          <label>
+                            <input
+                              type="radio"
+                              name="optionType"
+                              value="text-imgUrl"
+                              checked={ques.optionType === "text-imgUrl"}
+                              onChange={(e) => handleChange(e.target.value, "optionType", ques._id)} />
+                            Text & Image URL
+                          </label>
+                        </div>
+
+                        {/* rendering the options array which is stored in questions array */}
+                        <div className={styles["poll-row4"]}>
+                          {ques.options?.map((option, optionIndex) => {
+                            console.log("ques: ", ques);
+                            return (
+                              <React.Fragment key={option._id}>
+                                {/* this radio button used to select the answer if quiz is QA type. If quiz if poll type then we don't show this button */}
+                                <div className={styles["input-types"]}>
+                                  {quizType === "QA" && (
+                                    <input
+                                      type="radio"
+                                      name="options"
+                                      value={option._id}
+                                      checked={ques.correctAnswer === option._id}
+                                      className="input-radio"
+                                      style={{
+                                        accentColor: `${ques.correctAnswer === option._id ? "#60B84B" : ""}`,
+                                        color: `${ques.correctAnswer === option._id ? "white" : "black"}`,
+                                      }}
+                                      onChange={(e) => handleChange(e.target.value, "optionField", ques._id, option._id, "answer")} />
+                                  )}
+                                  {/* render this input if option type selected is text */}
+                                  {ques.optionType === "text" && (
+                                    <input
+                                      type="text"
+                                      placeholder="Text"
+                                      className={styles["input-box"]}
+                                      value={option.optionTitle}
+                                      style={{
+                                        background: `${ques.correctAnswer === option._id ? "#60B84B" : ""}`,
+                                        color: `${ques.correctAnswer === option._id ? "white" : "black"}`,
+                                      }}
+                                      onChange={(e) => handleChange(e.target.value, "optionField", ques._id, option._id)} />
+                                  )}
+
+                                  {/* render this input if option type selected is image Url */}
+                                  {ques.optionType === "imgUrl" && (
+                                    <input
+                                      type="text"
+                                      placeholder="Image URL"
+                                      className={styles["input-box"]}
+                                      value={option.imgUrl}
+                                      style={{
+                                        background: `${ques.correctAnswer === option._id ? "#60B84B" : ""}`,
+                                        color: `${ques.correctAnswer === option._id ? "white" : "black"}`,
+                                      }}
+                                      onChange={(e) => handleChange(e.target.value, "optionField", ques._id, option._id)} />
+                                  )}
+
+                                  {/* render this input if option type selected is Text & Image URL */}
+                                  {ques.optionType === "text-imgUrl" && (
+                                    <>
+                                      <input
+                                        type="text"
+                                        placeholder="Text"
+                                        className={styles["input-box"]}
+                                        value={option.optionTitle}
+                                        style={{
+                                          background: `${ques.correctAnswer === option._id ? "#60B84B" : ""}`,
+                                          color: `${ques.correctAnswer === option._id ? "white" : "black"}`,
+                                        }}
+                                        onChange={(e) => handleChange(e.target.value, "optionField", ques._id, option._id, "null", "text-field")} />
+                                      <input
+                                        type="text"
+                                        placeholder="Image URL"
+                                        className={styles["input-box"]}
+                                        value={option.imgUrl}
+                                        style={{
+                                          background: `${ques.correctAnswer === option._id ? "#60B84B" : ""}`,
+                                          color: `${ques.correctAnswer === option._id ? "white" : "black"}`,
+                                        }}
+                                        onChange={(e) => handleChange(e.target.value, "optionField", ques._id, option._id, "null", "imgUrl-field")} />
+                                    </>
+                                  )}
+
+                                  {/* only show delete buttons with options if total options are more than 2 and show delete for option 3 and 4 only */}
+                                  {ques.options.length >= 3 &&
+                                    (optionIndex === 2 || optionIndex === 3) && (
+                                      <button onClick={() => handleDeleteOptionBtn(ques._id, option._id)} className={`${styles["delete-btn"]} ${selectedOption === "Text & Image URL" ? styles["delete-btn-img-text"] : ""}`}  >
+                                        <img src={img} alt="" />
+                                      </button>
+                                    )}
+                                </div>
+                              </React.Fragment>
+                            );
+                          })}
+
+                          {/* Button for adding more option. Max options can only be 4 */}
+                          {ques.options.length <= 3 && (
+                            <button className={styles["add-btn"]} onClick={() => handleAddOptionBtn(ques._id)}>Add option</button>
+                          )}
+
+                          {/* timer option for a particular question */}
+                          {showTimerRow && (
+                            <div className={styles["timer-row-4"]}>
+                              <p>Timer</p>
+                              <button onClick={() => handleChange("", "timer", ques._id)} className={ques.timer === "" ? styles["selected-timer-btn"] : ""}>OFF</button>
+                              <button onClick={() => handleChange("5", "timer", ques._id)} className={ques.timer === "5" ? styles["selected-timer-btn"] : ""}>
+                                5 sec
+                              </button>
+                              <button onClick={() => handleChange("10", "timer", ques._id)} className={ques.timer === "10" ? styles["selected-timer-btn"] : ""}>
+                                10 sec
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </React.Fragment>
+                    )}
+                  </>
+                );
+              })}
+              <div className={styles["poll-row-5"]}>
+                <button onClick={() => navigate(`/analytics`)} className={styles["cancel-btn"]}>Cancel</button>
+                <button className={styles["del-btn"]} onClick={handleSubmit}>Update Quiz</button>
+              </div>
+            </>
+          }
         </div>
       </div>
     </div>
