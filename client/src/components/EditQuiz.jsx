@@ -300,7 +300,10 @@ const EditQuiz = () => {
                                   value={option._id}
                                   checked={ques.correctAnswer === option._id}
                                   className="input-radio"
-                                  style={{ accentColor: `${ques.correctAnswer === option._id ? "green" : ""}`, }}
+                                  style={{
+                                    accentColor: `${ques.correctAnswer === option._id ? "#60B84B" : ""}`,
+                                    color: `${ques.correctAnswer === option._id ? "white" : "black"}`,
+                                  }}
                                   onChange={(e) => handleChange(e.target.value, "optionField", ques._id, option._id, "answer")} />
                               )}
                               {/* render this input if option type selected is text */}
@@ -310,7 +313,10 @@ const EditQuiz = () => {
                                   placeholder="Text"
                                   className={styles["input-box"]}
                                   value={option.optionTitle}
-                                  style={{ background: `${ques.correctAnswer === option._id ? "#60B84B" : ""}`, }}
+                                  style={{
+                                    background: `${ques.correctAnswer === option._id ? "#60B84B" : ""}`,
+                                    color: `${ques.correctAnswer === option._id ? "white" : "black"}`,
+                                  }}
                                   onChange={(e) => handleChange(e.target.value, "optionField", ques._id, option._id)} />
                               )}
 
@@ -321,7 +327,10 @@ const EditQuiz = () => {
                                   placeholder="Image URL"
                                   className={styles["input-box"]}
                                   value={option.imgUrl}
-                                  style={{ background: `${ques.correctAnswer === option._id ? "green" : ""}`, }}
+                                  style={{
+                                    background: `${ques.correctAnswer === option._id ? "#60B84B" : ""}`,
+                                    color: `${ques.correctAnswer === option._id ? "white" : "black"}`,
+                                  }}
                                   onChange={(e) => handleChange(e.target.value, "optionField", ques._id, option._id)} />
                               )}
 
@@ -333,14 +342,21 @@ const EditQuiz = () => {
                                     placeholder="Text"
                                     className={styles["input-box"]}
                                     value={option.optionTitle}
-                                    style={{ background: `${ques.correctAnswer === option._id ? "green" : ""}`, }}
+                                    style={{
+                                      background: `${ques.correctAnswer === option._id ? "#60B84B" : ""}`,
+                                      color: `${ques.correctAnswer === option._id ? "white" : "black"}`,
+                                    }}
                                     onChange={(e) => handleChange(e.target.value, "optionField", ques._id, option._id, "null", "text-field")} />
                                   <input
                                     type="text"
                                     placeholder="Image URL"
                                     className={styles["input-box"]}
                                     value={option.imgUrl}
-                                    style={{ background: `${ques.correctAnswer === option._id ? "green" : ""}`, }} onChange={(e) => handleChange(e.target.value, "optionField", ques._id, option._id, "null", "imgUrl-field")} />
+                                    style={{
+                                      background: `${ques.correctAnswer === option._id ? "#60B84B" : ""}`,
+                                      color: `${ques.correctAnswer === option._id ? "white" : "black"}`,
+                                    }}
+                                    onChange={(e) => handleChange(e.target.value, "optionField", ques._id, option._id, "null", "imgUrl-field")} />
                                 </>
                               )}
 
