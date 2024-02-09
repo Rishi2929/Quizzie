@@ -5,6 +5,7 @@ import userRouter from "./routes/user.js";
 import quizRouter from "./routes/quiz.js";
 import cookieParser from "cookie-parser";
 import cors from 'cors';
+import { errorMiddleware } from "./middleware/error.js";
 
 //CONFIGURATION
 config({
@@ -44,14 +45,16 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/quiz", quizRouter);
 
 // Error handling middleware
-app.use((err, req, res, next) => {
-  try {
-    console.error(err.stack);
-    res.status(500).send('Something broke!');
-  } catch (error) {
-    console.log('app.use error: ', error);
-  }
-});
+// app.use((err, req, res, next) => {
+//   try {
+//     console.error(err.stack);
+//     res.status(500).send('Something broke!');
+//   } catch (error) {
+//     console.log('app.use error: ', error);
+//   }
+// });
+
+app.use(errorMiddleware)
 
 const port = process.env.PORT || 3001;
 app.listen(port, () => {

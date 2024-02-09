@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import styles from "../styles/Login.module.scss";
@@ -15,25 +15,34 @@ const validationSchema = Yup.object({
     .required('Confirm Password is required'),
 });
 
+
 const RegisterComp = () => {
+  const [loader, setLoader] = useState(false)
   const initialValues = {
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
   };
+  // console.log(loading)
 
   const handleSubmit = async (values) => {
     console.log(values);
     try {
+      setLoader(true);
       const { name, email, password } = values; // Destructure values
       const response = await axios.post(
         `${server}/users/new`, { name, email, password }
       );
       toast.success("User Registered Successfully");
     } catch (error) {
-      toast.error("Register Failed", error.message);
-      console.error("Register failed", error);
+      // toast.error("Register Failed", error.response);
+      toast.error(error.response.data.message);
+      // console.error("Register failed", error);
+    }
+    finally {
+      setLoader(false);
+
     }
   };
 
@@ -78,7 +87,7 @@ const RegisterComp = () => {
             <ErrorMessage name="confirmPassword" component="div" className={styles["error-message"]} />
           </div>
 
-          <button type="submit" className={styles["btn1"]}>Sign-Up</button>
+          <button type="submit" disabled={loader} className={styles["btn1"]}>Sign-Up</button>
         </Form>
       </Formik>
     </div>

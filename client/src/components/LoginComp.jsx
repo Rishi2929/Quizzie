@@ -18,12 +18,14 @@ const Logincomp = () => {
     email: '', password: ''
   }
 
-  const { isAuthenticated, setIsAuthenticated, loading, setLoading } = useContext(Context);
+  const { isAuthenticated, setIsAuthenticated } = useContext(Context);
+
+  const [loader, setLoader] = useState(false)
 
   const navigate = useNavigate();
 
   const handleLogin = async (values) => {
-    setLoading(true);
+    setLoader(true)
     try {
       const { name, email, password } = values;
       const response = await axios.post(`${server}/users/login`, { email, password });
@@ -32,13 +34,13 @@ const Logincomp = () => {
       navigate("/dashboard");
       toast.success("Logged In successfully")
       setIsAuthenticated(true)
-      setLoading(false);
-
     } catch (error) {
-      toast.error(error.response.message)
+      toast.error(error.response.data.message)
       console.error("Login failed", error);
       setIsAuthenticated(false)
-      setLoading(false);
+    }
+    finally {
+      setLoader(false);
     }
   };
 
@@ -68,7 +70,7 @@ const Logincomp = () => {
             <ErrorMessage name="password" component="div" className={styles["error-message"]} />
           </div>
 
-          <button type="submit" className={styles["btn1"]}>
+          <button type="submit" disabled={loader} className={styles["btn1"]}>
             Log In
           </button>
         </Form>
