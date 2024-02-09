@@ -81,7 +81,7 @@ const RegisterComp = () => {
 
           <div className={styles["input-fields"]}>
             <div className={styles["label-cont"]}>
-              <label htmlFor="confirmPassword">Confirm Password</label>
+              <label htmlFor="confirmPassword" className={styles["confirm-label"]}>Confirm Password</label>
             </div>
             <Field type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" />
             <ErrorMessage name="confirmPassword" component="div" className={styles["error-message"]} />

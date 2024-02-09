@@ -87,6 +87,9 @@ body {
       flex-direction: row-reverse;
       margin-top: 0.8rem;
       font-family: "Poppins", sans-serif;
+      .confirm-label {
+        width: 10rem;
+      }
 
       label {
         font-size: 1rem;
