@@ -30,6 +30,7 @@ const Navbar = () => {
     localStorage.removeItem("token");
     setIsAuthenticated(false);
     navigate('/');
+    toast.success("Logged out!");
   };
 
 

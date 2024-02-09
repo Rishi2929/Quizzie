@@ -201,7 +201,7 @@ const EditQuiz = () => {
       } else {
         toast.success(response.data.message);
       }
-
+      navigate(`/analytics`)
     } catch (error) {
       console.error("handleSubmit Error:", error);
       toast.error("Quiz failed to update");

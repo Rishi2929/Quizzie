@@ -66,9 +66,11 @@ const Analytics = () => {
       });
       setTableData(tableData.filter(item => item._id !== id));
       setDeletePopup(false);
+      toast.success("Quiz deleted successfully")
     } catch (error) {
       console.error('Error deleting data:', error);
     }
+
   };
 
   const handleQuestionAnalysis = (id) => {
@@ -133,7 +135,7 @@ const Analytics = () => {
           <div className={styles["delete-popup"]}>
             <p>Are you sure you<br /> want to delete this item?</p>
             <div className={styles["flex-btn"]}>
-              <button onClick={() => handleDelete(selectedItemId)} className={styles["confirm-btn"]}>Confirm Delete</button>
+              <button onClick={() => handleDelete(selectedItemId)} className={styles["confirm-btn"]} >Confirm Delete</button>
               <button onClick={() => setDeletePopup(false)} className={styles["cancel-btn"]}>Cancel</button>
             </div>
           </div>
