@@ -380,8 +380,9 @@ const EditQuiz = () => {
 
                           {/* Button for adding more option. Max options can only be 4 */}
                           {ques.options.length <= 3 && (
-                            <button className={styles["add-btn"]} onClick={() => handleAddOptionBtn(ques._id)}>Add option</button>
-                          )}
+                            <button
+                              className={`${styles["add-btn"]} ${showTimerRow ? styles["add-btn-position-qa"] : styles["add-btn-position-poll"]}`}
+                              onClick={() => handleAddOptionBtn(ques._id)}>Add option</button>)}
 
                           {/* timer option for a particular question */}
                           {showTimerRow && (
