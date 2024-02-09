@@ -87,21 +87,25 @@ const Dashboard = () => {
           </div>
           <div className={styles['quiz-parent-cont']}>
             <h2>Trending Quizs</h2>
-            <div className={styles['quiz-cont']}>
-              {sortedTableData.map((quiz, index) => (
-                <div className={styles['quiz-box']} key={index}>
-                  <div className={styles['quiz-flex-data']}>
-                    <p className={styles['quiz-name']}>{quiz.quizName}</p>
-                    <div className={styles['view-icon']}>
-                      <p>{quiz.quizCount}<img src={views} alt="" /></p>
+            {sortedTableData.length === 0 ? (
+              <p className={styles["warning"]}>You haven't created any Quiz, Click on Create Quiz to create your first Quiz</p>
+            ) : (
+              <div className={styles['quiz-cont']}>
+                {sortedTableData.map((quiz, index) => (
+                  <div className={styles['quiz-box']} key={index}>
+                    <div className={styles['quiz-flex-data']}>
+                      <p className={styles['quiz-name']}>{quiz.quizName}</p>
+                      <div className={styles['view-icon']}>
+                        <p>{quiz.quizCount}<img src={views} alt="" /></p>
+                      </div>
                     </div>
+                    <p className={styles['green-span']}>Created on: {moment(quiz.createdAt).format('DD MMM, YYYY')}</p>
                   </div>
-                  <p className={styles['green-span']}>Created on: {moment(quiz.createdAt).format('DD MMM, YYYY')}</p>
-                </div>
-
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
+
         </div>
       )}
     </div>

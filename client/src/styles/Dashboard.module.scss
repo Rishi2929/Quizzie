@@ -62,6 +62,10 @@
     height: 45%;
     font-family: Poppins;
     color: var(--gray-600);
+    .warning {
+      margin-top: 1rem;
+      color: var(--orange-100);
+    }
 
     h2 {
       color: black;
@@ -123,11 +127,15 @@
   display: grid;
   place-items: center;
   height: 100vh;
+  .error-msg {
+    margin-top: 0.3rem;
+    color: var(--red-100);
+  }
 }
 
 .popup-cont {
   width: 37rem;
-  height: 17rem;
+  height: 18rem;
   border-radius: 15px;
   background-color: white;
   padding: 3rem 3.5rem;
@@ -391,6 +399,7 @@
   }
 
   .delete-btn {
+    position: relative;
     border: none;
     width: 1.5rem;
     background-color: transparent;

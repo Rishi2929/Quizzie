@@ -20,7 +20,7 @@ function App() {
   const { setUser, setIsAuthenticated, setLoading } = useContext(Context)
 
   useEffect(() => {
-    setLoading(true)
+    // setLoading(true)
     if (localStorage.getItem("token")) {
       setIsAuthenticated(true)
     }

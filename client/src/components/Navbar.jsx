@@ -19,7 +19,6 @@ const Navbar = () => {
     if (btnName === "createQuiz") {
       setPopupVisible(true);
     }
-
   };
 
   const closePopup = () => {

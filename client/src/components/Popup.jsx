@@ -49,7 +49,7 @@ const Popup = ({ onClose, isPopupVisible }) => {
               value={quizName}
               onChange={(e) => handleChange(e.target.value)}
             />
-            {error.quizName && <p>Quiz name cannot be empty</p>}
+            {error.quizName && <p className={styles["error-msg"]}>Quiz name cannot be empty</p>}
           </div>
 
           <div className={styles["popup-details-row-2"]}>
@@ -71,7 +71,7 @@ const Popup = ({ onClose, isPopupVisible }) => {
               Poll Type
             </button>
           </div>
-          {error.quizType && <p>Please select quiz type</p>}
+          {error.quizType && <p className={styles["error-msg"]}>Please select quiz type</p>}
 
           <div className={styles["popup-details-row-3"]}>
             <button onClick={onClose} className={styles['cancel-btn']}>Cancel</button>

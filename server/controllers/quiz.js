@@ -7,49 +7,48 @@ export const createQuiz = async (req, res) => {
     const { quizName, quizType, quizCount, questions } = req.body;
 
     // Create a new Quiz instance
-    // console.dir({ quizName, quizType, quizCount, questions }, { depth: null });
 
-    //validation for required quiz fields
+    // Validation for required quiz fields
     if (!(quizName && quizType && questions)) {
       return res.status(401).json({
         success: false,
-        message: "Important Fields are empty"
+        message: "Quiz name, quiz type, or questions are missing"
       });
     }
 
-    //validation for required question fields
+    // Validation for required question fields
     for (const question of questions) {
       if (!(question.questionTitle && question.optionType)) {
         return res.status(202).json({
           success: false,
-          message: "Important Fields are empty"
+          message: "Question title or option type is missing"
         });
       }
       else if (quizType === "QA" && question.correctAnswer === "") {
         return res.status(202).json({
           success: false,
-          message: "Important Fields are empty"
+          message: "Correct answer for a question is missing"
         });
       }
     }
 
-    //validation for required option fields
+    // Validation for required option fields
     for (const question of questions) {
       for (const option of question.options) {
         if (question.optionType === "text" && option.optionTitle === "")
           return res.status(401).json({
             success: false,
-            message: "Important Fields are empty"
+            message: "Option title is missing"
           });
         else if (question.optionType === "imgUrl" && option.imgUrl === "")
           return res.status(401).json({
             success: false,
-            message: "Important Fields are empty"
+            message: "Image URL for an option is missing"
           });
         else if (question.optionType === "text-imgUrl" && (option.optionTitle === "" || option.imgUrl === ""))
           return res.status(401).json({
             success: false,
-            message: "Important Fields are empty"
+            message: "Option title or image URL for a text-image option is missing"
           });
       }
     }
@@ -95,6 +94,7 @@ export const createQuiz = async (req, res) => {
   }
 };
 
+
 export const getMyQuiz = async (req, res, next) => {
   try {
     const userid = req.user.id;
@@ -117,7 +117,7 @@ export const deleteMyQuiz = async (req, res, next) => {
     if (!quiz) {
       return next(new Errorhandler("Quiz not found", 404));
     }
-    await Quiz.deleteOne({_id: quizId});
+    await Quiz.deleteOne({ _id: quizId });
 
     res.status(200).json({
       success: true,
@@ -234,7 +234,7 @@ export const updateQuizById = async (req, res) => {
       questions: newQuestions,
     });
 
-    const savedQuiz = await Quiz.updateOne({_id: quizId}, {$set: {questions: questions}});
+    const savedQuiz = await Quiz.updateOne({ _id: quizId }, { $set: { questions: questions } });
 
     res.status(201).json({
       success: true,

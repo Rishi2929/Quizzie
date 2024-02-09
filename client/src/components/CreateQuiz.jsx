@@ -362,7 +362,7 @@ const CreateQuiz = ({ onClose, quizName, quizType, showTimerRow }) => {
             <h6>Congrats your Quiz is<br /> Published!</h6>
 
             <div className={styles["share-dialog-box"]}>
-              <p>{`${window.location.origin}/quiz/quizId`}</p>
+              <p>{`${window.location.origin}/quiz/${quizId}`}</p>
             </div>
             <CopyToClipboard text={`${window.location.origin}/quiz/${quizId}`} onCopy={() => {
               toast.success("Link copied successfully");
