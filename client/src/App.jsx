@@ -17,7 +17,7 @@ export const server = "https://quizzie-o9kt.onrender.com/api/v1";
 
 
 function App() {
-  const { setUser, setIsAuthenticated, setLoading } = useContext(Context)
+  const { setUser, setIsAuthenticated, setLoading, selected, setSelected } = useContext(Context)
 
   useEffect(() => {
     // setLoading(true)
@@ -25,6 +25,17 @@ function App() {
       setIsAuthenticated(true)
     }
   }, [])
+
+  useEffect(() => {
+    if (localStorage.getItem("selected")) {
+      setSelected(JSON.parse(localStorage.getItem("selected")));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("selected", JSON.stringify(selected));
+  }, [selected]);
+
 
   return (
     <Router>

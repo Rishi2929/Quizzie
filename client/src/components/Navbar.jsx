@@ -9,16 +9,15 @@ import axios from 'axios';
 
 
 const Navbar = () => {
-  const { isAuthenticated, setIsAuthenticated, loading, setLoading } = useContext(Context);
-  const [activeBtn, setActiveBtn] = useState("dashboard");
+  const { isAuthenticated, setIsAuthenticated, loading, setLoading, selected, setSelected } = useContext(Context);
   const [isPopupVisible, setPopupVisible] = useState(false);
   const navigate = useNavigate();
 
   const handleButtonClick = (btnName) => {
-    setActiveBtn(btnName);
     if (btnName === "createQuiz") {
       setPopupVisible(true);
     }
+
   };
 
   const closePopup = () => {
@@ -26,6 +25,7 @@ const Navbar = () => {
   };
 
   const logoutHandler = () => {
+    setSelected(0);
     setLoading(true);
     localStorage.removeItem("token");
     setIsAuthenticated(false);
@@ -39,23 +39,28 @@ const Navbar = () => {
       <div className={styles["nav-links"]}>
         <Link
           to="/dashboard"
-          className={`${styles["nav-btn"]} ${activeBtn === "dashboard" ? styles["active-btn"] : ""
+          className={`${styles["nav-btn"]} ${selected === 0 ? styles["active-btn"] : ""
             }`}
-          onClick={() => handleButtonClick("dashboard")}
+          onClick={() => {
+            handleButtonClick("dashboard")
+            setSelected(0)
+          }}
         >
           Dashboard
         </Link>
         <Link
-          onClick={() => handleButtonClick("analytics")}
           to="/analytics"
-          className={`${styles["nav-btn"]} ${activeBtn === "analytics" ? styles["active-btn"] : ""
+          className={`${styles["nav-btn"]} ${selected === 1 ? styles["active-btn"] : ""
             }`}
+          onClick={() => {
+            handleButtonClick("analytics")
+            setSelected(1)
+          }}
         >
           Analytics
         </Link>
         <button
-          className={`${styles["nav-btn"]} ${activeBtn === "createQuiz" ? styles["active-btn"] : ""
-            }`}
+          className={`${styles["nav-btn"]}`}
           onClick={() => handleButtonClick("createQuiz")}
         >
           Create Quiz
