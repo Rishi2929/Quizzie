@@ -204,11 +204,16 @@ const EditQuiz = () => {
         toast.error(response?.data?.message);
       } else {
         toast.success(response.data.message);
+        navigate(`/analytics`);
       }
-      navigate(`/analytics`);
+
     } catch (error) {
-      console.error("handleSubmit Error:", error);
-      toast.error("Quiz failed to update");
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("An error occurred while processing your request.");
+      }
+      // toast.error(response.data.message);
     }
     finally {
       setLoading(false);

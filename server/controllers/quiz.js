@@ -164,60 +164,60 @@ export const updateQuizById = async (req, res) => {
     const { quizName, quizType, quizCount, questions } = req.body;
     const quizId = req.params.id;
 
-    // Create a new Quiz instance
-    // console.dir({ quizName, quizType, quizCount, questions }, { depth: null });
-
-    //validation for required quiz fields
+    // Validation for required quiz fields
     if (!(quizName && quizType && questions)) {
-      return res.status(401).json({
+      return res.status(400).json({
         success: false,
-        message: "Important Fields are empty"
+        message: "Quiz name, quiz type, or questions are missing",
       });
     }
 
-    //validation for required question fields
+    // Validation for required question fields
     for (const question of questions) {
       if (!(question.questionTitle && question.optionType)) {
-        return res.status(202).json({
+        return res.status(400).json({
           success: false,
-          message: "Important Fields are empty"
+          message: "Question title or option type is missing",
         });
-      }
-      else if (quizType === "QA" && question.correctAnswer === "") {
-        return res.status(202).json({
+      } else if (quizType === "QA" && question.correctAnswer === "") {
+        return res.status(400).json({
           success: false,
-          message: "Important Fields are empty"
+          message: "Correct answer is missing for a question in QA quiz",
         });
       }
     }
 
-    //validation for required option fields
+    // Validation for required option fields
     for (const question of questions) {
       for (const option of question.options) {
-        if (question.optionType === "text" && option.optionTitle === "")
-          return res.status(401).json({
+        if (question.optionType === "text" && option.optionTitle === "") {
+          return res.status(400).json({
             success: false,
-            message: "Important Fields are empty"
+            message: "Option title is missing for a text type option",
           });
-        else if (question.optionType === "imgUrl" && option.imgUrl === "")
-          return res.status(401).json({
+        } else if (question.optionType === "imgUrl" && option.imgUrl === "") {
+          return res.status(400).json({
             success: false,
-            message: "Important Fields are empty"
+            message: "Image URL is missing for an image type option",
           });
-        else if (question.optionType === "text-imgUrl" && (option.optionTitle === "" || option.imgUrl === ""))
-          return res.status(401).json({
+        } else if (
+          question.optionType === "text-imgUrl" &&
+          (option.optionTitle === "" || option.imgUrl === "")
+        ) {
+          return res.status(400).json({
             success: false,
-            message: "Important Fields are empty"
+            message: "Option title or Image URL is missing for a text-image type option",
           });
+        }
       }
     }
 
     const objId = mongoose.Types.ObjectId;
 
-    // assigning the option _id and correctAnswer to same mongoose objectId instead of client side uuid
-    const newQuestions = questions.map(question => {
+    // Assigning the option _id and correctAnswer to the same mongoose objectId instead of client-side uuid
+    const newQuestions = questions.map((question) => {
       let correctAnswerId = new objId();
-      question.options = question.options.map(option => {
+      question.options = question.options.map((option) => {
         if (option._id === question.correctAnswer) {
           question.correctAnswer = correctAnswerId;
           option._id = correctAnswerId;
@@ -228,10 +228,6 @@ export const updateQuizById = async (req, res) => {
       });
       question._id = new objId();
       return question;
-    });
-
-    const newQuiz = new Quiz({
-      questions: newQuestions,
     });
 
     const savedQuiz = await Quiz.updateOne({ _id: quizId }, { $set: { questions: questions } });
@@ -246,6 +242,7 @@ export const updateQuizById = async (req, res) => {
     res.status(500).json({ success: false, error: "Internal server error" });
   }
 };
+
 
 
 export const getQuizById = async (req, res, next) => {

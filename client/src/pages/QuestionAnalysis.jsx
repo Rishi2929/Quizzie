@@ -93,8 +93,7 @@ const QuestionAnalysis = () => {
                                                 {question.options.map((option, optionIndex) => (
                                                     <div key={optionIndex} className={styles['poll-option-div']}>
                                                         {/* {option.optionTitle} */}
-                                                        <p>{option.count} <span>                                                                  option {optionIndex + 1}
-                                                        </span></p>
+                                                        <p ><span className={styles["option-text"]}>{option.count} </span>option {optionIndex + 1}</p>
                                                     </div>
                                                 ))}
                                             </div>
