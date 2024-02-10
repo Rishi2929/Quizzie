@@ -381,12 +381,25 @@ const CreateQuiz = ({ onClose, quizName, quizType, showTimerRow }) => {
             <div className={styles["share-dialog-box"]}>
               <p>{`${window.location.origin}/quiz/${quizId}`}</p>
             </div>
-            <CopyToClipboard text={`${window.location.origin}/quiz/${quizId}`} onCopy={() => {
-              toast.success("Link copied successfully");
-            }} className={styles["btn-div"]} >
-              {/* <Link reloadDocument >Share</Link> */}
-              <button onClick={onClose} >Share</button>
+            <CopyToClipboard
+              text={`${window.location.origin}/quiz/${quizId}`}
+              onCopy={() => {
+                toast.success("Link copied successfully");
+              }}
+              className={styles["btn-div"]}
+            >
+              <button
+                onClick={() => {
+                  onClose();
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 2000);
+                }}
+              >
+                Share
+              </button>
             </CopyToClipboard>
+
           </div>
         </div>
       )}
