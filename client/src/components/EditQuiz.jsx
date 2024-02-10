@@ -34,6 +34,8 @@ const EditQuiz = () => {
         optionTitle: "",
       },
     ],
+    timer: "", // Add this line
+
   });
 
   const [questions, setQuestions] = useState([]);
@@ -155,11 +157,12 @@ const EditQuiz = () => {
           );
         }
       }
-      setQuestions((old) => old.map((ques) => ques._id === qId ? { ...ques, options: selectedOptions } : ques));
+      setQuestions((old) => old.map((ques) => ques._id === qId ? { ...ques, options: selectedOptions, timer: "" } : ques)); // Reset timer here
     } else if (field === "timer") {
       setQuestions((old) => old.map((ques) => (ques._id === qId ? { ...ques, timer: value } : ques)));
     }
   };
+
 
   // Handles adding an option to a question
   const handleAddOptionBtn = (qId) => {
