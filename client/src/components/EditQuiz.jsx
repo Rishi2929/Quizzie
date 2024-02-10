@@ -93,7 +93,20 @@ const EditQuiz = () => {
   const handlePlusClick = () => {
     if (questions.length >= 5) return;
 
-    const newObj = { ...initialData };
+    let newObj = {};
+
+    const tempData = { ...initialData };
+
+    if (quizType === "QA") {
+      newObj = { ...initialData };
+    } else {
+      delete tempData.correctAnswer;
+      newObj = { ...tempData }
+    }
+
+    console.log("newObj : ", newObj)
+
+    // const newObj = { ...initialData };
 
     newObj._id = uuid();
 

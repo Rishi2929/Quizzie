@@ -174,8 +174,11 @@ const CreateQuiz = ({ onClose, quizName, quizType, showTimerRow }) => {
       }
 
     } catch (error) {
-      console.error("handleSubmit Error:", error);
-      toast.error("Quiz failed to create");
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("An error occurred while processing your request.");
+      }
     }
   };
 
