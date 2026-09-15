@@ -7,7 +7,6 @@ import QuizCompleted from "../quizPollCompleted/QuizCompleted";
 import PollCompleted from "../quizPollCompleted/PollCompleted";
 
 import { server } from "../../../App";
-import CustomLoader from "../../../components/CustomLoader";
 
 const Quiz = () => {
   const { id: quizId } = useParams();
@@ -242,7 +241,8 @@ const Quiz = () => {
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#FAF9F6]">
-        <CustomLoader isLoading={isLoading} />
+        {/* <CustomLoader isLoading={isLoading} /> */}
+        <p>Loading</p>
       </div>
     );
   }
