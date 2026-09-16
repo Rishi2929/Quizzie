@@ -9,12 +9,13 @@ interface TimerSelectorProps {
 
 export function TimerSelector({ value, onChange }: TimerSelectorProps) {
   return (
-    <div className="flex items-center gap-3 border-t border-slate-100 pt-4">
-      <Clock className="h-4 w-4 text-slate-400" />
+    <div className="flex flex-col gap-3 border-t border-slate-100 pt-4 sm:flex-row sm:items-center">
+      <div className="flex items-center gap-3 shrink-0">
+        <Clock className="h-4 w-4 text-slate-400" />
+        <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Timer</span>
+      </div>
 
-      <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Timer</span>
-
-      <div className="flex items-center gap-2">
+      <div className="grid grid-cols-3 gap-2 sm:flex sm:flex-wrap">
         {TIMER_OPTIONS.map((timer) => (
           <button
             key={timer}

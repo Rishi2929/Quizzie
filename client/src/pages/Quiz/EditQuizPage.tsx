@@ -112,45 +112,50 @@ export default function EditQuizPage() {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#FAF9F6]">
+        <Loader2 className="h-8 w-8 animate-spin text-violet-600" />
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-[#FAF9F6] text-slate-900">
-      <main className="mx-auto max-w-6xl px-6 py-8">
+    <div className="min-h-screen bg-[#FAF9F6] text-slate-900 w-full">
+      <div className="w-full px-3 py-4 sm:px-6 sm:py-6 lg:px-8 max-w-5xl mx-auto space-y-4 sm:space-y-6">
         {/* Header Bar */}
-        <div className="mb-6 flex items-center justify-between border-b border-slate-200/60 pb-4">
-          {/* Edit Quizzie Header */}
-          <div className="flex min-w-0 flex-wrap items-center gap-2 sm:gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200/60 pb-3 sm:pb-4">
+          <div className="flex items-center gap-2 min-w-0">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => navigate("/analytics")}
-              className="h-8 rounded-xl px-2.5 text-xs font-semibold text-slate-500 hover:text-slate-800 sm:h-9 sm:px-3"
+              className="h-8 rounded-xl px-2 text-xs font-semibold text-slate-500 hover:text-slate-800 shrink-0"
             >
-              <ArrowLeft className="mr-1 h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              <ArrowLeft className="mr-1 h-3.5 w-3.5" />
               <span>Back</span>
             </Button>
 
-            <div className="hidden h-4 w-px bg-slate-200 sm:block" />
-
-            <h1 className="truncate font-serif text-xl font-black italic text-slate-900 sm:text-2xl max-w-[180px] xs:max-w-[260px] sm:max-w-xs md:max-w-md">
+            <h1 className="truncate font-serif text-base sm:text-xl font-black italic text-slate-900 max-w-[130px] xs:max-w-[180px] sm:max-w-xs">
               {quizName || "Edit Quiz"}
             </h1>
 
-            <span className="shrink-0 rounded-full bg-violet-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-violet-700 sm:px-2.5">
-              {quizType === "QA" ? "Q&A Quiz" : "Poll"}
+            <span className="shrink-0 rounded-full bg-violet-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-violet-700">
+              {quizType === "QA" ? "Q&A" : "Poll"}
             </span>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             {isDirty && (
               <Button
                 variant="outline"
                 size="sm"
                 disabled={saving}
                 onClick={handleReset}
-                className="h-9 rounded-xl border-slate-200 text-xs font-semibold text-slate-600"
+                className="h-8 rounded-xl border-slate-200 px-2.5 text-xs font-semibold text-slate-600"
               >
-                <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
-                Reset
+                <RotateCcw className="mr-1 h-3.5 w-3.5" />
+                <span className="hidden sm:inline">Reset</span>
               </Button>
             )}
 
@@ -158,7 +163,7 @@ export default function EditQuizPage() {
               disabled={saving || !isDirty}
               onClick={handleSave}
               size="sm"
-              className={`h-9 rounded-xl px-5 text-xs font-semibold transition-all ${
+              className={`h-8 rounded-xl px-3 sm:px-4 text-xs font-semibold transition-all ${
                 isDirty
                   ? "bg-violet-600 text-white shadow-sm shadow-violet-200 hover:bg-violet-700"
                   : "cursor-not-allowed bg-slate-200 text-slate-400"
@@ -166,55 +171,54 @@ export default function EditQuizPage() {
             >
               {saving ? (
                 <>
-                  <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
-                  Saving...
+                  <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+                  <span>Saving...</span>
                 </>
               ) : (
                 <>
                   <Save className="mr-1.5 h-3.5 w-3.5" />
-                  Save Changes
+                  <span>Save</span>
                 </>
               )}
             </Button>
           </div>
         </div>
 
-        {/* 2-Column Dashboard Grid */}
-        <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-12">
-          {/* Left Column: Compact Settings */}
-          <div className="space-y-4 lg:col-span-4">
-            <div className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm">
-              <span className="mb-3 block text-[11px] font-bold uppercase tracking-wider text-slate-400">Quiz Details</span>
-              <QuizDetailsForm
-                quizName={quizName}
-                quizType={quizType}
-                onQuizNameChange={setQuizName}
-                onQuizTypeChange={setQuizType}
-                mode="edit"
-              />
-            </div>
-
-            {isDirty && (
-              <div className="flex items-center gap-2 rounded-xl border border-amber-200/60 bg-amber-50 p-3 text-xs font-medium text-amber-800">
-                <AlertCircle className="h-4 w-4 shrink-0 text-amber-600" />
-                <span>You have unsaved changes.</span>
-              </div>
-            )}
+        {/* TOP SECTION: Quiz Details Form Card */}
+        <div className="w-full space-y-3">
+          <div className="rounded-2xl border border-slate-200/80 bg-white p-3.5 sm:p-5 shadow-sm">
+            <span className="mb-2 block text-[11px] font-bold uppercase tracking-wider text-slate-400">Quiz Details</span>
+            <QuizDetailsForm
+              quizName={quizName}
+              quizType={quizType}
+              onQuizNameChange={setQuizName}
+              onQuizTypeChange={setQuizType}
+              mode="edit"
+            />
           </div>
 
-          {/* Right Column: Navigator directly above Question Editor */}
-          <div className="space-y-4 lg:col-span-8">
-            <div className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm">
-              <QuestionNavigator
-                questions={editor.questions}
-                selectedQuestionId={editor.selectedQuestionId}
-                onSelect={editor.setSelectedQuestionId}
-                onAdd={editor.addQuestion}
-                onDelete={editor.deleteQuestion}
-              />
+          {isDirty && (
+            <div className="flex items-center gap-2 rounded-xl border border-amber-200/60 bg-amber-50 p-2.5 text-xs font-medium text-amber-800">
+              <AlertCircle className="h-4 w-4 shrink-0 text-amber-600" />
+              <span>You have unsaved changes.</span>
             </div>
+          )}
+        </div>
 
-            {editor.selectedQuestion ? (
+        {/* BOTTOM SECTION: Question Navigator and Editor */}
+        <div className="w-full space-y-4">
+          <div className="rounded-2xl border border-slate-200/80 bg-white p-3 sm:p-4 shadow-sm overflow-x-auto">
+            <QuestionNavigator
+              questions={editor.questions}
+              selectedQuestionId={editor.selectedQuestionId}
+              onSelect={editor.setSelectedQuestionId}
+              onAdd={editor.addQuestion}
+              onDelete={editor.deleteQuestion}
+            />
+          </div>
+
+          {editor.selectedQuestion ? (
+            <div className="rounded-2xl border border-slate-200/80 bg-white p-3.5 sm:p-5 shadow-sm">
               <QuestionEditor
                 question={editor.selectedQuestion}
                 quizType={quizType}
@@ -225,14 +229,14 @@ export default function EditQuizPage() {
                 onAddOption={editor.addOption}
                 onDeleteOption={editor.deleteOption}
               />
-            ) : (
-              <div className="flex min-h-[300px] flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-slate-400">
-                <p className="text-sm font-medium">Select a question from above to start editing.</p>
-              </div>
-            )}
-          </div>
+            </div>
+          ) : (
+            <div className="flex min-h-[200px] flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-white p-6 text-center text-slate-400">
+              <p className="text-xs sm:text-sm font-medium">Select a question to edit.</p>
+            </div>
+          )}
         </div>
-      </main>
+      </div>
     </div>
   );
 }
