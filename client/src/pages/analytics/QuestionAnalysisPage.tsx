@@ -1,15 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AxiosError } from "axios";
 import axios from "axios";
 import moment from "moment";
 import numeral from "numeral";
-import { Calendar, Eye, CheckCircle2, XCircle, Users, BarChart3, HelpCircle } from "lucide-react";
+import { Calendar, Eye, CheckCircle2, XCircle, Users, BarChart3, HelpCircle, ArrowLeft, CircleDot } from "lucide-react";
+import { motion } from "framer-motion";
 
-import { Context } from "@/main";
 import { server } from "@/App";
-
-import CustomLoader from "@/components/CustomLoader";
+import CustomLoader from "@/components/Skeleton";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 interface Option {
   _id: string;
@@ -40,209 +41,421 @@ interface ApiResponse {
   quiz: Quiz;
 }
 
+const entrance = {
+  hidden: {
+    opacity: 0,
+    y: 14,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+  },
+};
+
 const QuestionAnalysisPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { setLoading, loading } = useContext(Context);
+
   const [selectedQuiz, setSelectedQuiz] = useState<Quiz | null>(null);
-  const [isFetching, setIsFetching] = useState<boolean>(true);
+  const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
     let isMounted = true;
 
     const fetchData = async () => {
-      if (!id) return;
+      if (!id) {
+        setIsFetching(false);
+        return;
+      }
 
-      setLoading(true);
       setIsFetching(true);
 
       try {
-        const token = localStorage.getItem("token");
         const response = await axios.get<ApiResponse>(`${server}/quiz/myQuiz/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
+          withCredentials: true,
         });
 
-        if (response?.data?.quiz && isMounted) {
-          const quiz = response.data.quiz;
-
-          // Calculate correct and incorrect attempts for QA quiz type
-          if (quiz.quizType === "QA") {
-            quiz.questions = quiz.questions?.map((question) => {
-              let incorrect = 0;
-              let correct = 0;
-
-              question.options?.forEach((option) => {
-                if (question.correctAnswer === option._id) {
-                  correct = option.count;
-                } else {
-                  incorrect += option.count;
-                }
-              });
-
-              return {
-                ...question,
-                correctAttempt: correct,
-                incorrectAttempt: incorrect,
-              };
-            });
-          }
-
-          setSelectedQuiz(quiz);
+        if (!response.data.quiz || !isMounted) {
+          return;
         }
+
+        const quiz = response.data.quiz;
+
+        if (quiz.quizType === "QA") {
+          quiz.questions = quiz.questions?.map((question) => {
+            let correct = 0;
+            let incorrect = 0;
+
+            question.options?.forEach((option) => {
+              if (question.correctAnswer === option._id) {
+                correct = option.count;
+              } else {
+                incorrect += option.count;
+              }
+            });
+
+            return {
+              ...question,
+              correctAttempt: correct,
+              incorrectAttempt: incorrect,
+            };
+          });
+        }
+
+        setSelectedQuiz(quiz);
       } catch (error) {
         const axiosError = error as AxiosError;
+
         console.error("Error fetching question analysis:", axiosError);
+
+        if (isMounted) {
+          setSelectedQuiz(null);
+        }
       } finally {
         if (isMounted) {
-          setLoading(false);
           setIsFetching(false);
         }
       }
     };
 
-    fetchData();
+    void fetchData();
 
     return () => {
       isMounted = false;
     };
-  }, [id, setLoading]);
+  }, [id]);
 
-  // Full-screen loader while fetching data
-  if (loading || isFetching) {
+  if (isFetching) {
     return <CustomLoader fullScreen label="Fetching Question Analytics..." />;
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF9F6] text-slate-900 font-sans selection:bg-violet-100 selection:text-violet-900">
-      <main className="mx-auto max-w-5xl px-6 py-8 space-y-8">
+    <main className="crystal-page h-full min-h-0 overflow-hidden text-ink selection:bg-brand/20">
+      {/* Ambient Background */}
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <div className="absolute -left-40 -top-40 h-[520px] w-[520px] rounded-full bg-violet-200/30 blur-[120px]" />
+
+        <div className="absolute -right-40 top-[32%] h-[460px] w-[460px] rounded-full bg-amber-100/40 blur-[120px]" />
+
+        <div className="absolute bottom-[-220px] left-[35%] h-[500px] w-[500px] rounded-full bg-indigo-100/25 blur-[120px]" />
+      </div>
+
+      <div className="relative mx-auto flex h-full min-h-0 w-full max-w-5xl flex-col px-4 py-6 sm:px-6 sm:py-8">
         {selectedQuiz ? (
           <>
-            {/* Top Bar Header Card */}
-            <div className="rounded-3xl border border-slate-100 bg-white p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] space-y-4">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+            {/* HEADER */}
+            <motion.header
+              initial="hidden"
+              animate="visible"
+              variants={entrance}
+              transition={{ duration: 0.5 }}
+              className="glass-panel relative shrink-0 overflow-hidden rounded-3xl border border-border p-5 sm:p-6"
+            >
+              <div className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-violet-200/40 blur-[100px]" />
+
+              <div className="relative">
+                <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Badge
+                        variant="outline"
+                        className="rounded-full border-brand/20 bg-brand/10 px-3 py-1 font-mono text-[9px] uppercase tracking-[0.16em] text-brand"
+                      >
+                        <BarChart3 className="mr-1.5 size-3" />
+
+                        {selectedQuiz.quizType === "QA" ? "Q&A Analysis" : "Poll Analytics"}
+                      </Badge>
+
+                      <span className="size-1.5 rounded-full bg-success" />
+
+                      <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-muted-foreground">Question Insights</span>
+                    </div>
+
+                    <h1 className="mt-4 truncate text-3xl font-bold tracking-[-0.04em] sm:text-4xl">
+                      {selectedQuiz.quizName}
+                      <span className="text-brand"> Analysis.</span>
+                    </h1>
+
+                    <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
+                      Detailed response distribution and performance breakdown across all questions.
+                    </p>
+                  </div>
+
+                  <Button variant="outline" onClick={() => window.history.back()} className="w-fit rounded-xl border-border bg-glass">
+                    <ArrowLeft className="size-4" />
+                    Back
+                  </Button>
+                </div>
+
+                {/* Stats */}
+                <div className="mt-6 flex flex-wrap gap-3 border-t border-border pt-5">
+                  {/* Created */}
+                  <div className="flex items-center gap-2 rounded-2xl border border-border bg-glass-strong px-4 py-2.5">
+                    <Calendar className="size-4 text-muted-foreground" />
+
+                    <div>
+                      <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-muted-foreground">Created On</p>
+
+                      <p className="mt-0.5 text-xs font-semibold">{moment(selectedQuiz.createdAt).format("DD MMM, YYYY")}</p>
+                    </div>
+                  </div>
+
+                  {/* Impressions */}
+                  <div className="flex items-center gap-2 rounded-2xl border border-brand/15 bg-brand/5 px-4 py-2.5">
+                    <Eye className="size-4 text-brand" />
+
+                    <div>
+                      <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-brand">Impressions</p>
+
+                      <p className="mt-0.5 text-xs font-semibold text-brand">
+                        {numeral(selectedQuiz.quizCount).format("0.0a").toUpperCase()}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Questions */}
+                  <div className="flex items-center gap-2 rounded-2xl border border-border bg-glass-strong px-4 py-2.5">
+                    <CircleDot className="size-4 text-muted-foreground" />
+
+                    <div>
+                      <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-muted-foreground">Questions</p>
+
+                      <p className="mt-0.5 text-xs font-semibold">{selectedQuiz.questions.length}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.header>
+
+            {/* QUESTIONS AREA */}
+            <section className="mt-7 flex min-h-0 flex-1 flex-col">
+              {/* Section Header */}
+              <div className="flex shrink-0 items-end justify-between">
                 <div>
-                  <div className="inline-flex items-center gap-2 rounded-full bg-violet-50 px-3 py-1 text-xs font-bold text-violet-700 mb-2">
-                    <BarChart3 className="h-3.5 w-3.5" />
-                    <span>{selectedQuiz.quizType === "QA" ? "Q&A Analysis" : "Poll Analytics"}</span>
-                  </div>
-                  <h1 className="text-3xl font-black tracking-tight text-slate-900 font-serif italic">
-                    {selectedQuiz.quizName}
-                    <span className="text-violet-600 font-sans not-italic"> Analysis.</span>
-                  </h1>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-brand">Breakdown</p>
+
+                  <h2 className="mt-1 text-2xl font-bold tracking-[-0.03em]">Question Performance</h2>
+
+                  <p className="mt-1 text-sm text-muted-foreground">See how participants responded to each question.</p>
                 </div>
 
-                {/* Stat Badges */}
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-2 rounded-2xl bg-slate-50 border border-slate-100 px-4 py-2.5">
-                    <Calendar className="h-4 w-4 text-slate-400" />
-                    <div className="text-left">
-                      <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wider">Created On</p>
-                      <p className="text-xs font-bold text-slate-700">{moment(selectedQuiz.createdAt).format("DD MMM, YYYY")}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2 rounded-2xl bg-violet-50/60 border border-violet-100 px-4 py-2.5">
-                    <Eye className="h-4 w-4 text-violet-600" />
-                    <div className="text-left">
-                      <p className="text-[10px] font-medium text-violet-500 uppercase tracking-wider">Impressions</p>
-                      <p className="text-xs font-bold text-violet-700">{numeral(selectedQuiz.quizCount).format("0.0a").toUpperCase()}</p>
-                    </div>
-                  </div>
-                </div>
+                <span className="hidden font-mono text-[9px] uppercase tracking-[0.14em] text-muted-foreground sm:block">
+                  {selectedQuiz.questions.length} questions
+                </span>
               </div>
 
-              <p className="text-xs text-slate-500">Detailed response distribution and performance breakdown across all questions.</p>
-            </div>
+              {/* ====================================================== */}
+              {/* POLL */}
+              {/* ====================================================== */}
 
-            {/* POLL TYPE ANALYSIS */}
-            {selectedQuiz.quizType === "Poll" && (
-              <div className="space-y-6">
-                {selectedQuiz.questions.map((question, index) => (
-                  <div
-                    key={question._id || index}
-                    className="rounded-3xl border border-slate-100 bg-white p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] space-y-4"
-                  >
-                    <h3 className="text-base font-bold text-slate-900 flex items-start gap-2">
-                      <span className="text-violet-600 font-serif italic">Q.{index + 1}</span>
-                      <span>{question.questionTitle}</span>
-                    </h3>
+              {selectedQuiz.quizType === "Poll" && (
+                <div className="mt-5 min-h-0 flex-1 overflow-y-auto pr-2">
+                  <div className="space-y-5 pb-6">
+                    {selectedQuiz.questions.map((question, index) => (
+                      <motion.div
+                        key={question._id || index}
+                        initial="hidden"
+                        animate="visible"
+                        variants={entrance}
+                        transition={{
+                          duration: 0.45,
+                          delay: 0.05 * index,
+                        }}
+                        className="glass-panel relative overflow-hidden rounded-3xl border border-border p-5 sm:p-6"
+                      >
+                        <div className="pointer-events-none absolute -right-16 -top-16 size-32 rounded-full bg-violet-100/50 blur-3xl" />
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                      {question.options?.map((option, optionIndex) => (
-                        <div
-                          key={option._id || optionIndex}
-                          className="flex flex-col items-center justify-center p-5 rounded-2xl bg-slate-50 border border-slate-100 text-center space-y-1 hover:border-violet-200 transition-colors"
+                        {/* Question */}
+                        <div className="relative flex items-start gap-3">
+                          <span className="shrink-0 font-mono text-sm font-bold text-brand">Q.{index + 1}</span>
+
+                          <h3 className="text-base font-bold leading-6">{question.questionTitle}</h3>
+                        </div>
+
+                        {/* Options */}
+                        <div className="relative mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                          {question.options?.map((option, optionIndex) => (
+                            <div
+                              key={option._id || optionIndex}
+                              className="group rounded-2xl border border-border bg-glass-strong p-5 text-center transition-all duration-300 hover:-translate-y-0.5 hover:border-brand/20 hover:shadow-sm"
+                            >
+                              <div className="mx-auto grid size-9 place-items-center rounded-xl bg-brand/10 text-brand">
+                                <span className="font-mono text-xs font-bold">{String.fromCharCode(65 + optionIndex)}</span>
+                              </div>
+
+                              <p className="mt-3 font-mono text-2xl font-bold tracking-[-0.04em] text-brand">{option.count}</p>
+
+                              <p className="mt-1 line-clamp-2 text-xs font-medium text-muted-foreground">
+                                {option.optionTitle || `Option ${optionIndex + 1}`}
+                              </p>
+
+                              <p className="mt-3 font-mono text-[8px] uppercase tracking-[0.14em] text-muted-foreground">Responses</p>
+                            </div>
+                          ))}
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* ====================================================== */}
+              {/* Q&A */}
+              {/* ====================================================== */}
+
+              {selectedQuiz.quizType === "QA" && (
+                <div className="mt-5 min-h-0 flex-1 overflow-y-auto pr-2">
+                  <div className="space-y-5 pb-6">
+                    {selectedQuiz.questions.map((question, index) => {
+                      const total = question.totalAttempts ?? 0;
+
+                      const correct = question.correctAttempt ?? 0;
+
+                      const incorrect = question.incorrectAttempt ?? 0;
+
+                      const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
+
+                      return (
+                        <motion.div
+                          key={question._id || index}
+                          initial="hidden"
+                          animate="visible"
+                          variants={entrance}
+                          transition={{
+                            duration: 0.45,
+                            delay: 0.05 * index,
+                          }}
+                          className="glass-panel relative overflow-hidden rounded-3xl border border-border p-5 sm:p-6"
                         >
-                          <span className="text-2xl font-black text-violet-600">{option.count}</span>
-                          <span className="text-xs font-medium text-slate-500">{option.optionTitle || `Option ${optionIndex + 1}`}</span>
-                        </div>
-                      ))}
-                    </div>
+                          <div className="pointer-events-none absolute -right-20 -top-20 size-40 rounded-full bg-violet-100/50 blur-3xl" />
+
+                          {/* Question */}
+                          <div className="relative flex items-start justify-between gap-4">
+                            <div className="flex min-w-0 items-start gap-3">
+                              <span className="shrink-0 font-mono text-sm font-bold text-brand">Q.{index + 1}</span>
+
+                              <h3 className="text-base font-bold leading-6">{question.questionTitle}</h3>
+                            </div>
+
+                            <Badge
+                              variant="outline"
+                              className="hidden shrink-0 rounded-full border-border bg-glass font-mono text-[9px] sm:flex"
+                            >
+                              {accuracy}% accuracy
+                            </Badge>
+                          </div>
+
+                          {/* Accuracy */}
+                          <div className="relative mt-5">
+                            <div className="mb-2 flex items-center justify-between">
+                              <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-muted-foreground">Accuracy</span>
+
+                              <span className="font-mono text-[10px] font-bold text-brand">{accuracy}%</span>
+                            </div>
+
+                            <div className="h-1.5 overflow-hidden rounded-full bg-muted">
+                              <motion.div
+                                initial={{ width: 0 }}
+                                animate={{
+                                  width: `${accuracy}%`,
+                                }}
+                                transition={{
+                                  duration: 0.7,
+                                  delay: 0.2 + index * 0.05,
+                                }}
+                                className="h-full rounded-full bg-brand"
+                              />
+                            </div>
+                          </div>
+
+                          {/* Stats */}
+                          <div className="relative mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
+                            {/* Attempted */}
+                            <div className="group rounded-2xl border border-slate-200/80 bg-slate-100/60 p-4 transition-all duration-300 hover:border-slate-300 hover:bg-slate-100">
+                              <div className="flex items-center justify-between">
+                                <div className="grid size-9 place-items-center rounded-xl bg-slate-200 text-slate-600">
+                                  <Users className="size-4" />
+                                </div>
+
+                                <span className="rounded-full bg-slate-200/80 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.12em] text-slate-500">
+                                  Attempted
+                                </span>
+                              </div>
+
+                              <p className="mt-3 font-mono text-2xl font-bold tracking-[-0.04em] text-slate-800">{total}</p>
+
+                              <p className="mt-1 text-[11px] font-medium text-slate-500">People Attempted</p>
+                            </div>
+
+                            {/* Correct */}
+                            <div className="group rounded-2xl border border-emerald-200/80 bg-emerald-50/70 p-4 transition-all duration-300 hover:border-emerald-300 hover:bg-emerald-50">
+                              <div className="flex items-center justify-between">
+                                <div className="grid size-9 place-items-center rounded-xl bg-emerald-100 text-emerald-600">
+                                  <CheckCircle2 className="size-4" />
+                                </div>
+
+                                <span className="rounded-full bg-emerald-100/80 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.12em] text-emerald-600">
+                                  Correct
+                                </span>
+                              </div>
+
+                              <p className="mt-3 font-mono text-2xl font-bold tracking-[-0.04em] text-emerald-600">{correct}</p>
+
+                              <p className="mt-1 text-[11px] font-medium text-emerald-700">Answered Correctly</p>
+                            </div>
+
+                            {/* Incorrect */}
+                            <div className="group rounded-2xl border border-rose-200/80 bg-rose-50/70 p-4 transition-all duration-300 hover:border-rose-300 hover:bg-rose-50">
+                              <div className="flex items-center justify-between">
+                                <div className="grid size-9 place-items-center rounded-xl bg-rose-100 text-rose-600">
+                                  <XCircle className="size-4" />
+                                </div>
+
+                                <span className="rounded-full bg-rose-100/80 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.12em] text-rose-600">
+                                  Wrong
+                                </span>
+                              </div>
+
+                              <p className="mt-3 font-mono text-2xl font-bold tracking-[-0.04em] text-rose-600">{incorrect}</p>
+
+                              <p className="mt-1 text-[11px] font-medium text-rose-700">Answered Incorrectly</p>
+                            </div>
+                          </div>
+                        </motion.div>
+                      );
+                    })}
                   </div>
-                ))}
-              </div>
-            )}
-
-            {/* Q&A TYPE ANALYSIS */}
-            {selectedQuiz.quizType === "QA" && (
-              <div className="space-y-6">
-                {selectedQuiz.questions.map((question, index) => (
-                  <div
-                    key={question._id || index}
-                    className="rounded-3xl border border-slate-100 bg-white p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] space-y-4"
-                  >
-                    <h3 className="text-base font-bold text-slate-900 flex items-start gap-2">
-                      <span className="text-violet-600 font-serif italic">Q.{index + 1}</span>
-                      <span>{question.questionTitle}</span>
-                    </h3>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                      {/* Total Attempted Card */}
-                      <div className="flex flex-col items-center justify-center p-5 rounded-2xl bg-slate-50 border border-slate-100 text-center space-y-1">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-200/60 text-slate-600 mb-1">
-                          <Users className="h-4 w-4" />
-                        </div>
-                        <span className="text-2xl font-black text-slate-800">{question.totalAttempts ?? 0}</span>
-                        <span className="text-xs font-semibold text-slate-500">People Attempted</span>
-                      </div>
-
-                      {/* Correct Attempts Card */}
-                      <div className="flex flex-col items-center justify-center p-5 rounded-2xl bg-emerald-50/60 border border-emerald-100 text-center space-y-1">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600 mb-1">
-                          <CheckCircle2 className="h-4 w-4" />
-                        </div>
-                        <span className="text-2xl font-black text-emerald-600">{question.correctAttempt ?? 0}</span>
-                        <span className="text-xs font-semibold text-emerald-700">Answered Correctly</span>
-                      </div>
-
-                      {/* Incorrect Attempts Card */}
-                      <div className="flex flex-col items-center justify-center p-5 rounded-2xl bg-rose-50/60 border border-rose-100 text-center space-y-1">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-rose-100 text-rose-600 mb-1">
-                          <XCircle className="h-4 w-4" />
-                        </div>
-                        <span className="text-2xl font-black text-rose-600">{question.incorrectAttempt ?? 0}</span>
-                        <span className="text-xs font-semibold text-rose-700">Answered Incorrectly</span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+                </div>
+              )}
+            </section>
           </>
         ) : (
-          /* Empty / Not Found State */
-          <div className="flex flex-col items-center justify-center p-16 text-center space-y-3 rounded-3xl bg-white border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-violet-50 text-violet-600">
-              <HelpCircle className="h-6 w-6" />
+          /* NOT FOUND */
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={entrance}
+            className="glass-panel relative overflow-hidden rounded-3xl border border-border p-12 text-center"
+          >
+            <div className="pointer-events-none absolute -right-20 -top-20 size-40 rounded-full bg-violet-100/50 blur-3xl" />
+
+            <div className="relative mx-auto grid size-14 place-items-center rounded-2xl bg-brand/10 text-brand">
+              <HelpCircle className="size-6" />
             </div>
-            <h3 className="text-base font-bold text-slate-800">Quiz Analysis Not Found</h3>
-            <p className="text-xs text-slate-500 max-w-sm">The requested quiz could not be loaded or may have been deleted.</p>
-          </div>
+
+            <h3 className="relative mt-5 text-lg font-bold">Quiz Analysis Not Found</h3>
+
+            <p className="relative mx-auto mt-2 max-w-sm text-sm leading-6 text-muted-foreground">
+              The requested quiz could not be loaded or may have been deleted.
+            </p>
+
+            <Button onClick={() => window.history.back()} variant="outline" className="relative mt-6 rounded-xl border-border bg-glass">
+              <ArrowLeft className="size-4" />
+              Go Back
+            </Button>
+          </motion.div>
         )}
-      </main>
-    </div>
+      </div>
+    </main>
   );
 };
 
