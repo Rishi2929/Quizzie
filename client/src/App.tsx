@@ -1,51 +1,54 @@
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 
-import Analytics from "./pages/Analytics";
-// import Dashboard from "./pages/Dashboard";
-
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
-import { useContext, useEffect } from "react";
-import { Context } from "./main";
-import axios from "axios";
-import Quiz from "./components/quizInterface/quiz/Quiz";
-import EditQuiz from "./components/EditQuiz";
-import QuestionAnalysis from "./pages/QuestionAnalysis";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AuthPage from "./pages/auth/AuthPage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
+import AnalyticsPage from "./pages/analytics/AnalyticsPage";
+import QuestionAnalysisPage from "./pages/analytics/QuestionAnalysisPage";
+import CreateQuizPage from "./pages/Quiz/CreateQuizPage";
+import EditQuizPage from "./pages/Quiz/EditQuizPage";
+import Quiz from "./pages/quizInterface/quiz/Quiz";
+import LandingPage from "./pages/landing/LandingPage";
+import ProtectedLayout from "./components/ProtectedLayout";
 
-// export const server = "http://localhost:3000/api/v1";
-export const server = "https://quizzie-o9kt.onrender.com/api/v1";
+export const server = "http://localhost:3001/api/v1";
 
 function App() {
-  const { setIsAuthenticated, setLoading, selected, setSelected } = useContext(Context);
-
-  useEffect(() => {
-    // setLoading(true)
-    if (localStorage.getItem("token")) {
-      setIsAuthenticated(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (localStorage.getItem("selected")) {
-      // setSelected(JSON.parse(localStorage.getItem("selected")));
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("selected", JSON.stringify(selected));
-  }, [selected]);
-
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<AuthPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-        {/* <Route path="/analytics" element={<Analytics />} /> */}
-        {/* <Route path="/quiz/:id" element={<Quiz />} /> */}
-        {/* <Route path="/editQuiz/:id" element={<EditQuiz />} /> */}
-        {/* <Route path="/ques-analysis/:id" element={<QuestionAnalysis />} /> */}
+        {/* =====================================================
+            PUBLIC ROUTES
+        ====================================================== */}
+
+        <Route path="/" element={<LandingPage />} />
+
+        <Route path="/login" element={<AuthPage />} />
+
+        {/* =====================================================
+            PROTECTED APPLICATION
+            AppLayout handles authentication.
+        ====================================================== */}
+
+        <Route element={<ProtectedLayout />}>
+          <Route path="/dashboard" element={<DashboardPage />} />
+
+          <Route path="/analytics" element={<AnalyticsPage />} />
+
+          <Route path="/createQuiz" element={<CreateQuizPage />} />
+
+          <Route path="/editQuiz/:id" element={<EditQuizPage />} />
+
+          <Route path="/ques-analysis/:id" element={<QuestionAnalysisPage />} />
+        </Route>
+
+        {/* =====================================================
+            PUBLIC QUIZ
+        ====================================================== */}
+
+        <Route path="/quiz/:id" element={<Quiz />} />
       </Routes>
+
       <Toaster />
     </Router>
   );
