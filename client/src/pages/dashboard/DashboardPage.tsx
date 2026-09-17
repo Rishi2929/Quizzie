@@ -6,8 +6,8 @@ import { Check, FolderPlus, Plus, Sparkles, Users, Eye, FileQuestion } from "luc
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { server } from "@/App";
 import SkeletonComp from "@/components/Skeleton";
+const API_URL = import.meta.env.VITE_API_URL;
 
 interface Question {
   _id?: string;
@@ -50,7 +50,7 @@ const DashboardPage: React.FC = () => {
       try {
         setIsFetching(true);
 
-        const response = await axios.get<MyQuizApiResponse>(`${server}/quiz/myQuiz`, {
+        const response = await axios.get<MyQuizApiResponse>(`${API_URL}/quiz/myQuiz`, {
           withCredentials: true,
         });
 

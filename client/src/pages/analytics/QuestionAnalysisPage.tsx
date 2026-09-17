@@ -7,10 +7,11 @@ import numeral from "numeral";
 import { Calendar, Eye, CheckCircle2, XCircle, Users, BarChart3, HelpCircle, ArrowLeft, CircleDot } from "lucide-react";
 import { motion } from "framer-motion";
 
-import { server } from "@/App";
-import CustomLoader from "@/components/Skeleton";
+const API_URL = import.meta.env.VITE_API_URL;
+
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import SkeletonComp from "@/components/Skeleton";
 
 interface Option {
   _id: string;
@@ -70,7 +71,7 @@ const QuestionAnalysisPage: React.FC = () => {
       setIsFetching(true);
 
       try {
-        const response = await axios.get<ApiResponse>(`${server}/quiz/myQuiz/${id}`, {
+        const response = await axios.get<ApiResponse>(`${API_URL}/quiz/myQuiz/${id}`, {
           withCredentials: true,
         });
 
@@ -125,7 +126,7 @@ const QuestionAnalysisPage: React.FC = () => {
   }, [id]);
 
   if (isFetching) {
-    return <CustomLoader fullScreen label="Fetching Question Analytics..." />;
+    return <SkeletonComp />;
   }
 
   return (

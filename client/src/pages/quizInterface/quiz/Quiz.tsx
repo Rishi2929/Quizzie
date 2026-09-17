@@ -2,11 +2,9 @@ import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Timer, ArrowRight, AlertCircle, Check, ChevronLeft } from "lucide-react";
-
 import QuizCompleted from "../quizPollCompleted/QuizCompleted";
 import PollCompleted from "../quizPollCompleted/PollCompleted";
-
-import { server } from "../../../App";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Quiz = () => {
   const { id: quizId } = useParams();
@@ -30,7 +28,7 @@ const Quiz = () => {
       try {
         setIsLoading(true);
 
-        const response = await axios.get(`${server}/quiz/getQuiz/${quizId}`);
+        const response = await axios.get(`${API_URL}/quiz/getQuiz/${quizId}`);
 
         if (response?.data?.success && response?.data?.quiz) {
           const quiz = response.data.quiz;

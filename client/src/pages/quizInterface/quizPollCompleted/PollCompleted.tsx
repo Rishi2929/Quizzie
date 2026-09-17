@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { CheckCircle2, HeartHandshake, Loader2 } from "lucide-react";
-import { server } from "../../../App";
+const API_URL = import.meta.env.VITE_API_URL;
 
 // Define interface for expected user responses (e.g. key-value pairs of question ID to option ID)
 export type PollResponseData = Record<string, unknown>;
@@ -30,7 +30,7 @@ const PollCompleted: React.FC<PollCompletedProps> = ({ response, quizId }) => {
     const updateUserResponse = async (): Promise<void> => {
       try {
         setIsSubmitting(true);
-        const res = await axios.post<ApiResponse>(`${server}/quiz/userRes/${quizId}`, response);
+        const res = await axios.post<ApiResponse>(`${API_URL}/quiz/userRes/${quizId}`, response);
 
         if (res?.data?.success) {
           setIsSuccess(true);

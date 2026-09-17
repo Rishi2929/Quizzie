@@ -2,9 +2,8 @@ import React, { useEffect, useState, useRef, useMemo } from "react";
 import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { Trophy, Award, Loader2, RefreshCw } from "lucide-react";
-
 import trophyImg from "../../../assets/trophy.png";
-import { server } from "../../../App";
+const API_URL = import.meta.env.VITE_API_URL;
 
 // Type definitions for user responses and answer keys
 export interface QuizUserAnswer {
@@ -42,7 +41,7 @@ const QuizCompleted: React.FC<QuizCompletedProps> = ({ response = [], correctAns
     const updateUserResponse = async (): Promise<void> => {
       try {
         setIsSubmitting(true);
-        const res = await axios.post<ApiResponse>(`${server}/quiz/userRes/${quizId}`, response);
+        const res = await axios.post<ApiResponse>(`${API_URL}/quiz/userRes/${quizId}`, response);
 
         if (res?.data?.success) {
           toast.success(res.data.message || "Quiz submitted successfully!");

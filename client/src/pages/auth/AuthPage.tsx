@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { BarChart3, CheckCircle2, Eye, Sparkles, Users } from "lucide-react";
-
 import LoginForm from "./components/LoginForm";
 import SignupForm from "./components/SignupForm";
 

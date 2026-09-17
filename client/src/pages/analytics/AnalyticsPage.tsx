@@ -1,27 +1,16 @@
 import React, { useEffect, useMemo, useState } from "react";
-
 import axios, { AxiosError } from "axios";
-
 import { Link, useNavigate } from "react-router-dom";
-
 import toast from "react-hot-toast";
-
 import CopyToClipboard from "react-copy-to-clipboard";
-
 import moment from "moment";
-
 import numeral from "numeral";
-
 import { ArrowUpRight, BarChart2, Eye, FileQuestion, Pencil, Plus, Share2, Sparkles, Trash2, Trophy } from "lucide-react";
-
 import { motion, useReducedMotion } from "framer-motion";
-
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-
-import { server } from "@/App";
-
 import SkeletonComp from "@/components/Skeleton";
+const API_URL = import.meta.env.VITE_API_URL;
 
 interface Question {
   _id?: string;
@@ -77,7 +66,7 @@ const AnalyticsPage: React.FC = () => {
         setIsFetching(true);
         setError(null);
 
-        const response = await axios.get<ApiResponse>(`${server}/quiz/myQuiz`, {
+        const response = await axios.get<ApiResponse>(`${API_URL}/quiz/myQuiz`, {
           withCredentials: true,
         });
 
@@ -121,7 +110,7 @@ const AnalyticsPage: React.FC = () => {
     if (!id) return;
 
     try {
-      await axios.delete(`${server}/quiz/${id}`, {
+      await axios.delete(`${API_URL}/quiz/${id}`, {
         withCredentials: true,
       });
 

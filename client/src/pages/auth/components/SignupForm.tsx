@@ -4,11 +4,10 @@ import * as Yup from "yup";
 import toast from "react-hot-toast";
 import axios, { AxiosError } from "axios";
 import { ArrowUpRight, Loader2 } from "lucide-react";
-
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { server } from "@/App";
+const API_URL = import.meta.env.VITE_API_URL;
 
 interface RegisterFormValues {
   name: string;
@@ -23,11 +22,8 @@ interface ApiErrorResponse {
 
 const validationSchema = Yup.object({
   name: Yup.string().required("Name is required"),
-
   email: Yup.string().email("Enter a valid email address").required("Email is required"),
-
   password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
-
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password"), undefined], "Passwords must match")
     .required("Confirm password is required"),
@@ -35,7 +31,6 @@ const validationSchema = Yup.object({
 
 const SignupForm: React.FC = () => {
   const [loader, setLoader] = useState(false);
-
   const initialValues: RegisterFormValues = {
     name: "",
     email: "",
@@ -46,10 +41,8 @@ const SignupForm: React.FC = () => {
   const handleSubmit = async (values: RegisterFormValues): Promise<void> => {
     try {
       setLoader(true);
-
       const { name, email, password } = values;
-
-      await axios.post(`${server}/users/new`, {
+      await axios.post(`${API_URL}/users/new`, {
         name,
         email,
         password,
@@ -58,9 +51,7 @@ const SignupForm: React.FC = () => {
       toast.success("User registered successfully!");
     } catch (error) {
       const axiosError = error as AxiosError<ApiErrorResponse>;
-
       const errorMessage = axiosError.response?.data?.message || "Registration failed";
-
       toast.error(errorMessage);
     } finally {
       setLoader(false);
@@ -71,7 +62,6 @@ const SignupForm: React.FC = () => {
     <div className="relative overflow-hidden rounded-3xl border border-slate-200/70 bg-white/80 p-7 shadow-[0_25px_80px_rgba(70,50,140,0.10)] backdrop-blur-md sm:p-8">
       {/* Card glow */}
       <div aria-hidden="true" className="pointer-events-none absolute -right-20 -top-20 size-48 rounded-full bg-violet-200/30 blur-3xl" />
-
       <div className="relative">
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
           {({ errors, touched }) => (

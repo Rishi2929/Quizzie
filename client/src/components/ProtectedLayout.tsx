@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react";
-
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-
 import axios from "axios";
-
 import Sidebar from "./Navbar";
-
-import { server } from "@/App";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function ProtectedLayout() {
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
@@ -17,7 +13,7 @@ export default function ProtectedLayout() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        await axios.get(`${server}/users/me`, {
+        await axios.get(`${API_URL}/users/me`, {
           withCredentials: true,
         });
 

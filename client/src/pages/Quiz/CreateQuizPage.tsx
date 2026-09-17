@@ -16,15 +16,11 @@ type CreateQuizStep = "details" | "questions" | "published";
 
 export default function CreateQuizPage() {
   const navigate = useNavigate();
-
   const [step, setStep] = useState<CreateQuizStep>("details");
-
   const [quizName, setQuizName] = useState("");
   const [quizType, setQuizType] = useState<QuizType>("QA");
-
   const [createdQuizId, setCreatedQuizId] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const editor = useQuizEditor(quizType);
 
   const handleContinue = () => {

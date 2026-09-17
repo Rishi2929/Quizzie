@@ -1,16 +1,10 @@
 import React, { useEffect, useState } from "react";
-
 import { Link, useLocation, useNavigate } from "react-router-dom";
-
 import toast from "react-hot-toast";
-
 import { BarChart3, ChevronRight, LayoutDashboard, LogOut, Menu, PlusCircle, X } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
-
 import axios from "axios";
-
-import { server } from "@/App";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Sidebar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -24,7 +18,7 @@ const Sidebar: React.FC = () => {
   const logoutHandler = async (): Promise<void> => {
     try {
       await axios.post(
-        `${server}/users/logout`,
+        `${API_URL}/users/logout`,
         {},
         {
           withCredentials: true,

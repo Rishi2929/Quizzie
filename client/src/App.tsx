@@ -1,5 +1,4 @@
 import { Toaster } from "react-hot-toast";
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AuthPage from "./pages/auth/AuthPage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
@@ -10,8 +9,6 @@ import EditQuizPage from "./pages/Quiz/EditQuizPage";
 import Quiz from "./pages/quizInterface/quiz/Quiz";
 import LandingPage from "./pages/landing/LandingPage";
 import ProtectedLayout from "./components/ProtectedLayout";
-
-export const server = "http://localhost:3001/api/v1";
 
 function App() {
   return (
