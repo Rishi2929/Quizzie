@@ -16,9 +16,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+<<<<<<< HEAD
 app.use(
   cors({
     origin: "http://localhost:5173",
+=======
+const allowedOrigins = ["http://localhost:5173", "http://localhost:4173"];
+
+app.use(
+  cors({
+    origin: "http://localhost:4173",
+>>>>>>> a8dc303 (fix: resolve merge conflict in server/index.ts)
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
