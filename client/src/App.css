@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    /* Slightly smaller base font size on mobile screens (less than 640px) */
+    font-size: 80.5%; /* 14px base instead of default 16px */
+  }
+
+  @media (min-width: 640px) {
+    html {
+      font-size: 100%; /* Resets back to default 16px on tablets/desktop */
+    }
+  }
+}
