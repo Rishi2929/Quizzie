@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import axios, { AxiosError } from "axios";
 import moment from "moment";
 import numeral from "numeral";
-import { Check, FolderPlus, Plus, Sparkles, Users, Eye, FileQuestion } from "lucide-react";
+import { FolderPlus, Plus, Sparkles, Eye, FileQuestion } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";

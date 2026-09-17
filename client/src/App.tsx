@@ -1,5 +1,4 @@
 import { Toaster } from "react-hot-toast";
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AuthPage from "./pages/auth/AuthPage";
 import DashboardPage from "./pages/dashboard/DashboardPage";

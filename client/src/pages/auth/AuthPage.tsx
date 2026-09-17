@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { BarChart3, CheckCircle2, Eye, Sparkles, Users } from "lucide-react";
 
-import LoginForm from "./components/loginForm";
-import SignupForm from "./components/signupForm";
+import LoginForm from "./components/LoginForm";
+import SignupForm from "./components/SignupForm";
 
 type AuthTab = "login" | "register";
 

@@ -3,20 +3,19 @@ import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { Trophy, Award, Loader2, RefreshCw } from "lucide-react";
 
-import trophyImg from "../../../assets/trophy.png";
 import { server } from "../../../App";
 
 // Type definitions for user responses and answer keys
 export interface QuizUserAnswer {
   qId: string;
   optionId: string;
-  [key: string]: unknown;
+  // [key: string]: unknown;
 }
 
 export interface QuizCorrectAnswer {
   qId: string;
   correctAnswer: string;
-  [key: string]: unknown;
+  // [key: string]: unknown;
 }
 
 interface QuizCompletedProps {
@@ -95,11 +94,11 @@ const QuizCompleted: React.FC<QuizCompletedProps> = ({ response = [], correctAns
             {/* Trophy Image Hero */}
             <div className="relative my-6 flex items-center justify-center">
               <div className="absolute h-32 w-32 rounded-full bg-amber-100/60 blur-2xl" />
-              <img
-                src={trophyImg}
+              {/* <img
+                // src={trophyImg}
                 alt="Trophy"
                 className="relative h-36 w-36 object-contain drop-shadow-md transition-transform duration-300 hover:scale-105"
-              />
+              /> */}
             </div>
 
             {/* Winner Heading */}

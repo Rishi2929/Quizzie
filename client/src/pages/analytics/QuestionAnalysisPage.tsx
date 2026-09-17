@@ -6,9 +6,8 @@ import moment from "moment";
 import numeral from "numeral";
 import { Calendar, Eye, CheckCircle2, XCircle, Users, BarChart3, HelpCircle, ArrowLeft, CircleDot } from "lucide-react";
 import { motion } from "framer-motion";
-
 import { server } from "@/App";
-import CustomLoader from "@/components/Skeleton";
+import SkeletonComp from "@/components/Skeleton";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
@@ -125,7 +124,7 @@ const QuestionAnalysisPage: React.FC = () => {
   }, [id]);
 
   if (isFetching) {
-    return <CustomLoader fullScreen label="Fetching Question Analytics..." />;
+    return <SkeletonComp />;
   }
 
   return (

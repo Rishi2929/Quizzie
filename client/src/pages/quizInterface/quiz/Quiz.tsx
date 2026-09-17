@@ -8,6 +8,11 @@ import PollCompleted from "../quizPollCompleted/PollCompleted";
 
 import { server } from "../../../App";
 
+export interface UserResponse {
+  qId: string;
+  optionId: string;
+}
+
 const Quiz = () => {
   const { id: quizId } = useParams();
 
@@ -16,7 +21,7 @@ const Quiz = () => {
   const [isQuizCompleted, setIsQuizCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [time, setTime] = useState<number | null>(null);
-  const [userResponses, setUserResponses] = useState<any[]>([]);
+  const [userResponses, setUserResponses] = useState<UserResponse[]>([]);
   const [correctAnswers, setCorrectAnswers] = useState<any[]>([]);
 
   /* ============================================================

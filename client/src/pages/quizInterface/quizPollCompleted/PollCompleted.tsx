@@ -7,8 +7,13 @@ import { server } from "../../../App";
 // Define interface for expected user responses (e.g. key-value pairs of question ID to option ID)
 export type PollResponseData = Record<string, unknown>;
 
+export interface UserResponse {
+  qId: string;
+  optionId: string;
+}
+
 interface PollCompletedProps {
-  response: PollResponseData;
+  response: UserResponse[];
   quizId?: string;
 }
 
