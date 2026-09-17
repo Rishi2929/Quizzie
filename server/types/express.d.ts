@@ -1,12 +1,10 @@
-import mongoose from "mongoose";
+import type { UserDocument } from "../models/user.model.js";
 
 declare global {
   namespace Express {
     interface Request {
-      user: {
-        _id: mongoose.Types.ObjectId;
-      };
-      token: string;
+      user?: UserDocument;
+      token?: string;
     }
   }
 }

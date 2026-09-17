@@ -9,7 +9,7 @@ export interface IUser {
 
 export interface IUserDocument extends IUser, Document {}
 
-const schema = new mongoose.Schema<IUser>({
+const schema = new mongoose.Schema<IUserDocument>({
   name: {
     type: String,
     required: true,
@@ -33,4 +33,4 @@ const schema = new mongoose.Schema<IUser>({
   },
 });
 
-export const User = mongoose.model<IUser>("User", schema);
+export const User = mongoose.model<IUserDocument>("User", schema);
