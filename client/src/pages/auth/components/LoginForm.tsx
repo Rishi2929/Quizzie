@@ -162,13 +162,6 @@ const LoginForm: React.FC = () => {
                   <Label htmlFor="password" className="text-xs font-semibold text-slate-700">
                     Password
                   </Label>
-
-                  <Link
-                    to="/forgot-password"
-                    className="text-xs font-medium text-violet-600 transition-colors hover:text-violet-700 hover:underline"
-                  >
-                    Forgot?
-                  </Link>
                 </div>
 
                 <Field name="password">

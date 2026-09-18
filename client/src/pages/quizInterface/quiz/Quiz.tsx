@@ -4,6 +4,7 @@ import axios from "axios";
 import { Timer, ArrowRight, AlertCircle, Check, ChevronLeft } from "lucide-react";
 import QuizCompleted from "../quizPollCompleted/QuizCompleted";
 import PollCompleted from "../quizPollCompleted/PollCompleted";
+import SkeletonComp from "@/components/Skeleton";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const Quiz = () => {
@@ -239,8 +240,7 @@ const Quiz = () => {
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#FAF9F6]">
-        {/* <CustomLoader isLoading={isLoading} /> */}
-        <p>Loading</p>
+        <div className="size-6 animate-spin rounded-full border-2 border-slate-200 border-t-violet-600" />
       </div>
     );
   }

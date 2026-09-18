@@ -98,13 +98,6 @@ const HOW_IT_WORKS_STEPS = [
   },
 ] as const;
 
-const STATS = [
-  { value: "10K+", label: "Quizzes Created" },
-  { value: "500K+", label: "Questions Answered" },
-  { value: "5K+", label: "Happy Users" },
-  { value: "99.9%", label: "Uptime" },
-] as const;
-
 // Sub-components
 function Logo() {
   return (
@@ -140,12 +133,9 @@ function ToneIcon({ tone, children }: { tone: string; children: React.ReactNode 
 function DashboardPreview() {
   return (
     <div className="relative">
-      {/* Decorative background glow */}
       <div aria-hidden="true" className="absolute -inset-10 rounded-[4rem] bg-violet-200/40 blur-3xl" />
 
-      {/* Main glass window preview */}
       <div className="relative overflow-hidden rounded-[2rem] border border-white/80 bg-white/80 backdrop-blur-md shadow-[0_25px_80px_rgba(70,50,140,0.12)]">
-        {/* Header toolbar */}
         <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4">
           <div className="flex items-center gap-1.5">
             <div className="h-2.5 w-2.5 rounded-full bg-rose-400" />
@@ -157,7 +147,6 @@ function DashboardPreview() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-[120px_1fr]">
-          {/* Sidebar */}
           <aside className="hidden border-r border-slate-100 bg-slate-50/50 p-4 sm:block">
             <div className="mb-6">
               <span className="font-serif text-lg font-black italic text-slate-900">Quizzie</span>
@@ -170,7 +159,6 @@ function DashboardPreview() {
             </nav>
           </aside>
 
-          {/* Canvas content */}
           <div className="min-w-0 p-5 sm:p-6">
             <div className="flex items-start justify-between gap-3">
               <div>
@@ -186,7 +174,6 @@ function DashboardPreview() {
               </Button>
             </div>
 
-            {/* Metrics */}
             <div className="mt-5 grid grid-cols-3 gap-2">
               <div className="rounded-xl border border-slate-100 bg-white p-3 shadow-sm">
                 <div className="grid h-6 w-6 place-items-center rounded-lg bg-violet-100 text-violet-600">
@@ -213,7 +200,6 @@ function DashboardPreview() {
               </div>
             </div>
 
-            {/* Recent list */}
             <div className="mt-5">
               <div className="mb-2 flex items-center justify-between">
                 <p className="text-[10px] font-bold text-slate-900">Recent Quizzes</p>
@@ -254,7 +240,6 @@ function DashboardPreview() {
         </div>
       </div>
 
-      {/* Floating accent badges */}
       <div className="absolute -bottom-6 -left-6 hidden w-36 -rotate-3 rounded-2xl border border-white/90 bg-white/95 p-3.5 shadow-xl transition-transform duration-300 hover:rotate-0 sm:block">
         <div className="flex items-center gap-2">
           <BarChart3 className="h-4 w-4 text-violet-600" />
@@ -286,6 +271,15 @@ function DashboardPreview() {
 export default function LandingPage() {
   const navigate = useNavigate();
 
+  // Helper function to smooth scroll to section
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
     <div className="min-h-screen overflow-hidden bg-[#FAF9F6] font-sans text-slate-900 selection:bg-violet-100 selection:text-violet-900">
       {/* Background gradients */}
@@ -301,16 +295,32 @@ export default function LandingPage() {
           <Logo />
 
           <div className="hidden items-center gap-8 md:flex">
-            <a href="#features" className="text-xs font-semibold text-slate-600 transition-colors hover:text-slate-900">
+            <a
+              href="#features"
+              onClick={(e) => scrollToSection(e, "features")}
+              className="text-xs font-semibold text-slate-600 transition-colors hover:text-slate-900"
+            >
               Features
             </a>
-            <a href="#how-it-works" className="text-xs font-semibold text-slate-600 transition-colors hover:text-slate-900">
+            <a
+              href="#how-it-works"
+              onClick={(e) => scrollToSection(e, "how-it-works")}
+              className="text-xs font-semibold text-slate-600 transition-colors hover:text-slate-900"
+            >
               How It Works
             </a>
-            <a href="#use-cases" className="text-xs font-semibold text-slate-600 transition-colors hover:text-slate-900">
+            <a
+              href="#use-cases"
+              onClick={(e) => scrollToSection(e, "use-cases")}
+              className="text-xs font-semibold text-slate-600 transition-colors hover:text-slate-900"
+            >
               Use Cases
             </a>
-            <a href="#cta" className="text-xs font-semibold text-slate-600 transition-colors hover:text-slate-900">
+            <a
+              href="#cta"
+              onClick={(e) => scrollToSection(e, "cta")}
+              className="text-xs font-semibold text-slate-600 transition-colors hover:text-slate-900"
+            >
               Get Started
             </a>
           </div>
@@ -389,7 +399,6 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Visual Canvas */}
             <div className="px-1 sm:px-4 lg:px-0">
               <DashboardPreview />
             </div>
@@ -397,7 +406,7 @@ export default function LandingPage() {
         </section>
 
         {/* Feature Grid Banner */}
-        <section id="features" className="border-y border-slate-200/60 bg-white/50 backdrop-blur-xs">
+        <section id="features" className="scroll-mt-24 border-y border-slate-200/60 bg-white/50 backdrop-blur-xs">
           <div className="mx-auto grid max-w-7xl grid-cols-1 divide-y divide-slate-200/60 sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-4">
             {FEATURES.map((feature) => {
               const Icon = feature.icon;
@@ -416,22 +425,8 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Key Metrics */}
-        <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
-          <div className="rounded-[2rem] border border-violet-100 bg-violet-50/50 px-6 py-8 shadow-2xs sm:px-10">
-            <div className="grid grid-cols-2 gap-8 lg:grid-cols-4 lg:divide-x lg:divide-violet-200/60">
-              {STATS.map(({ value, label }) => (
-                <div key={label} className="text-center">
-                  <p className="font-mono text-3xl font-black tracking-tight text-violet-600 sm:text-4xl">{value}</p>
-                  <p className="mt-1 text-xs font-semibold text-slate-500">{label}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* How It Works */}
-        <section id="how-it-works" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24">
+        <section id="how-it-works" className="scroll-mt-20 mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24">
           <div className="mx-auto max-w-2xl text-center">
             <SectionLabel>How It Works</SectionLabel>
             <h2 className="mt-3 font-serif text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">From idea to quiz in minutes.</h2>
@@ -492,7 +487,6 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              {/* Analytics Card Mockup */}
               <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-md">
                 <div className="flex items-center justify-between">
                   <div>
@@ -538,7 +532,7 @@ export default function LandingPage() {
         </section>
 
         {/* Use Cases */}
-        <section id="use-cases" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24">
+        <section id="use-cases" className="scroll-mt-20 mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24">
           <div className="mx-auto max-w-2xl text-center">
             <SectionLabel>Built For Everyone</SectionLabel>
             <h2 className="mt-3 font-serif text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">Perfect for every use case.</h2>
@@ -559,7 +553,7 @@ export default function LandingPage() {
         </section>
 
         {/* Call To Action */}
-        <section id="cta" className="relative mx-auto max-w-5xl px-4 pb-20 pt-12 sm:px-6 sm:pb-28">
+        <section id="cta" className="scroll-mt-20 relative mx-auto max-w-5xl px-4 pb-20 pt-12 sm:px-6 sm:pb-28">
           <div className="relative overflow-hidden rounded-[2.5rem] border border-violet-100 bg-gradient-to-br from-violet-50/80 via-white to-violet-50/50 p-8 text-center shadow-xl sm:p-14">
             <div
               aria-hidden="true"
@@ -604,13 +598,25 @@ export default function LandingPage() {
           </div>
 
           <div className="flex flex-wrap items-center gap-6">
-            <a href="#features" className="text-xs font-semibold text-slate-500 transition-colors hover:text-slate-900">
+            <a
+              href="#features"
+              onClick={(e) => scrollToSection(e, "features")}
+              className="text-xs font-semibold text-slate-500 transition-colors hover:text-slate-900"
+            >
               Features
             </a>
-            <a href="#how-it-works" className="text-xs font-semibold text-slate-500 transition-colors hover:text-slate-900">
+            <a
+              href="#how-it-works"
+              onClick={(e) => scrollToSection(e, "how-it-works")}
+              className="text-xs font-semibold text-slate-500 transition-colors hover:text-slate-900"
+            >
               How It Works
             </a>
-            <a href="#use-cases" className="text-xs font-semibold text-slate-500 transition-colors hover:text-slate-900">
+            <a
+              href="#use-cases"
+              onClick={(e) => scrollToSection(e, "use-cases")}
+              className="text-xs font-semibold text-slate-500 transition-colors hover:text-slate-900"
+            >
               Use Cases
             </a>
             <button
